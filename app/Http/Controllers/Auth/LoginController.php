@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Laravel\Socialite\Facades\Socialite; // Socialite
+use App\User;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +39,42 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+
+    /**
+     * socialite
+     *
+     */
+    // ログインボタンからリンク
+    public function socialLogin($social)
+    {
+        return Socialite::driver($social)->redirect();
+    }
+    
+    // Callback処理
+    public function handleProviderCallback($social)
+    {
+        // ソーシャルサービス（情報）を取得
+        $userSocial = Socialite::driver($social)->stateless()->user();
+        // メールアドレスで登録状況を調べる
+        $user = User::where(['email' => $userSocial->getEmail()])->first();
+        // メールアドレス登録の有無で分岐
+        if ($user) {
+            // 登録あればそのままログイン（2回目以降）
+            Auth::login($user);
+            return redirect('/home');
+        } else {
+            // メールアドレスがなければユーザ登録（初回）
+            $newuser = new User;
+            $newuser->name = $userSocial->getId();
+            $newuser->name = $userSocial->getName();
+            $newuser->email = $userSocial->getEmail();
+            // ユーザ作成
+            $newuser->save();
+            // ログインしてトップページにリダイレクト
+            Auth::login($newuser);
+            return redirect('/home');
+        }
     }
 }
