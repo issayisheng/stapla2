@@ -63,18 +63,18 @@ class LoginController extends Controller
         if ($user) {
             // 登録あればそのままログイン（2回目以降）
             Auth::login($user);
-            return redirect('/home');
+            return redirect('/dashboard');
         } else {
             // メールアドレスがなければユーザ登録（初回）
             $newuser = new User;
-            $newuser->name = $userSocial->getId();
+            $newuser->provider_id = $userSocial->getId();
             $newuser->name = $userSocial->getName();
             $newuser->email = $userSocial->getEmail();
             // ユーザ作成
             $newuser->save();
-            // ログインしてトップページにリダイレクト
+            // ログインしてdashboardにリダイレクト
             Auth::login($newuser);
-            return redirect('/home');
+            return redirect('/dashboard');
         }
     }
 }
