@@ -11,3 +11,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .DS_Store
+
+#mixの度にconflictになる（mix使用時→VueやReactでは絶対になる）
+/public/js/app.js
+/public/css/app.css
