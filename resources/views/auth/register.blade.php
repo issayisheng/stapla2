@@ -37,11 +37,6 @@
                     </span>
                     @enderror
                 </div>
-
-                <div class="form-group">
-                    <label for="password-confirm" class="font-weight-bold">{{ __('Confirm Password') }}</label>
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="パスワードの再入力">
-                </div>
                 <p>登録することで、<a href="{{ route('terms') }}">利用規約</a>と<a href="{{ route('privacy') }}">プライバシーポリシー</a>に同意したものとみなされます。</p>
                 <button type="submit" class="btn-default btn-default--mail">
                     新規登録する
