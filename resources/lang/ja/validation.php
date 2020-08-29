@@ -147,6 +147,7 @@ return [
 
     'attributes' => [
         "name" => "氏名",
+        "tel" => "電話番号",
         "email" => "メールアドレス",
         "password" => "パスワード",
         "password_confirmation" => "パスワード(確認用)",
