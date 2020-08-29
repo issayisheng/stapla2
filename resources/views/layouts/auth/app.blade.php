@@ -7,24 +7,22 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Stapla') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700&display=swap" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/auth/style.css') }}" rel="stylesheet">
 </head>
-<body class="body">
-    <header class="header text-center p-5">
-        <a class="" href="{{ route('top') }}">Stapla</a>
-    </header>
-    <main>
-        @yield('content')
-    </main>
+<body class="form-body">
+    <div id="app">
+        <main>
+            @yield('content')
+        </main>
+    </div>
 </body>
 </html>
