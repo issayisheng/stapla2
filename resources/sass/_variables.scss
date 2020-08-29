@@ -1,10 +1,7 @@
-// Body
-$body-bg: #f8fafc;
-
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+$font-family-sans-serif: "Noto Sans JP", sans-serif;
+$font-size-base: 0.85rem;
+$line-height-base: 1.65;
 
 // Colors
 $blue: #3490dc;
@@ -17,3 +14,11 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+
+// Your variable overrides
+$body-color: #333;
+
+// Link
+$link-color: #333;
+$link-hover-color: #00a1e9;
+$link-hover-decoration: none;
