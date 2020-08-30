@@ -18,7 +18,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="form-body">
+<body>
     <div id="app">
         <main>
             @yield('content')
