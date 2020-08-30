@@ -17,7 +17,6 @@ class UsersTableSeeder extends Seeder
                 'email' => 'user'.$i.'@user.com',
                 'tel' => '08012345678',
                 'password' => 'password1',
-                'uuid' =>  Str::uuid(),
                 "created_at" => now(),
                 "updated_at" => now(),
             ];
