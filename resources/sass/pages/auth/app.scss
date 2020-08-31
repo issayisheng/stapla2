@@ -1,7 +1,3 @@
-.form-body {
-    background: #f4f4f4;
-}
-
 .form {
     padding: 45px 0 70px;
 }
@@ -75,15 +71,15 @@
     text-align: center;
 }
 
-.social-login__deco {
+.social-form__deco {
     color: #a0a0a0;
     font-size: 14px;
     display: flex;
     align-items: center;
 }
 
-.social-login__deco::before,
-.social-login__deco:after {
+.social-form__deco::before,
+.social-form__deco:after {
     content: "";
     flex-grow: 1;
     height: 1px;
@@ -91,11 +87,11 @@
     display: block;
 }
 
-.social-login__deco:before {
+.social-form__deco:before {
     margin-right: 2.5em;
 }
 
-.social-login__deco:after {
+.social-form__deco:after {
     margin-left: 2.5em;
 }
 
