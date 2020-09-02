@@ -35,8 +35,8 @@
                 @endif
             </form>
 
-            <div class="social-login">
-                <p class="social-login__deco">または</p>
+            <div class="social-form">
+                <p class="social-form__deco">または</p>
                 <form method="GET" action="{{ route('login.social',['social'=>'facebook']) }}">
                     @csrf
                     <button type="submit" class="btn-default btn-default--facebook">
