@@ -61,8 +61,8 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('user_info.index') }}">マイページ</a>
                                 <a class="dropdown-item" href="{{ route('user_info.index') }}">ジム登録</a>
-                                <a class="dropdown-item" href="{{ route('user_info.index') }}">予約状況</a>
-                                <a class="dropdown-item" href="{{ route('user_info.index') }}">口座情報</a>
+                                <a class="dropdown-item" href="{{ route('reserved.index') }}">予約状況</a>
+                                <a class="dropdown-item" href="{{ route('ticket.index') }}">チケット購入</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
