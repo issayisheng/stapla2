@@ -5,10 +5,15 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
+
+use App\Models\Ticket;
+use App\Models\History;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
+    use Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'gym_id', 'payment_id', 'name', 'email', 'password', 'status', 'privilege_id', 'tel', 'payment_info',
+        'gym_id', 'name', 'email', 'password', 'status', 'privilege_id', 'tel',
     ];
 
     /**
@@ -45,5 +50,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userGyms()
     {
         return $this->hasMany('App\Modles\Reservation', 'user_id', 'id');
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    public function histories()
+    {
+        return $this->hasMany(History::class);
     }
 }
