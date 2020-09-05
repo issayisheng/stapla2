@@ -42,4 +42,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/gym', 'GymController@index')->name('gym.index');
+    Route::get('/gym/create', 'GymController@create')->name('gym.create');
+    Route::post('/gym/store', 'GymController@store')->name('gym.store');
+    Route::get('/gym/{gym_id}', 'GymController@show')->name('gym.show');
+
 });

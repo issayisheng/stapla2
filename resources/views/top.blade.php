@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+    <title>Stapla</title>
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700&display=swap" rel="stylesheet">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <!-- Styles -->
@@ -13,10 +13,6 @@
     <style>
         html,
         body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
             height: 100vh;
             margin: 0;
         }
@@ -41,12 +37,14 @@
     </style>
 </head>
 <body>
-    <div class="flex-center position-ref full-height">
-        <div class="content">
-            <h1 class="title mb-4">Stapla</h1>
-            <p class="mb-5">ここに説明文が入ります。<br>ここに説明文が入ります。</p>
-            <a class="btn btn-secondary mr-3 btn-lg" href="{{ route('register') }}" role="button">新規登録</a>
-            <a class="btn btn-dark btn-lg" href="{{ route('login') }}" role="button">ログイン</a>
+    <div id="app">
+        <div class="flex-center position-ref full-height">
+            <div class="content">
+                <h1 class="title mb-4">Stapla</h1>
+                <p class="mb-5">ここに説明文が入ります。<br>ここに説明文が入ります。</p>
+                <a class="btn btn-secondary mr-3 btn-lg" href="{{ route('register') }}" role="button">新規登録</a>
+                <a class="btn btn-dark btn-lg" href="{{ route('login') }}" role="button">ログイン</a>
+            </div>
         </div>
     </div>
 </body>
