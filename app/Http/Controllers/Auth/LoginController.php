@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Laravel\Socialite\Facades\Socialite; // Socialite
-use App\Models\User;
+use App\User;
 use Auth;
 
 class LoginController extends Controller

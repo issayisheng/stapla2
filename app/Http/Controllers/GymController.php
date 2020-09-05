@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GymStoreRequest;
 use App\Models\Gym;
-use App\Models\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +20,6 @@ class GymController extends Controller
     {
         $current_user = Auth::user();
         return view('gym.create');
-        
     }
 
     public function store(GymStoreRequest $request)
@@ -36,46 +35,46 @@ class GymController extends Controller
         $gym->street              = $request->gym_name;
         $gym->building            = $request->gym_name;
         $gym->tel                 = $request->gym_name;
-        if(isset($request->mon_opening)){
+        if (isset($request->mon_opening)) {
             $gym->mon_opening_started = $request->mon_opening;
         }
-        if(isset($request->mon_close)){
+        if (isset($request->mon_close)) {
             $gym->mon_opening_ended   = $request->mon_close;
         }
-        if(isset($request->tue_opening)){
+        if (isset($request->tue_opening)) {
             $gym->tue_opening_started = $request->tue_opening;
         }
-        if(isset($request->tue_close)){
+        if (isset($request->tue_close)) {
             $gym->tue_opening_ended   = $request->tue_close;
         }
-        if(isset($request->wed_opening)){
+        if (isset($request->wed_opening)) {
             $gym->wed_opening_started = $request->wed_opening;
         }
-        if(isset($request->wed_close)){
+        if (isset($request->wed_close)) {
             $gym->wed_opening_ended   = $request->wed_close;
         }
-        if(isset($request->thu_opening)){
+        if (isset($request->thu_opening)) {
             $gym->thu_opening_started = $request->thu_opening;
         }
-        if(isset($request->mon_opening)){
+        if (isset($request->mon_opening)) {
             $gym->thu_opening_ended   = $request->mon_opening;
         }
-        if(isset($request->fri_opening)){
+        if (isset($request->fri_opening)) {
             $gym->fri_opening_started = $request->fri_opening;
         }
-        if(isset($request->fri_close)){
+        if (isset($request->fri_close)) {
             $gym->fri_opening_ended   = $request->fri_close;
         }
-        if(isset($request->sat_opening)){
+        if (isset($request->sat_opening)) {
             $gym->sat_opening_started = $request->sat_opening;
         }
-        if(isset($request->sat_close)){
+        if (isset($request->sat_close)) {
             $gym->sat_opening_ended   = $request->sat_close;
         }
-        if(isset($request->sun_opening)){
+        if (isset($request->sun_opening)) {
             $gym->sun_opening_started = $request->sun_opening;
         }
-        if(isset($request->sun_close)){
+        if (isset($request->sun_close)) {
             $gym->sun_opening_ended   = $request->sun_close;
         }
         $gym->save();
