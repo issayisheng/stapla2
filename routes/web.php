@@ -55,6 +55,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/charge', 'ChargeController@charge')->name('charge');
         // チケット残数
         Route::resource('ticket', 'TicketController', ['only' => ['index','edit','update']]);
+
+        // ジム設定
+        Route::get('/gym', 'GymController@index')->name('gym.index');
+        Route::get('/gym/create', 'GymController@create')->name('gym.create');
+        Route::post('/gym/store', 'GymController@store')->name('gym.store');
+        Route::get('/gym/{gym_id}', 'GymController@show')->name('gym.show');
     });
 });
 
