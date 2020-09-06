@@ -72,7 +72,7 @@ body {
   line-height: 1.65;
   color: #333;
   text-align: left;
-  background-color: #fff;
+  background-color: #f4f4f4;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -510,7 +510,7 @@ mark,
 
 .img-thumbnail {
   padding: 0.25rem;
-  background-color: #fff;
+  background-color: #f4f4f4;
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   max-width: 100%;
@@ -4242,15 +4242,15 @@ input[type=button].btn-block {
 }
 
 .custom-range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+  box-shadow: 0 0 0 1px #f4f4f4, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
 .custom-range:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+  box-shadow: 0 0 0 1px #f4f4f4, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
 .custom-range:focus::-ms-thumb {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+  box-shadow: 0 0 0 1px #f4f4f4, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
 .custom-range::-moz-focus-outer {
@@ -4456,8 +4456,8 @@ input[type=button].btn-block {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #495057;
-  background-color: #fff;
-  border-color: #dee2e6 #dee2e6 #fff;
+  background-color: #f4f4f4;
+  border-color: #dee2e6 #dee2e6 #f4f4f4;
 }
 
 .nav-tabs .dropdown-menu {
@@ -10908,6 +10908,16 @@ a.text-dark:focus {
   letter-spacing: 0.05em;
 }
 
+.l-main {
+  padding: 24px 0;
+}
+
+@media screen and (min-width: 768px) {
+  .l-main {
+    padding: 40px 0;
+  }
+}
+
 .btn-default {
   display: block;
   width: 100%;
@@ -10946,10 +10956,6 @@ a.text-dark:focus {
   top: 0;
   bottom: 0;
   margin: auto;
-}
-
-.form-body {
-  background: #f4f4f4;
 }
 
 .form {
@@ -11025,27 +11031,27 @@ a.text-dark:focus {
   text-align: center;
 }
 
-.social-login__deco {
+.social-form__deco {
   color: #a0a0a0;
   font-size: 14px;
   display: flex;
   align-items: center;
 }
 
-.social-login__deco::before,
-.social-login__deco:after {
+.social-form__deco::before,
+.social-form__deco:after {
   content: "";
   flex-grow: 1;
   height: 1px;
-  background: #a0a0a0;
+  background: rgba(30, 30, 30, 0.2);
   display: block;
 }
 
-.social-login__deco:before {
+.social-form__deco:before {
   margin-right: 2.5em;
 }
 
-.social-login__deco:after {
+.social-form__deco:after {
   margin-left: 2.5em;
 }
 
@@ -11061,5 +11067,10 @@ a.text-dark:focus {
   color: #7a7a7a;
   margin: 10px 0 0;
   line-height: 1.5;
+}
+
+.l-form-content {
+  max-width: 400px;
+  margin: 0 auto;
 }
 

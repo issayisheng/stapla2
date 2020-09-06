@@ -36,16 +36,35 @@ Route::get('/login/{social}/callback', 'Auth\LoginController@handleProviderCallb
 | 認証後
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+
 
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/gym', 'GymController@index')->name('gym.index');
-    Route::get('/gym/create', 'GymController@create')->name('gym.create');
-    Route::post('/gym/store', 'GymController@store')->name('gym.store');
-    Route::get('/gym/{gym_id}', 'GymController@show')->name('gym.show');
+    Route::group(['prefix' => 'settings'], function () {
+        // ユーザー設定
+        Route::resource('user_info', 'UserInfoController', ['only' => ['index','edit','update']]);
+        // 予約情報
+        Route::resource('reserved', 'ReservedController', ['only' => ['index','edit','update']]);
+        // チケット履歴
+        Route::resource('history', 'HistoryController', ['only' => ['index']]);
+        // Stripeの支払情報
+        Route::post('/charge', 'ChargeController@charge')->name('charge');
+        // チケット残数
+        Route::resource('ticket', 'TicketController', ['only' => ['index','edit','update']]);
 
+        // ジム設定
+        Route::get('/gym', 'GymController@index')->name('gym.index');
+        Route::get('/gym/create', 'GymController@create')->name('gym.create');
+        Route::post('/gym/store', 'GymController@store')->name('gym.store');
+        Route::get('/gym/{gym_id}', 'GymController@show')->name('gym.show');
+    });
 });
+
+// vue.jsのルーティング
+// Route::get('/member/{any}', function () {
+//     return view('member.list');
+// })->where('any', '.*');

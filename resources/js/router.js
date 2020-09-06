@@ -6,7 +6,6 @@ Vue.use(VueRouter);
 
 // コンポーネントをインポート
 import Home from "./views/Home.vue";
-import Home2 from "./components/Home.vue";
 
 export default new VueRouter({
     mode: "history",
@@ -15,11 +14,6 @@ export default new VueRouter({
             path: "/",
             name: "home",
             component: Home
-        },
-        {
-            path: "/about",
-            name: "about",
-            component: Home2
         }
     ]
 });

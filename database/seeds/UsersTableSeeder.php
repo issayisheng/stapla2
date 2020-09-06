@@ -11,12 +11,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=0; $i <5; $i++) {
+        for ($i=1; $i <8; $i++) {
             $data[] = [
                 'name' => 'ユーザー'.$i,
-                'email' => 'user'.$i.'@user.com',
+                'email' => 'test'.$i.'@test.com',
                 'tel' => '08012345678',
-                'password' => 'password1',
+                'password' => Hash::make('password'),
                 "created_at" => now(),
                 "updated_at" => now(),
             ];
