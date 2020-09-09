@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
+use App\Models\Trainer;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UserInfoController extends Controller
+class TrainerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,8 @@ class UserInfoController extends Controller
      */
     public function index()
     {
-     
-        // $users = Auth::user(); // ログイン中のユーザー情報
-        return view('userinfo.index');
+        $users = User::all();
+        return view('trainer.index')->with('users', $users);
     }
 
     /**
@@ -45,10 +44,10 @@ class UserInfoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Trainer  $trainer
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Trainer $trainer)
     {
         //
     }
@@ -56,48 +55,38 @@ class UserInfoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Trainer  $trainer
      * @return \Illuminate\Http\Response
      */
+    // public function edit(Trainer $trainer)
     public function edit($id)
     {
-        $user_info = User::find($id);
-        return view('userinfo.edit', compact('user_info'));
+        $auth = User::find($id);
+        return view('trainer.edit', [ 'auth' => $auth ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Trainer  $trainer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        if ($request->action === 'back') {
-            return redirect()->route('user_info.index');
-        } else {
-            $validator = $request->validate([
-                'name'   => 'required',
-                'email'  => 'required|email',
-                'tel'    => ['nullable','regex:/^(0{1}\d{9,10})$/'], // ハイフンなし,10or11桁
-            ]);
-            $users = User::find($id);
-            $users->name = $request->name;
-            $users->email = $request->email;
-            $users->tel = $request->tel;
-            $users->save();
-            return redirect()->route('user_info.index')->with('status', '編集が完了しました');
-        }
+        $admin = User::find($id);
+        $admin->status = $request->role;
+        $admin->save();
+        return redirect()->route('trainer.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Trainer  $trainer
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Trainer $trainer)
     {
         //
     }

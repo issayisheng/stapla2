@@ -12,7 +12,7 @@
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label for="name" class="col-md-4 col-form-label font-weight-bold">氏名</label>
+                                <label for="name" class="col-md-4 col-form-label font-weight-bold">お名前</label>
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name',$user_info->name) }}">
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -39,25 +39,7 @@
                                 </span>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="password" class="col-md-4 col-form-label font-weight-bold">パスワード</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
-                                @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="password-confirm" class="col-md-6 col-form-label font-weight-bold">パスワード (確認用)</label>
-                                <input id="password-confirm" type="password" class="form-control @error('password') is-invalid @enderror" name="password_confirmation">
-                                @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group row mb-0">
+                            <div class="form-group row">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-secondary" name='action' value='back'>
                                         戻る

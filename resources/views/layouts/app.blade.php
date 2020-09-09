@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Stapla') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700&display=swap" rel="stylesheet">
@@ -65,6 +62,9 @@
                                 @else
                                 <a class="dropdown-item" href="{{ route('gym.index') }}">ジム情報</a>
                                 @endif
+                                @if( Auth::user()->status === 5 )
+                                <a class="dropdown-item" href="{{ route('trainer.index') }}">トレーナー管理</a>
+                                @endif
                                 <a class="dropdown-item" href="{{ route('reserved.index') }}">予約状況</a>
                                 <a class="dropdown-item" href="{{ route('ticket.index') }}">チケット購入</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -85,5 +85,11 @@
             @yield('content')
         </main>
     </div>
+
+    @if(Request::is('settings/ticket'))
+    <script></script>
+    @else
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    @endif
 </body>
 </html>

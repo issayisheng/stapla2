@@ -5,15 +5,21 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 // コンポーネントをインポート
-import Home from "./views/Home.vue";
+import UserInfo from "./components/UserInfo.vue";
+import UserInfoEdit from "./components/UserInfoEdit.vue";
 
 export default new VueRouter({
     mode: "history",
     routes: [
         {
-            path: "/",
-            name: "home",
-            component: Home
+            path: "/user_info",
+            name: "userinfo",
+            component: UserInfo
+        },
+        {
+            path: "/user_info/:id/edit",
+            name: "userinfo_edit",
+            component: UserInfoEdit
         }
     ]
 });

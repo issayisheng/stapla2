@@ -5,9 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">チケット購入</div>
+                <div class="card-header">チケット購入履歴</div>
                 <div class="card-body">
-                    @isset($items)
+
+                    @if (!empty($items))
                     @foreach ($items as $item)
                     <div class="list-group">
                         <div class="list-group-item flex-column align-items-start">
@@ -20,7 +21,7 @@
                     @endforeach
                     @else
                     <p>購入履歴はありません</p>
-                    @endisset
+                    @endif
                     <a href="{{ route('ticket.index')}}" class="btn btn-success">チケット購入へ</a>
                 </div>
             </div>

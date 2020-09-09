@@ -12,13 +12,41 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                    <div class="list-group mb-3 l-form-content">
-                        <a href="{{ route('user_info.edit',$auth->id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            プロフィールを編集する
-                        </a>
-                    </div>
+                    <userinfo-component></userinfo-component>
+
+                    {{-- <div class="list-group mb-3 l-form-content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">お名前</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{$auth->name}}</p>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="font-weight-bold">メールアドレス</label>
+                </div>
+                <div class="col-md-6">
+                    <p>{{$auth->email}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="font-weight-bold">電話番号</label>
+                </div>
+                <div class="col-md-6">
+                    <p>{{$auth->tel}}</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <a href="{{ route('user_info.edit',$auth->id) }}" class="btn btn-primary mr-5">編集する</a>
+                <a href="{{ route('user_info.password.edits') }}" class="btn btn-outline-primary">パスワード変更</a>
+            </div>
+        </div> --}}
     </div>
-    @endsection
+</div>
+</div>
+</div>
+</div>
+@endsection
