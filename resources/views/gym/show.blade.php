@@ -99,6 +99,8 @@
 @else
     <p>詳細はオーナにお問い合わせください。</p>
 @endif
-<a href="#" class="btn btn-primary">編集</a>
+<a href="{{ route('gym.edit', ['gym_id' => $gym->id]) }}" class="btn btn-primary">編集</a>
+
+<a href="{{ route('gym.index') }}" class="btn btn-primary">ジム一覧へ</a>
 @endsection
         

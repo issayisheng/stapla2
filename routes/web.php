@@ -73,6 +73,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/gym/create', 'GymController@create')->name('gym.create');
         Route::post('/gym/store', 'GymController@store')->name('gym.store');
         Route::get('/gym/{gym_id}', 'GymController@show')->name('gym.show');
+        Route::get('/gym/{gym_id}/edit', 'GymController@edit')->name('gym.edit');
+        Route::post('/gym/{gym_id}', 'GymController@update')->name('gym.update');
 
         // Vue.js
         Route::get('/{any}', function () {
