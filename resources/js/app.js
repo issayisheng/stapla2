@@ -12,13 +12,13 @@ import store from "./store";
 import router from "./router";
 
 // vuetifyの設定
-import Vuetify from "vuetify";
+// import Vuetify from "vuetify";
 // import "vuetify/dist/vuetify.min.css";
 
 window.Vue = require("vue");
 
 Vue.use(VueRouter);
-Vue.use(Vuetify);
+// Vue.use(Vuetify);
 
 /**
  * The following block of code may be used to automatically register your
@@ -31,7 +31,15 @@ Vue.use(Vuetify);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// Vue.component("about-component", require("./components/About.vue").default);
+Vue.component(
+    "userinfo-component",
+    require("./components/UserInfo.vue").default
+);
+
+Vue.component(
+    "userinfo-edit-component",
+    require("./components/UserInfoEdit.vue").default
+);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -42,6 +50,6 @@ Vue.use(Vuetify);
 const app = new Vue({
     el: "#app",
     router,
-    store,
-    vuetify: new Vuetify()
+    store
+    // vuetify: new Vuetify()
 });
