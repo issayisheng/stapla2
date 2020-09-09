@@ -16,8 +16,9 @@ class UserInfoController extends Controller
      */
     public function index()
     {
-        $auth = Auth::user(); // ログイン中のユーザー情報
-        return view('userinfo.index', compact('auth'));
+     
+        // $users = Auth::user(); // ログイン中のユーザー情報
+        return view('userinfo.index');
     }
 
     /**
@@ -80,13 +81,11 @@ class UserInfoController extends Controller
                 'name'   => 'required',
                 'email'  => 'required|email',
                 'tel'    => ['nullable','regex:/^(0{1}\d{9,10})$/'], // ハイフンなし,10or11桁
-                'password' => ['nullable','string','confirmed','min:8','regex:/^[a-zA-Z0-9]+$/'], //半角英数字のみ
             ]);
             $users = User::find($id);
             $users->name = $request->name;
             $users->email = $request->email;
             $users->tel = $request->tel;
-            $users->password = Hash::make($request->password);
             $users->save();
             return redirect()->route('user_info.index')->with('status', '編集が完了しました');
         }
