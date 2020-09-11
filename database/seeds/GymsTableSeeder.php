@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
 
-class UsersTableSeeder extends Seeder
+class GymsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,15 +14,18 @@ class UsersTableSeeder extends Seeder
         for ($i = 1; $i < 8; $i++) {
             $data[] = [
                 'id' => Str::uuid(),
-                'gym_id' => $i,
-                'name' => 'ユーザー'.$i,
-                'email' => 'test'.$i.'@test.com',
+                'name' => 'ジム'.$i,
+                'zip_code' => '0123456',
+                'prefecture' => 'tokyo',
+                'city' => 'shibuya',
+                'street' => 'hoge1-2-3',
+                'building' => 'false404',
+                'gym_facility' => 'ダンベル',
                 'tel' => '08012345678',
-                'password' => Hash::make('password'),
                 "created_at" => now(),
                 "updated_at" => now(),
             ];
         }
-        DB::table('users')->insert($data);
+        DB::table('gyms')->insert($data);
     }
 }

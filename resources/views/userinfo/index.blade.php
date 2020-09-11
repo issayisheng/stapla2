@@ -12,41 +12,45 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                    <userinfo-component></userinfo-component>
+                    {{-- <userinfo-component></userinfo-component> --}}
 
-                    {{-- <div class="list-group mb-3 l-form-content">
+                    <div class="list-group mb-3 l-form-content">
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="font-weight-bold">お名前</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{$auth->name}}</p>
+                                <p>{{$users->name}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">メールアドレス</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{$users->email}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">電話番号</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{$users->tel}}</p>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <a href="{{ route('user_info.edit',$users->id) }}" class="btn btn-primary mr-5">編集する</a>
+                            @if ($users->password === null || $users->password === '')
+                            <a href="{{ route('user_info.password.create') }}" class="btn btn-danger">パスワード設定</a>
+                            @else
+                            <a href="{{ route('user_info.password.edits') }}" class="btn btn-outline-primary">パスワード変更</a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="font-weight-bold">メールアドレス</label>
-                </div>
-                <div class="col-md-6">
-                    <p>{{$auth->email}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="font-weight-bold">電話番号</label>
-                </div>
-                <div class="col-md-6">
-                    <p>{{$auth->tel}}</p>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <a href="{{ route('user_info.edit',$auth->id) }}" class="btn btn-primary mr-5">編集する</a>
-                <a href="{{ route('user_info.password.edits') }}" class="btn btn-outline-primary">パスワード変更</a>
-            </div>
-        </div> --}}
+        </div>
     </div>
-</div>
-</div>
-</div>
 </div>
 @endsection

@@ -14,7 +14,7 @@ class GymController extends Controller
     {
         $current_user = Auth::user();
         $gyms = Gym::where('owner_id', $current_user->id)->get();
-        return view('gym.index', \compact('gyms'));   
+        return view('gym.index', \compact('gyms'));
     }
 
     public function create()
@@ -26,6 +26,8 @@ class GymController extends Controller
     public function store(GymStoreRequest $request)
     {
         $current_user = Auth::user();
+
+        // dd($current_user);
 
         $gym = new Gym;
         $gym->owner_id            = $current_user->id;
@@ -82,7 +84,7 @@ class GymController extends Controller
 
         // MEMO: ジムを登録したらユーザーのステータスをオーナー(3, 後で定数化)に変更
         $user = User::findOrFail($current_user->id);
-        $user-> status = 2;
+        $user-> status = 10;
         $user->save();
 
         return \redirect()->route('gym.show', ['gym_id' => $gym->id])

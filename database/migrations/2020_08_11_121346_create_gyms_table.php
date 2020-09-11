@@ -14,9 +14,10 @@ class CreateGymsTable extends Migration
     public function up()
     {
         Schema::create('gyms', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();            // Primary key.
             $table->integer('close_id')->nullable();
-            $table->integer('owner_id')->nullable();
+            $table->uuid('owner_id')->nullable();
+            $table->foreign('owner_id')->references('id')->on('users'); // 外部キー参照
             $table->string('name')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('prefecture')->nullable();

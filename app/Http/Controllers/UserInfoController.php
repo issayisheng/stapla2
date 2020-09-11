@@ -16,9 +16,8 @@ class UserInfoController extends Controller
      */
     public function index()
     {
-     
-        // $users = Auth::user(); // ログイン中のユーザー情報
-        return view('userinfo.index');
+        $users = Auth::user(); // ログイン中のユーザー情報
+        return view('userinfo.index', compact('users'));
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 
 class Gym extends Model
 {
@@ -36,5 +36,10 @@ class Gym extends Model
     public function userCloses()
     {
         return $this->hasMany('App\Modles\GymClose', 'gym_id', 'id');
+    }
+
+    public function calendars()
+    {
+        return $this->hasOne('App\Modles\Calendar', 'gym_id', 'id');
     }
 }
