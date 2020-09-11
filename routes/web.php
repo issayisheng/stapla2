@@ -11,6 +11,9 @@
 |
 */
 
+
+Auth::routes(['verify' => true]);
+
 Route::get('/', function () {
     return view('top');
 })->name('top');
@@ -22,9 +25,6 @@ Route::get('/privacy', function () {
 Route::get('/terms', function () {
     return view('common/terms');
 })->name('terms');
-
-
-Auth::routes(['verify' => true]);
 
 
 //Socialite
@@ -47,9 +47,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'settings'], function () {
 
         // ユーザー設定
-        // Route::resource('user_info', 'UserInfoController', ['only' => ['index','edit','update']]);
+        Route::resource('user_info', 'UserInfoController', ['only' => ['index','edit','update']]);
         Route::get('user_info', 'UserInfoController@index')->name('user_info.index');
 
+        // パスワード設定
+        Route::get('user_info/password/create', 'UserInfoPasswordController@create')->name('user_info.password.create');
+        Route::post('user_info/password/create', 'UserInfoPasswordController@store')->name('user_info.password.store');
         Route::get('user_info/password/edits', 'UserInfoPasswordController@edits')->name('user_info.password.edits');
         Route::put('user_info/password/update', 'UserInfoPasswordController@update')->name('user_info.password.update');
 
@@ -82,3 +85,8 @@ Route::group(['middleware' => 'auth'], function () {
         })->where('any', '.*');
     });
 });
+
+
+// Route::get('/{any}', function () {
+//     return view('top');
+// })->where('any', '.*');
