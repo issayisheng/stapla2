@@ -2,7 +2,7 @@
 
 @section('content')
 <p>gym.create page</p>
-<form class="layout-form" method="POST" action="{{ route('gym.store') }}">
+<form class="layout-form" method="POST" action="{{ route('gym.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
         <label for="gym_name" class="font-weight-bold">{{ __('Gym Name') }}</label>
@@ -50,6 +50,24 @@
         <label for="gym_tel" class="font-weight-bold">{{ __('Gym Tel') }}</label>
         <input id="gym_tel" type="tel" class="form-control @error('gym_tel') is-invalid @enderror" name="gym_tel" value="{{ old('gym_tel') }}" autocomplete="gym_tel" placeholder="">
         @error('gym_tel')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+        @enderror
+    </div>
+    <div class="form-group">
+        <label for="introduction_pic" class="font-weight-bold">{{ __('Introduction Pic') }}</label>
+        <input id="introduction_pic" type="file" class="form-control @error('introduction_pic') is-invalid @enderror" name="introduction_pic" value="{{ old('introduction_pic') }}" autocomplete="introduction_pic" placeholder="">
+        @error('introduction_pic')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+        @enderror
+    </div>
+    <div class="form-group">
+        <label for="introduction_text" class="font-weight-bold">{{ __('Introduction Text') }}</label>
+        <input id="introduction_text" type="text" class="form-control @error('introduction_text') is-invalid @enderror" name="introduction_text" value="{{ old('introduction_text') }}" autocomplete="introduction_text" placeholder="">
+        @error('introduction_text')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
         </span>
