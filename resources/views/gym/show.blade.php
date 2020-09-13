@@ -6,7 +6,6 @@
     <p>{{ session('done') }}</p>
 </div>
 @endif
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -36,7 +35,14 @@
                     <p>詳細はオーナにお問い合わせください。</p>
                     @endif
                 </div>
-
+                <div class="form-group">
+                    <label for="gym_facility" class="font-weight-bold">{{ __('Gym Image') }}</label>
+                    @if($gym->gym_image == null)
+                    <p>現在、{{ __('Gym Image') }}が設定されていません。</p>
+                    @else
+                    <img class="card-img-top" src="{{ asset('public/gym/' . $gym->gym_image) }}" alt="{{ $gym->name }}">
+                    @endif
+                </div>
                 <div class="form-group">
                     <label for="" class="font-weight-bold">{{ __('Gym Opening Hour') }}</label>
                 </div>
@@ -107,8 +113,8 @@
                     <a href="{{ route('gym.edit', ['gym_id' => $gym->id]) }}" class="btn btn-primary">編集</a>
                     <a href="{{ route('gym.index') }}" class="btn btn-primary">ジム一覧へ</a>
                 </div>
-                @endsection
             </div>
         </div>
     </div>
 </div>
+@endsection

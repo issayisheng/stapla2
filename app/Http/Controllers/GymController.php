@@ -38,6 +38,17 @@ class GymController extends Controller
         $gym->street              = $request->gym_street;
         $gym->building            = $request->gym_building;
         $gym->tel                 = $request->gym_tel;
+
+        if ($file = $request->gym_image) {
+            $fileName = time() . $file->getClientOriginalName(); // アップロードしたファイル名をつけて保存
+            $target_path = public_path('public/gym');
+            $file->move($target_path, $fileName);
+        } else {
+            $fileName = "";
+        }
+        $gym->gym_image = $fileName;
+
+
         if (isset($request->mon_open)) {
             $gym->mon_opening_started = $request->mon_open;
         }
@@ -114,6 +125,15 @@ class GymController extends Controller
         $gym->street              = $request->gym_street;
         $gym->building            = $request->gym_building;
         $gym->tel                 = $request->gym_tel;
+        if ($file = $request->gym_image) {
+            $fileName = time() . $file->getClientOriginalName(); // アップロードしたファイル名をつけて保存
+            $target_path = public_path('public/gym');
+            $file->move($target_path, $fileName);
+        } else {
+            $fileName = "";
+        }
+        $gym->gym_image = $fileName;
+
         if (isset($request->mon_open)) {
             $gym->mon_opening_started = $request->mon_open;
         }

@@ -69,6 +69,13 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="inputFile" class="font-weight-bold">{{ __('Gym Image') }}</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputFile" name="gym_image">
+                            <label class="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="" class="font-weight-bold">{{ __('Gym Opening Hour') }}</label>
                     </div>
                     <div class="form-group">
@@ -180,8 +187,8 @@
                         修正
                     </button>
                 </form>
-                @endsection
             </div>
         </div>
     </div>
 </div>
+@endsection

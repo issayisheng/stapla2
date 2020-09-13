@@ -6,7 +6,7 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">gym.create page</div>
-                <form class="layout-form" method="POST" action="{{ route('gym.store') }}">
+                <form class="layout-form" method="POST" action="{{ route('gym.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="gym_name" class="font-weight-bold">{{ __('Gym Name') }}</label>
@@ -67,6 +67,13 @@
                             <strong>{{ $message }}</strong>
                         </span>
                         @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="inputFile" class="font-weight-bold">{{ __('Gym Image') }}</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputFile" name="gym_image">
+                            <label class="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択</label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="font-weight-bold">{{ __('Gym Opening Hour') }}</label>
@@ -180,8 +187,8 @@
                         登録
                     </button>
                 </form>
-                @endsection
             </div>
         </div>
     </div>
 </div>
+@endsection
