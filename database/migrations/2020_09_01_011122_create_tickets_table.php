@@ -14,9 +14,10 @@ class CreateTicketsTable extends Migration
     public function up()
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->string('quantity')->default(0);   // 残数
+            $table->uuid('id')->primary();    // Primary key.
+            $table->uuid('user_id');
+            $table->foreign('user_id')->references('id')->on('users'); // 外部キー参照
+            $table->integer('quantity')->default(0);   // 残数
             $table->timestamps();
         });
     }

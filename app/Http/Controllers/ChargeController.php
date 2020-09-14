@@ -65,11 +65,8 @@ class ChargeController extends Controller
             // 購入履歴を作成する
             $history = History::create([
                 'user_id'    => Auth::id(),
-                'ticket_id'  => $ticket->id, //ticketsテーブルのidからチケットIDを紐付け
                 'order'      => $order,
             ]);
-
-
 
             DB::commit();
             return back()->with('charge_message', 'お支払いが完了しました。');

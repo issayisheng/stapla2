@@ -14,9 +14,9 @@ class CreateHistoriesTable extends Migration
     public function up()
     {
         Schema::create('histories', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('ticket_id');
+            $table->uuid('id')->primary();    // Primary key.
+            $table->uuid('user_id');
+            $table->foreign('user_id')->references('id')->on('users'); // 外部キー参照
             $table->integer('order');   // 購入数
             $table->timestamps();
         });
