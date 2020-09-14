@@ -19,5 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/user_info', function (Request $request) {
-    return App\User::all();
+    return $users = Auth::user(); // ログイン中のユーザー情報
 });
+
+
+// Route::post('/login', 'Api\AuthController@login');
+
+
+Route::get('calendar', 'Api\CalendarController@index');

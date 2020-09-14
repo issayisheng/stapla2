@@ -44,6 +44,11 @@ Route::group(['middleware' => 'auth'], function () {
         return view('dashboard');
     })->name('dashboard');
 
+    // カレンダー表示
+    Route::get('calendar', 'CalendarController@index');
+
+
+
     Route::group(['prefix' => 'settings'], function () {
 
         // ユーザー設定
