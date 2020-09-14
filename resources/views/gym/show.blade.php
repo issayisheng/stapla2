@@ -25,6 +25,14 @@
     <p>{{ $gym->tel }}</p>
 </div>
 <div class="form-group">
+    <label for="gym_tel" class="font-weight-bold">{{ __('Introduction Pic') }}</label>
+    <img class="card-img-top" src="{{ env('AWS_URL').$gym->introduction_pic }}" alt="">
+</div>
+<div class="form-group">
+    <label for="gym_tel" class="font-weight-bold">{{ __('Introduction Text') }}</label>
+    <p>{{ $gym->introduction_text }}</p>
+</div>
+<div class="form-group">
     <label for="gym_facility" class="font-weight-bold">{{ __('Gym Facility') }}</label>
     @isset($gym->facility)
         <p>{{ $gym->facility }}</p>
@@ -99,7 +107,9 @@
 @else
     <p>詳細はオーナにお問い合わせください。</p>
 @endif
+@if($gym->owner_id === $current_user->id)
 <a href="{{ route('gym.edit', ['gym_id' => $gym->id]) }}" class="btn btn-primary">編集</a>
+@endif
 
 <a href="{{ route('gym.index') }}" class="btn btn-primary">ジム一覧へ</a>
 @endsection

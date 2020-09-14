@@ -6,7 +6,9 @@
 <div class="form-group">
     <label for="gym_name" class="font-weight-bold">{{ __('Gym Name') }}</label>
     @foreach($gyms as $gym)
-        <p><a href="{{ route('gym.show', ['gym_id' => $gym->id]) }}">{{ $gym->name }}</a></p>
+        @if($gym->owner_id === Auth::user()->id)
+            <p><a href="{{ route('gym.show', ['gym_id' => $gym->id]) }}">{{ $gym->name }}</a></p>
+        @endif
     @endforeach 
 </div>
 

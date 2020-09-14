@@ -16,14 +16,16 @@ class CreateGymsTable extends Migration
         Schema::create('gyms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('close_id')->nullable();
-            $table->integer('owner_id')->nullable();
-            $table->string('name')->nullable();
+            $table->integer('owner_id');
+            $table->string('name');
             $table->string('zip_code')->nullable();
             $table->string('prefecture')->nullable();
             $table->string('city')->nullable();
             $table->string('street')->nullable();
             $table->string('building')->nullable();
             $table->string('tel')->nullable();
+            $table->string('introduction_pic')->nullable();
+            $table->string('introduction_text')->nullable();
             $table->string('gym_facility')->nullable();
             $table->string('picture')->nullable();
             $table->time('mon_opening_started')->nullable();

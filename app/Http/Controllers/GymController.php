@@ -7,6 +7,7 @@ use App\Models\Gym;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class GymController extends Controller
 {
@@ -36,17 +37,26 @@ class GymController extends Controller
         $gym->street              = $request->gym_street;
         $gym->building            = $request->gym_building;
         $gym->tel                 = $request->gym_tel;
+        if($request->introduction_pic){
+            // MEMO: 紹介画像のS3へのアップロード & アップロードされた画像のpath取得
+            $introduction_image = $request->file('introduction_pic');
+            $introduction_image_path = Storage::disk('s3')->putFile( '/gym/'. $gym->owner_id .'/introduction_pic', $introduction_image, 'public');
+            $gym->introduction_pic = $introduction_image_path;
+        }
+        if (isset($request->introduction_text)) {
+            $gym->introduction_text = $request->introduction_text;
+        }
         if (isset($request->mon_open)) {
             $gym->mon_opening_started = $request->mon_open;
         }
         if (isset($request->mon_close)) {
-            $gym->mon_opening_ended   = $request->mon_close;
+            $gym->mon_opening_ended = $request->mon_close;
         }
         if (isset($request->tue_open)) {
             $gym->tue_opening_started = $request->tue_open;
         }
         if (isset($request->tue_close)) {
-            $gym->tue_opening_ended   = $request->tue_close;
+            $gym->tue_opening_ended = $request->tue_close;
         }
         if (isset($request->wed_open)) {
             $gym->wed_opening_started = $request->wed_open;
@@ -58,31 +68,31 @@ class GymController extends Controller
             $gym->thu_opening_started = $request->thu_open;
         }
         if (isset($request->thu_open)) {
-            $gym->thu_opening_ended   = $request->thu_close;
+            $gym->thu_opening_ended = $request->thu_close;
         }
         if (isset($request->fri_open)) {
             $gym->fri_opening_started = $request->fri_open;
         }
         if (isset($request->fri_close)) {
-            $gym->fri_opening_ended   = $request->fri_close;
+            $gym->fri_opening_ended = $request->fri_close;
         }
         if (isset($request->sat_open)) {
             $gym->sat_opening_started = $request->sat_open;
         }
         if (isset($request->sat_close)) {
-            $gym->sat_opening_ended   = $request->sat_close;
+            $gym->sat_opening_ended = $request->sat_close;
         }
         if (isset($request->sun_open)) {
             $gym->sun_opening_started = $request->sun_open;
         }
         if (isset($request->sun_close)) {
-            $gym->sun_opening_ended   = $request->sun_close;
+            $gym->sun_opening_ended = $request->sun_close;
         }
         $gym->save();
 
-        // MEMO: ジムを登録したらユーザーのステータスをオーナー(3, 後で定数化)に変更
+        // MEMO: ジムを登録したらユーザーのステータスをオーナー(2, 後で定数化)に変更
         $user = User::findOrFail($current_user->id);
-        $user-> status = 2;
+        $user-> status = config('consts.user.OWNER');
         $user->save();
 
         return \redirect()->route('gym.show', ['gym_id' => $gym->id])
@@ -91,14 +101,16 @@ class GymController extends Controller
 
     public function show($gym_id)
     {
+        $current_user = Auth::user();
         $gym = Gym::FindOrFail($gym_id);
-        return view('gym.show', \compact('gym'));
+        return view('gym.show', \compact('current_user', 'gym'));
     }
 
     public function edit($gym_id)
     {
+        $current_user = Auth::user();
         $gym = Gym::FindOrFail($gym_id);
-        return \view('gym.edit', \compact('gym'));
+        return \view('gym.edit', \compact('current_user', 'gym'));
     }
 
     public function update(GymStoreRequest $request, $gym_id)
@@ -112,6 +124,18 @@ class GymController extends Controller
         $gym->street              = $request->gym_street;
         $gym->building            = $request->gym_building;
         $gym->tel                 = $request->gym_tel;
+        if($request->introduction_pic){
+            if(isset($gym->introduction_pic)){
+                 \Storage::disk('s3')->delete($gym->introduction_pic);
+            }
+            // MEMO: 紹介画像のS3へのアップロード & アップロードされた画像のpath取得
+            $introduction_image = $request->file('introduction_pic');
+            $introduction_image_path = Storage::disk('s3')->putFile('/gym/'. $gym->owner_id .'/introduction_pic', $introduction_image, 'public');
+            $gym->introduction_pic = $introduction_image_path;
+        }
+        if (isset($request->introduction_text)) {
+            $gym->introduction_text = $request->introduction_text;
+        }
         if (isset($request->mon_open)) {
             $gym->mon_opening_started = $request->mon_open;
         }

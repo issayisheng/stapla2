@@ -32,6 +32,7 @@ class GymStoreRequest extends FormRequest
             "gym_street"     => ['bail', 'required', 'string', 'max: 64'],
             "gym_building"   => ['bail', 'nullable', 'string', 'max: 64'],
             "gym_tel"        => ['bail', 'required', 'numeric', 'digits_between:10,11'],
+            "gym_tel"        => ['bail', 'nullable', 'string', 'max: 100'],
             "gym_facility"   => [''],
             "mon_opening"    => [''],
             "mon_close"      => ['nullable', 'after:mon_opening'],
