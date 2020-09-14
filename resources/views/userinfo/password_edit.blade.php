@@ -14,14 +14,6 @@
                 </div>
                 @endif
 
-                @if (session('change_password_success'))
-                <div class="container mt-2">
-                    <div class="alert alert-success mb-0">
-                        {{session('change_password_success')}}
-                    </div>
-                </div>
-                @endif
-
                 <div class="card-body">
                     <form method="POST" action="{{route('user_info.password.update')}}">
                         @csrf

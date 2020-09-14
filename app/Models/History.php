@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\User;
 use App\Models\Ticket;
-use Illuminate\Database\Eloquent\Model;
+use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;  // UUID
 
 class History extends Model
 {

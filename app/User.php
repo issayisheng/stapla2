@@ -3,17 +3,18 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+// use Illuminate\Foundation\Auth\User as Authenticatable;
+use GoldSpecDigital\LaravelEloquentUUID\Foundation\Auth\User as Authenticatable; // UUID
 use Illuminate\Notifications\Notifiable;
-use Laravel\Cashier\Billable;
+use Laravel\Cashier\Billable;      // Stripe
+use Laravel\Passport\HasApiTokens; // Passport
 
 use App\Models\Ticket;
 use App\Models\History;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
-    use Billable;
+    use Notifiable,Billable,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

@@ -15,7 +15,7 @@ class GymController extends Controller
     {
         $current_user = Auth::user();
         $gyms = Gym::where('owner_id', $current_user->id)->get();
-        return view('gym.index', \compact('gyms'));   
+        return view('gym.index', \compact('gyms'));
     }
 
     public function create()
@@ -28,6 +28,8 @@ class GymController extends Controller
     {
         $current_user = Auth::user();
 
+        // dd($current_user);
+
         $gym = new Gym;
         $gym->owner_id            = $current_user->id;
         $gym->name                = $request->gym_name;
@@ -37,12 +39,28 @@ class GymController extends Controller
         $gym->street              = $request->gym_street;
         $gym->building            = $request->gym_building;
         $gym->tel                 = $request->gym_tel;
-        if($request->introduction_pic){
+        if ($request->introduction_pic) {
             // MEMO: 紹介画像のS3へのアップロード & アップロードされた画像のpath取得
             $introduction_image = $request->file('introduction_pic');
-            $introduction_image_path = Storage::disk('s3')->putFile( '/gym/'. $gym->owner_id .'/introduction_pic', $introduction_image, 'public');
+            $introduction_image_path = Storage::disk('s3')->putFile('/gym/'. $gym->owner_id .'/introduction_pic', $introduction_image, 'public');
             $gym->introduction_pic = $introduction_image_path;
         }
+
+
+        // if ($file = $request->gym_image) {
+        //     $fileName = time() . $file->getClientOriginalName(); // アップロードしたファイル名をつけて保存
+        //     $target_path = public_path('public/gym');
+        //     $file->move($target_path, $fileName);
+        // } else {
+        //     $fileName = null;
+        // }
+        // $gym->gym_image = $fileName;
+
+
+
+
+
+
         if (isset($request->introduction_text)) {
             $gym->introduction_text = $request->introduction_text;
         }
@@ -124,15 +142,28 @@ class GymController extends Controller
         $gym->street              = $request->gym_street;
         $gym->building            = $request->gym_building;
         $gym->tel                 = $request->gym_tel;
-        if($request->introduction_pic){
-            if(isset($gym->introduction_pic)){
-                 \Storage::disk('s3')->delete($gym->introduction_pic);
+        if ($request->introduction_pic) {
+            if (isset($gym->introduction_pic)) {
+                \Storage::disk('s3')->delete($gym->introduction_pic);
             }
             // MEMO: 紹介画像のS3へのアップロード & アップロードされた画像のpath取得
             $introduction_image = $request->file('introduction_pic');
             $introduction_image_path = Storage::disk('s3')->putFile('/gym/'. $gym->owner_id .'/introduction_pic', $introduction_image, 'public');
             $gym->introduction_pic = $introduction_image_path;
         }
+
+        // if ($file = $request->gym_image) {
+        //     $fileName = time() . $file->getClientOriginalName(); // アップロードしたファイル名をつけて保存
+        //     $target_path = public_path('public/gym');
+        //     $file->move($target_path, $fileName);
+        // } else {
+        //     $fileName = "";
+        // }
+        // $gym->gym_image = $fileName;
+
+
+
+        
         if (isset($request->introduction_text)) {
             $gym->introduction_text = $request->introduction_text;
         }

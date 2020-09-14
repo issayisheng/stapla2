@@ -3,7 +3,6 @@
         <div class="row justify-content-center">
             <a href="" class="btn btn-primary">プロフィール編集</a>
             <a href="" class="btn btn-secondary">パスワード変更</a>
-            <a href="" class="btn btn-danger">Dummy</a>
         </div>
     </div>
 </template>
