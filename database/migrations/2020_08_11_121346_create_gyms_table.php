@@ -26,6 +26,8 @@ class CreateGymsTable extends Migration
             $table->string('building')->nullable();
             $table->string('tel')->nullable();
             $table->string('gym_image')->nullable();
+            $table->string('introduction_pic')->nullable();
+            $table->string('introduction_text')->nullable();
             $table->string('gym_facility')->nullable();
             $table->time('mon_opening_started')->nullable();
             $table->time('mon_opening_ended')->nullable();

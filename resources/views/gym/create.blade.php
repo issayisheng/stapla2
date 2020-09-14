@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">gym.create page</div>
+                <div class="card-header">ジム新規登録</div>
                 <form class="layout-form" method="POST" action="{{ route('gym.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
@@ -60,6 +60,27 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="introduction_pic" class="font-weight-bold">{{ __('Introduction Pic') }}</label>
+                        <div class="custom-file">
+                            <input id="introduction_pic" type="file" class="custom-file-input @error('introduction_pic') is-invalid @enderror" name="introduction_pic" value="{{ old('introduction_pic') }}" autocomplete="introduction_pic" placeholder="">
+                            <label class="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択</label>
+                            @error('introduction_pic')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="introduction_text" class="font-weight-bold">{{ __('Introduction Text') }}</label>
+                        <input id="introduction_text" type="text" class="form-control @error('introduction_text') is-invalid @enderror" name="introduction_text" value="{{ old('introduction_text') }}" autocomplete="introduction_text" placeholder="">
+                        @error('introduction_text')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="gym_facility" class="font-weight-bold">{{ __('Gym Facility') }}</label>
                         <input id="gym_facility" type="gym_facility" class="form-control @error('gym_facility') is-invalid @enderror" name="gym_facility" value="{{ old('gym_facility') }}" autocomplete="gym_facility" placeholder="">
                         @error('gym_facility')
@@ -67,13 +88,6 @@
                             <strong>{{ $message }}</strong>
                         </span>
                         @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="inputFile" class="font-weight-bold">{{ __('Gym Image') }}</label>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="inputFile" name="gym_image">
-                            <label class="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択</label>
-                        </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="font-weight-bold">{{ __('Gym Opening Hour') }}</label>

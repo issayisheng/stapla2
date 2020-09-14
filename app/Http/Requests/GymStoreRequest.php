@@ -31,7 +31,7 @@ class GymStoreRequest extends FormRequest
             "gym_city"       => ['bail', 'required', 'string', 'max: 64'],
             "gym_street"     => ['bail', 'required', 'string', 'max: 64'],
             "gym_building"   => ['bail', 'nullable', 'string', 'max: 64'],
-            "gym_tel"        => ['bail', 'required', 'numeric', 'digits_between:10,11'],
+            "gym_tel"        => ['bail', 'nullable', 'string', 'max: 100'],
             'gym_image'      => ['image','max:5000','mimes:jpeg,bmp,png'], // 画像容量5MB
             "gym_facility"   => [''],
             "mon_opening"    => [''],

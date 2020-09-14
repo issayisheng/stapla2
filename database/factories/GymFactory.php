@@ -7,8 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Gym::class, function (Faker $faker) {
     return [
-        'id' => Str::uuid(),
-        'name' => $faker->name,
+        'id' => $faker->uuid,
+        'name' => $faker->randomElement(['ジムA', "ジムB","ジムC","ジムD","ジムE"]),
         'owner_id' => function () {
             return factory(App\User::class)->create()->id;
         },

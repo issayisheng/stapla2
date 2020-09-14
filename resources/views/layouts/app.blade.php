@@ -24,7 +24,7 @@
                     {{ config('app.name', 'Stapla') }}
                 </a>
                 @else
-                <a class="navbar-brand" href="{{ route('dashboard') }}">
+                <a class="navbar-brand" href="{{ route('dashboard.index') }}">
                     {{ config('app.name', 'Stapla') }}
                 </a>
                 @endguest
@@ -57,7 +57,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('user_info.index') }}">マイページ</a>
-                                @if( Auth::user()->status === null || Auth::user()->status === 0 )
+                                @if( Auth::user()->status === null || Auth::user()->status === config('consts.user.TRAINER') )
                                 <a class="dropdown-item" href="{{ route('gym.create') }}">ジム登録</a>
                                 @else
                                 <a class="dropdown-item" href="{{ route('gym.index') }}">ジム情報</a>

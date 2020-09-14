@@ -9,6 +9,7 @@
                 <div class="card-body">
                     <div class="card-group">
                         @foreach($gyms as $gym)
+                        @if($gym->owner_id === Auth::user()->id)
                         <div class="col-sm-12 col-md-6 col-lg-4 px-0 px-md-3">
                             <div class="card mb-3 mb-lg-0">
                                 @if($gym->gym_image == null)
@@ -22,6 +23,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         @endforeach
                     </div>
                 </div>

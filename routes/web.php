@@ -40,9 +40,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // ダッシュボード
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 
     // カレンダー表示
     Route::get('calendar', 'CalendarController@index');
