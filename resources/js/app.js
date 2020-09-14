@@ -31,11 +31,33 @@ Vue.use(VueRouter);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+// Vue.component(
+//     "passport-clients",
+//     require("./components/passport/Clients.vue").default
+// );
+
+// Vue.component(
+//     "passport-authorized-clients",
+//     require("./components/passport/AuthorizedClients.vue").default
+// );
+
+// Vue.component(
+//     "passport-personal-access-tokens",
+//     require("./components/passport/PersonalAccessTokens.vue").default
+// );
+
+Vue.component("top-component", require("./components/Top.vue").default);
+Vue.component("privacy-component", require("./components/Privacy.vue").default);
+Vue.component("terms-component", require("./components/Terms.vue").default);
+Vue.component(
+    "calendar-component",
+    require("./components/Calendar.vue").default
+);
+
 Vue.component(
     "userinfo-component",
     require("./components/UserInfo.vue").default
 );
-
 Vue.component(
     "userinfo-edit-component",
     require("./components/UserInfoEdit.vue").default
@@ -49,7 +71,7 @@ Vue.component(
 
 const app = new Vue({
     el: "#app",
-    router,
+    router: router,
     store
     // vuetify: new Vuetify()
 });

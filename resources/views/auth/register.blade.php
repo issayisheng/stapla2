@@ -35,7 +35,10 @@
                     </span>
                     @enderror
                 </div>
-                <div class="form__desc">登録することで、<a href="{{ route('terms') }}" class="form__link">利用規約</a>と<a href="{{ route('privacy') }}" class="form__link">プライバシーポリシー</a>に同意したものとみなされます。</div>
+                <div class="form__desc">登録することで、
+                    <router-link to="/terms" class="form__link">利用規約</router-link>と
+                    <router-link to="/privacy" class="form__link">プライバシーポリシー</router-link>
+                    に同意したものとみなされます。</div>
                 <button type="submit" class="btn-default btn-default--mail">
                     新規登録する
                 </button>

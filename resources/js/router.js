@@ -5,12 +5,36 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 // コンポーネントをインポート
+import Top from "./components/Top.vue";
+import Login from "./components/Login.vue";
+import Privacy from "./components/Privacy.vue";
+import Terms from "./components/Terms.vue";
 import UserInfo from "./components/UserInfo.vue";
 import UserInfoEdit from "./components/UserInfoEdit.vue";
 
-export default new VueRouter({
+const router = new VueRouter({
     mode: "history",
     routes: [
+        {
+            path: "/",
+            name: "top",
+            component: Top
+        },
+        {
+            path: "/login",
+            name: "login",
+            component: Login
+        },
+        {
+            path: "/privacy",
+            name: "privacy",
+            component: Privacy
+        },
+        {
+            path: "/terms",
+            name: "terms",
+            component: Terms
+        },
         {
             path: "/user_info",
             name: "userinfo",
@@ -23,3 +47,4 @@ export default new VueRouter({
         }
     ]
 });
+export default router;
