@@ -11,39 +11,47 @@ use Illuminate\Support\Facades\Storage;
 
 class GymController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $current_user = Auth::user();
-        $gyms = Gym::where('owner_id', $current_user->id)->get();
-        return view('gym.index', \compact('gyms'));
+        // $current_user = Auth::user();
+        // return $gyms = Gym::where('owner_id', $current_user->id)->get();
+        return Gym::all();
+        // return Gym::paginate(5);
     }
 
-    public function create()
-    {
-        $current_user = Auth::user();
-        return view('gym.create');
-    }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(GymStoreRequest $request)
     {
-        $current_user = Auth::user();
-
+        // $current_user = Auth::user();
         // dd($current_user);
 
         $gym = new Gym;
-        $gym->owner_id            = $current_user->id;
+        $gym->id                  = $request->id;
+        // $gym->owner_id         = $current_user->id;
         $gym->name                = $request->gym_name;
-        $gym->zip_code            = $request->gym_zipcode;
-        $gym->prefecture          = $request->gym_prefecture;
-        $gym->city                = $request->gym_city;
-        $gym->street              = $request->gym_street;
+        $gym->zipcode             = $request->gym_zipcode;
+        $gym->address             = $request->gym_address;
         $gym->building            = $request->gym_building;
         $gym->tel                 = $request->gym_tel;
+        $gym->facility            = $request->gym_facility;
+
         if ($request->introduction_pic) {
             // MEMO: 紹介画像のS3へのアップロード & アップロードされた画像のpath取得
             $introduction_image = $request->file('introduction_pic');
             $introduction_image_path = Storage::disk('s3')->putFile('/gym/'. $gym->owner_id .'/introduction_pic', $introduction_image, 'public');
             $gym->introduction_pic = $introduction_image_path;
+        } else {
+            $introduction_image = null;
         }
 
 
@@ -55,10 +63,6 @@ class GymController extends Controller
         //     $fileName = null;
         // }
         // $gym->gym_image = $fileName;
-
-
-
-
 
 
         if (isset($request->introduction_text)) {
@@ -108,40 +112,49 @@ class GymController extends Controller
         }
         $gym->save();
 
+        Gym::create($request->all());
+
         // MEMO: ジムを登録したらユーザーのステータスをオーナー(2, 後で定数化)に変更
-        $user = User::findOrFail($current_user->id);
-        $user-> status = config('consts.user.OWNER');
-        $user->save();
+        // $user = User::findOrFail($current_user->id);
+        // $user-> status = config('consts.user.OWNER');
+        // $user->save();
 
-        return \redirect()->route('gym.show', ['gym_id' => $gym->id])
-                                ->with('done', '「'.$gym->name.'」を新規登録しました。');
+
+        // return \redirect()->route('gym.show', ['gym_id' => $gym->id])
+        //                         ->with('done', '「'.$gym->name.'」を新規登録しました。');
     }
+    
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($gym_id)
     {
-        $current_user = Auth::user();
-        $gym = Gym::FindOrFail($gym_id);
-        return view('gym.show', \compact('current_user', 'gym'));
+        // $current_user = Auth::user();
+        return $gym = Gym::FindOrFail($gym_id);
+        // return view('gym.show', \compact('current_user', 'gym'));
     }
 
-    public function edit($gym_id)
-    {
-        $current_user = Auth::user();
-        $gym = Gym::FindOrFail($gym_id);
-        return \view('gym.edit', \compact('current_user', 'gym'));
-    }
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(GymStoreRequest $request, $gym_id)
     {
         $current_user = Auth::user();
         $gym = Gym::FindOrFail($gym_id);
-        $gym->name                = $request->gym_name;
-        $gym->zip_code            = $request->gym_zipcode;
-        $gym->prefecture          = $request->gym_prefecture;
-        $gym->city                = $request->gym_city;
-        $gym->street              = $request->gym_street;
-        $gym->building            = $request->gym_building;
-        $gym->tel                 = $request->gym_tel;
+        $gym->name              = $request->gym_name;
+        $gym->zipcode           = $request->gym_zipcode;
+        $gym->address           = $request->gym_address;
+        $gym->building          = $request->gym_building;
+        $gym->tel               = $request->gym_tel;
+        $gym->facility          = $request->gym_facility;
         if ($request->introduction_pic) {
             if (isset($gym->introduction_pic)) {
                 \Storage::disk('s3')->delete($gym->introduction_pic);
@@ -211,8 +224,8 @@ class GymController extends Controller
         }
         $gym->save();
 
-        return \redirect()->route('gym.show', ['gym_id' => $gym->id])
-                                ->with('done', '「'.$gym->name.'」を編集しました。');
+        // return \redirect()->route('gym.show', ['gym_id' => $gym->id])
+                                // ->with('done', '「'.$gym->name.'」を編集しました。');
     }
 
     /**
@@ -224,5 +237,15 @@ class GymController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    /**
+     * 郵便番号情報取得
+     */
+    public function getZipInfo(Request $request)
+    {
+        $url = "https://api.zipaddress.net/?zipcode={$request->zipcode}";
+        return file_get_contents($url);
     }
 }
