@@ -16,8 +16,8 @@ class TrainerController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('trainer.index')->with('users', $users);
+        return $users = User::all();
+        // return view('trainer.index')->with('users', $users);
     }
 
     /**
