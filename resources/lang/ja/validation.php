@@ -146,12 +146,20 @@ return [
     */
 
     'attributes' => [
-        "name" => "氏名",
-        "tel" => "電話番号",
-        "email" => "メールアドレス",
-        "password" => "パスワード",
-        "password_confirmation" => "パスワード(確認用)",
-        "new-password" => "新しいパスワード"
+        "name"                   => "氏名",
+        "tel"                    => "電話番号",
+        "email"                  => "メールアドレス",
+        "password"               => "パスワード",
+        "password_confirmation"  => "パスワード(確認用)",
+        "newpassword"            => "新しいパスワード",
+        "gym_name"               => "施設名",
+        "gym_zipcode"            => "郵便番号",
+        "gym_address"            => "住所",
+        "gym_building"           => "建物名 部屋番号",
+        "gym_tel"                => "電話番号",
+        "introduction_pic"       => "紹介用写真",
+        "introduction_text"      => "紹介用テキスト",
+        "gym_facility"           => "設備",
     ],
 
 ];
