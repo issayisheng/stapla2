@@ -35,7 +35,7 @@ export default {
         getCalendars() {
             axios.get("/api/calendar").then(response => {
                 this.calendars = response.data;
-                console.log(response.data);
+                // console.log(response.data);
             });
         }
     },

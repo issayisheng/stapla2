@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Calendar;
 
 class CalendarController extends Controller
 {
@@ -13,6 +15,6 @@ class CalendarController extends Controller
      */
     public function index()
     {
-        return view('calendar.index');
+        return Calendar::all();
     }
 }
