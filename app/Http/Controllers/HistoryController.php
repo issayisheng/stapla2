@@ -17,8 +17,8 @@ class HistoryController extends Controller
     public function index()
     {
         $authid = Auth::id();
-        $items = History::where('user_id', $authid)->orderBy('created_at', 'desc')->get();
-        return view('history.index', compact('items'));
+        return $items = History::where('user_id', $authid)->orderBy('created_at', 'desc')->get();
+        // return view('history.index', compact('items'));
     }
 
     /**
