@@ -46,21 +46,10 @@ Vue.use(VueRouter);
 //     require("./components/passport/PersonalAccessTokens.vue").default
 // );
 
-Vue.component("top-component", require("./components/Top.vue").default);
-Vue.component("privacy-component", require("./components/Privacy.vue").default);
-Vue.component("terms-component", require("./components/Terms.vue").default);
+Vue.component("app-component", require("./components/App.vue").default);
 Vue.component(
-    "calendar-component",
-    require("./components/Calendar.vue").default
-);
-
-Vue.component(
-    "userinfo-component",
-    require("./components/UserInfo.vue").default
-);
-Vue.component(
-    "userinfo-edit-component",
-    require("./components/UserInfoEdit.vue").default
+    "header-component",
+    require("./components/AppHeader.vue").default
 );
 
 /**
@@ -70,8 +59,7 @@ Vue.component(
  */
 
 const app = new Vue({
-    el: "#app",
-    router: router,
+    router,
     store
     // vuetify: new Vuetify()
-});
+}).$mount("#app");
