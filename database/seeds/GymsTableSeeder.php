@@ -12,6 +12,6 @@ class GymsTableSeeder extends Seeder
     public function run()
     {
         // ジムデータ登録
-        factory(App\Models\Gym::class, 5)->create();
+        factory(App\Models\Gym::class, 3)->create();
     }
 }

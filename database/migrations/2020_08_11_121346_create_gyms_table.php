@@ -19,16 +19,13 @@ class CreateGymsTable extends Migration
             $table->uuid('owner_id')->nullable();
             $table->foreign('owner_id')->references('id')->on('users'); // 外部キー参照
             $table->string('name')->nullable();
-            $table->string('zip_code')->nullable();
-            $table->string('prefecture')->nullable();
-            $table->string('city')->nullable();
-            $table->string('street')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('address')->nullable();
             $table->string('building')->nullable();
             $table->string('tel')->nullable();
-            $table->string('gym_image')->nullable();
             $table->string('introduction_pic')->nullable();
             $table->string('introduction_text')->nullable();
-            $table->string('gym_facility')->nullable();
+            $table->string('facility')->nullable();
             $table->time('mon_opening_started')->nullable();
             $table->time('mon_opening_ended')->nullable();
             $table->time('tue_opening_started')->nullable();

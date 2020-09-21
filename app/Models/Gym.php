@@ -2,26 +2,13 @@
 
 namespace App\Models;
 
-use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
+use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;  // uuid
 
 class Gym extends Model
 {
     protected $table = 'gyms';
 
-    protected $fillable = [
-        'close_id', 'owner_id',
-        'name',
-        'zip_code', 'prefecture', 'city', 'street','building',
-        'tel', 'gym_facility', 'gym_image',
-        'mon_opening_started', 'mon_opening_ended',
-        'tue_opening_started', 'tue_opening_ended',
-        'wed_opening_started', 'wed_opening_ended',
-        'thu_opening_started', 'thu_opening_ended',
-        'fri_opening_started', 'fri_opening_ended',
-        'sut_opening_started', 'sut_opening_ended',
-        'sun_opening_started', 'sun_opening_ended',
-        'holi_opening_started', 'holi_opening_ended',
-    ];
+    protected $guarded = [''];
 
     public function reservations()
     {
