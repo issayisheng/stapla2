@@ -1,5 +1,5 @@
 <template>
-    <div>編集</div>
+    <div>Edit</div>
 </template>
 
 <script>

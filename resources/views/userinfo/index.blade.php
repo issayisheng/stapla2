@@ -12,8 +12,6 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                    {{-- <userinfo-component></userinfo-component> --}}
-
                     <div class="list-group mb-3 l-form-content">
                         <div class="row">
                             <div class="col-md-6">
