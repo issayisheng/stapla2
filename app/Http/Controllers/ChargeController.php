@@ -74,31 +74,4 @@ class ChargeController extends Controller
             return back()->with('errors', "決済に失敗しました。しばらく経ってから再度お試しください。");
         }
     }
-
-
-    // public function session()
-    // {
-    //     Stripe::setApiKey('sk_test_51HFuIFFuVe19htwq23yg5d6SAB07PlxqQK29938g0VnEvWf9a3BUBrJFwzKDU0lpjOcVXxpFEGQOJeb2VRukOAk100AnskWtEX');
-        
-    //     header('Content-Type: application/json');
-    
-    //     $checkout_session = \Stripe\Checkout\Session::create([
-    //         'payment_method_types' => ['card'],
-    //         'line_items' => [[
-    //             'price_data' => [
-    //                 'currency' => 'usd',
-    //                 'unit_amount' => 2000,
-    //                 'product_data' => [
-    //                     'name' => 'Stubborn Attachments',
-    //                     'images' => ["https://i.imgur.com/EHyR2nP.png"],
-    //                 ],
-    //             ],
-    //             'quantity' => 1,
-    //         ]],
-    //         'mode' => 'payment',
-    //         'success_url' => 'http://localhost.stapla.com/settings/ticket',
-    //         'cancel_url' => 'http://localhost.stapla.com/settings/reserved',
-    //     ]);
-    //     echo json_encode(['id' => $checkout_session->id]);
-    // }
 }
