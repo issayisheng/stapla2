@@ -3,15 +3,22 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">チケット購入</div>
+                    <div class="card-header">
+                        チケット購入
+                        <span class="float-right" v-if="user.length == 0">
+                            現在、チケットは
+                            <span class="font-weight-bold text-danger">0</span
+                            >枚です
+                        </span>
+                        <span class="float-right" v-else>
+                            現在、チケットは
+                            <span class="font-weight-bold text-danger">{{
+                                user.quantity
+                            }}</span
+                            >枚です
+                        </span>
+                    </div>
                     <div class="card-body">
-                        <div
-                            v-if="chargeSuccess"
-                            class="alert alert-success py-3 text-center"
-                            role="alert"
-                        >
-                            {{ chargeSuccess }}
-                        </div>
                         <div
                             v-if="chargeError"
                             class="alert alert-danger py-3 text-center"
@@ -19,60 +26,94 @@
                         >
                             {{ chargeError }}
                         </div>
-
-                        <!-- @if(isset( $data ))
-                        <p>
-                            現在、チケットは<span
-                                class="font-weight-bold h1"
-                                >{{ $data->quantity }}</span
-                            >枚です
-                        </p>
-                        @else
-                        <p>
-                            現在、チケットは<span class="font-weight-bold h1"
-                                >0</span
-                            >枚です
-                        </p>
-                        @endif -->
-
-                        <!-- <form action="{{ route('charge') }}" method="POST">
-                        {{ csrf_field() }}
-                        <script
-                            src="https://checkout.stripe.com/checkout.js"
-                            class="stripe-button"
-                            data-key="pk_test_51HFuIFFuVe19htwq8x2UpTNx4IusSvV1DF3F2YU8k76NOzhpUTvaLDqsxtveQdC21EL7Wy32XzNllHKxgt71OUe500C5XMo1rz"
-                            data-amount="1500"
-                            data-name="Stapla決済"
-                            data-label="チケット5枚購入"
-                            data-description="チケット5枚分"
-                            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                            data-locale="auto"
-                            data-currency="JPY"
-                        ></script>
-                        <input type="hidden" value="5" name="order" />
-                        </form>  -->
-
-                        <form @submit.prevent="charge">
-                            <!-- <script
-                                src="https://checkout.stripe.com/checkout.js"
-                                class="stripe-button"
-                                data-key="pk_test_51HFuIFFuVe19htwq8x2UpTNx4IusSvV1DF3F2YU8k76NOzhpUTvaLDqsxtveQdC21EL7Wy32XzNllHKxgt71OUe500C5XMo1rz"
-                                data-amount="3000"
-                                data-name="Stapla決済"
-                                data-label="チケット10枚購入"
-                                data-description="チケット10枚分"
-                                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                data-locale="auto"
-                                data-currency="JPY"
-                            ></script> -->
-                            <input type="hidden" value="10" name="order" />
-                        </form>
-                        <router-link
-                            to="/settings/history"
-                            class="btn btn-danger"
-                        >
-                            購入履歴
-                        </router-link>
+                        <div class="card-group mb-5">
+                            <div class="card">
+                                <img
+                                    class="bd-placeholder-img card-img-top"
+                                    src="https://picsum.photos/id/2/280/280"
+                                    alt="The cover of Stubborn Attachments"
+                                />
+                                <div class="card-body">
+                                    <h5 class="card-title">チケット10枚分</h5>
+                                    <p class="card-text mb-3 text-muted">
+                                        This is a wider card with supporting
+                                        text below as a natural lead-in to
+                                        additional content. This content is a
+                                        little bit longer.
+                                    </p>
+                                    <button
+                                        @click.prevent="checkout('BASIC')"
+                                        class="checkout-button"
+                                        id="basic-plan-btn"
+                                    >
+                                        Checkout
+                                    </button>
+                                </div>
+                                <div class="card-footer">
+                                    ¥33,000(税込)
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img
+                                    class="bd-placeholder-img card-img-top"
+                                    src="https://picsum.photos/id/1011/280/280"
+                                    alt="The cover of Stubborn Attachments"
+                                />
+                                <div class="card-body">
+                                    <h5 class="card-title">チケット20枚分</h5>
+                                    <p class="card-text mb-3 text-muted">
+                                        This is a wider card with supporting
+                                        text below as a natural lead-in to
+                                        additional content. This content is a
+                                        little bit longer.
+                                    </p>
+                                    <button
+                                        @click.prevent="checkout('PLUS')"
+                                        class="checkout-button"
+                                        id="plus-plan-btn"
+                                    >
+                                        Checkout
+                                    </button>
+                                </div>
+                                <div class="card-footer">
+                                    ¥61,600(税込)
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img
+                                    class="bd-placeholder-img card-img-top"
+                                    src="https://i.imgur.com/EHyR2nP.png"
+                                    alt="The cover of Stubborn Attachments"
+                                />
+                                <div class="card-body">
+                                    <h5 class="card-title">チケット30枚分</h5>
+                                    <p class="card-text mb-3 text-muted">
+                                        This is a wider card with supporting
+                                        text below as a natural lead-in to
+                                        additional content. This content is a
+                                        little bit longer.
+                                    </p>
+                                    <button
+                                        @click.prevent="checkout('PRO')"
+                                        class="checkout-button"
+                                        id="pro-plan-btn"
+                                    >
+                                        Checkout
+                                    </button>
+                                </div>
+                                <div class="card-footer">
+                                    ¥82,500(税込)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <router-link
+                                to="/settings/history"
+                                class="btn btn-danger"
+                            >
+                                購入履歴
+                            </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,25 +125,71 @@
 export default {
     data() {
         return {
-            charge: {},
-            chargeSuccess: "",
-            chargeError: ""
+            user: {},
+            plan: "",
+            chargeError: "",
+            stripe: Stripe(
+                "pk_test_51HFuIFFuVe19htwq8x2UpTNx4IusSvV1DF3F2YU8k76NOzhpUTvaLDqsxtveQdC21EL7Wy32XzNllHKxgt71OUe500C5XMo1rz"
+            )
         };
+    },
+    methods: {
+        checkout: function(type) {
+            const data = {
+                plan: type
+            };
+            axios
+                .post("/api/checkout", data)
+                .then(response => {
+                    return response.data;
+                })
+                .then(session => {
+                    return this.stripe.redirectToCheckout({
+                        sessionId: session.id
+                    });
+                })
+                .then(result => {
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    this.chargeError =
+                        "通信に失敗しました。しばらく経ってから再度お試しください。";
+                    console.log(response);
+                });
+        }
     },
     created() {
         axios
-            .get("/api/charge")
+            .get("/api/settings/ticket")
             .then(response => {
-                // console.log(response.data);
-                // this.chargeSuccess = "お支払いが完了しました。";
+                this.user = response.data;
+                console.log(response.data);
             })
             .catch(error => {
                 console.log("error");
-                this.chargeError =
-                    "決済に失敗しました。しばらく経ってから再度お試しください。";
             });
     }
 };
 </script>
 
-<style></style>
+<style scoped>
+.checkout-button {
+    background: #556cd6;
+    color: white;
+    font-size: 14px;
+    border: 0;
+    padding: 10px 16px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: opacity 0.2s ease;
+    display: block;
+    width: 100%;
+}
+.checkout-button:hover {
+    opacity: 0.8;
+}
+</style>

@@ -17,8 +17,7 @@ class HistoryController extends Controller
     public function index()
     {
         $authid = Auth::id();
-        return $items = History::where('user_id', $authid)->orderBy('created_at', 'desc')->get();
-        // return view('history.index', compact('items'));
+        return History::where('user_id', $authid)->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -48,9 +47,9 @@ class HistoryController extends Controller
      * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function show(History $history)
+    public function show($id)
     {
-        //
+        return History::find($id);
     }
 
     /**

@@ -5,7 +5,6 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use GoldSpecDigital\LaravelEloquentUUID\Foundation\Auth\User as Authenticatable; // UUID
 use Illuminate\Notifications\Notifiable;
-use Laravel\Cashier\Billable;            // Stripe
 use Tymon\JWTAuth\Contracts\JWTSubject;  // JWT
 
 use App\Models\Ticket;
@@ -13,7 +12,7 @@ use App\Models\History;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable,Billable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.

@@ -5,31 +5,48 @@
                 <div class="card">
                     <div class="card-header">チケット購入履歴</div>
                     <div class="card-body">
-                        <!-- @if (!empty($items)) @foreach ($items as $item)
-                        <div class="list-group">
-                            <div
-                                class="list-group-item flex-column align-items-start"
-                            >
-                                <div
-                                    class="d-flex w-100 justify-content-between"
-                                >
-                                    <h5 class="mb-1">
-                                        チケット購入日{{ $item->created_at->format('Y年m月d日 H時i分') }}
-                                    </h5>
-                                    <h5 class="mb-1">数量{{ $item->order }}</h5>
-                                </div>
-                            </div>
+                        <div v-if="items.length == 0">
+                            購入履歴はありません
                         </div>
-                        @endforeach
-                        @else -->
-                        <p>購入履歴はありません</p>
-                        <!-- @endif -->
-                        <router-link
-                            to="/settings/ticket"
-                            class="btn btn-success"
-                        >
-                            チケット購入へ
-                        </router-link>
+                        <table class="table table-striped" v-else>
+                            <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">購入日</th>
+                                    <th scope="col">枚数</th>
+                                    <th scope="col">お問い合わせ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    v-for="(item, index) in items"
+                                    :key="item.id"
+                                >
+                                    <th scope="row">{{ index + 1 }}</th>
+                                    <td>{{ item.created_at | moment }}</td>
+                                    <td>{{ item.order }}</td>
+                                    <td>
+                                        <router-link
+                                            class="btn btn-danger"
+                                            v-bind:to="{
+                                                name: 'history_show',
+                                                params: { id: item.id }
+                                            }"
+                                        >
+                                            購入に関する問い合わせ
+                                        </router-link>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row justify-content-center">
+                            <router-link
+                                to="/settings/ticket"
+                                class="btn btn-primary"
+                            >
+                                チケット購入へ
+                            </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -38,7 +55,29 @@
 </template>
 
 <script>
-export default {};
-</script>
+import moment from "moment";
 
-<style></style>
+export default {
+    data() {
+        return {
+            items: []
+        };
+    },
+    created() {
+        axios
+            .get("/api/settings/history")
+            .then(response => {
+                this.items = response.data;
+            })
+            .catch(error => {
+                console.log("error");
+            });
+    },
+    filters: {
+        moment: function(date) {
+            moment.locale("ja");
+            return moment(date).format("lll");
+        }
+    }
+};
+</script>
