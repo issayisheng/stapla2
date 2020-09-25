@@ -15,7 +15,7 @@
                                         for="name"
                                         class="col-form-label font-weight-bold"
                                         >お名前<span
-                                            class="badge badge-danger p-1 ml-1"
+                                            class="badge badge-danger p-1 ml-1 align-middle"
                                             >必須</span
                                         ></label
                                     >
@@ -28,8 +28,9 @@
                                         'is-invalid': errors.name
                                     }"
                                     name="name"
-                                    placeholder="例）PAL烏丸御池"
+                                    placeholder="例）スタプラ太郎"
                                     v-model="user.name"
+                                    @change="onChangeName"
                                 />
                                 <span
                                     class="invalid-feedback"
@@ -45,7 +46,7 @@
                                         for="email"
                                         class="col-form-label font-weight-bold"
                                         >メールアドレス<span
-                                            class="badge badge-danger p-1 ml-1"
+                                            class="badge badge-danger p-1 ml-1 align-middle"
                                             >必須</span
                                         ></label
                                     >
@@ -60,6 +61,7 @@
                                     name="email"
                                     placeholder="例）mail@stapla.net"
                                     v-model="user.email"
+                                    @change="onChangeEmail"
                                 />
                                 <span
                                     class="invalid-feedback"
@@ -75,7 +77,7 @@
                                         for="tel"
                                         class="col-form-label font-weight-bold"
                                         >電話番号<span
-                                            class="badge badge-secondary p-1 ml-1"
+                                            class="badge badge-secondary p-1 ml-1 align-middle"
                                             >任意</span
                                         ></label
                                     >
@@ -171,6 +173,25 @@ export default {
                     this.errors = errors;
                     console.log(error);
                 });
+        },
+        onChangeName: function(value) {
+            if (value === "") {
+                this.errors.name = "お名前は必ず指定してください。";
+            } else {
+                this.errors.name = "";
+            }
+        },
+        onChangeEmail: function(value) {
+            // const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (value === "") {
+                this.errors.email = "メールアドレスは必ず指定してください。";
+            }
+            // else if (res.test(value)) {
+            //     this.errors.email = "正しい形式で入力してください";
+            // }
+            else {
+                this.errors.email = "";
+            }
         }
     }
 };

@@ -16,8 +16,7 @@ class UserInfoController extends Controller
      */
     public function index()
     {
-        // return $users = Auth::user(); // ログイン中のユーザー情報
-        return User::all();
+        return Auth::user(); // ログイン中のユーザー情報
     }
 
     /**
@@ -61,7 +60,6 @@ class UserInfoController extends Controller
         $users->email = $request->email;
         $users->tel = $request->tel;
         $users->save();
-        // return redirect()->route('user_info.index')->with('status', '編集が完了しました');
     }
 
     /**
