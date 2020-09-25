@@ -9,6 +9,15 @@
     padding: 12px 0;
     position: relative;
     outline: none;
+    transition: opacity 0.2s;
+}
+
+.btn-default:hover {
+    opacity: 0.8;
+}
+
+.btn-default:focus {
+    outline: none;
 }
 
 .btn-default--mail {

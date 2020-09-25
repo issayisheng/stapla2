@@ -42,80 +42,71 @@
                         }}</a>
                     </li>
                     @endif @else -->
-                    <li class="nav-item dropdown">
-                        <a
-                            id="navbarDropdown"
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            role="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            v-pre
-                        >
-                            <!-- {{ Auth::user()->name }}  -->
-                            name
-                            <span class="caret"></span>
-                        </a>
-                        <div
-                            class="dropdown-menu dropdown-menu-right"
-                            aria-labelledby="navbarDropdown"
-                        >
-                            <router-link
-                                to="/settings/user_info"
-                                class="dropdown-item"
-                                >マイページ</router-link
+                    <template v-if="authenticated">
+                        <li class="nav-item dropdown">
+                            <a
+                                id="navbarDropdown"
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                role="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
                             >
-                            <!-- <a class="dropdown-item" href="{{ route('user_info.index') }}">マイページ</a> -->
-                            <!-- @if( Auth::user()->status === null ||
+                                {{ user.name }}
+                                <span class="caret"></span>
+                            </a>
+                            <div
+                                class="dropdown-menu dropdown-menu-right"
+                                aria-labelledby="navbarDropdown"
+                            >
+                                <router-link
+                                    to="/settings/user_info"
+                                    class="dropdown-item"
+                                    >マイページ</router-link
+                                >
+                                <!-- @if( Auth::user()->status === null ||
                             Auth::user()->status ===
                             config('consts.user.TRAINER') ) -->
-                            <router-link
-                                to="/settings/gym_info/create"
-                                class="dropdown-item"
-                                >ジム登録</router-link
-                            >
-                            <!-- @else -->
-                            <router-link
-                                to="/settings/gym_info"
-                                class="dropdown-item"
-                                >ジム管理</router-link
-                            >
-                            <!-- @endif -->
-                            <!-- @if( Auth::user()->status === 5 ) -->
-                            <router-link
-                                to="/settings/trainer"
-                                class="dropdown-item"
-                                >トレーナー管理</router-link
-                            >
-                            <!-- @endif -->
-                            <router-link
-                                to="/settings/reserved"
-                                class="dropdown-item"
-                                >予約状況</router-link
-                            >
-                            <router-link
-                                to="/settings/ticket"
-                                class="dropdown-item"
-                                >チケット購入</router-link
-                            >
-                            <!-- href="{{ route('logout') }}" -->
-                            <a
-                                @click="logout"
-                                class="dropdown-item"
-                                onclick="event.preventDefault();
-                                                            document.getElementById('logout-form').submit();"
-                            >
-                                ログアウト
-                            </a>
-                            <!-- action="{{ route("logout") }}" -->
-                            <!-- <form
-                                id="logout-form"
-                                method="POST"
-                                style="display: none;"
-                            ></form> -->
-                        </div>
-                    </li>
+                                <router-link
+                                    v-if="user.status == null"
+                                    to="/settings/gym_info/create"
+                                    class="dropdown-item"
+                                    >ジム登録</router-link
+                                >
+                                <!-- @else -->
+                                <router-link
+                                    to="/settings/gym_info"
+                                    class="dropdown-item"
+                                    >ジム管理</router-link
+                                >
+                                <!-- @endif -->
+                                <router-link
+                                    v-if="user.status == 5"
+                                    to="/settings/trainer"
+                                    class="dropdown-item"
+                                    >トレーナー管理</router-link
+                                >
+                                <router-link
+                                    to="/settings/reserved"
+                                    class="dropdown-item"
+                                    >予約状況</router-link
+                                >
+                                <router-link
+                                    to="/settings/ticket"
+                                    class="dropdown-item"
+                                    >チケット購入</router-link
+                                >
+                                <a
+                                    href="#"
+                                    @click.prevent="logout"
+                                    class="dropdown-item"
+                                >
+                                    ログアウト
+                                </a>
+                            </div>
+                        </li>
+                    </template>
                     <!-- @endguest -->
                 </ul>
             </div>
@@ -124,24 +115,25 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
-    data() {
-        return {
-            user: ""
-        };
+    computed: {
+        ...mapGetters({
+            authenticated: "auth/authenticated",
+            user: "auth/user"
+        })
     },
-    // mounted() {
-    //     axios.get("/api/user").then(response => {
-    //         this.user = response.data;
-    //     });
-    // },
     methods: {
+        ...mapActions({
+            logoutAction: "auth/logout"
+        }),
         logout() {
-            axios
-                .post("api/logout")
-                .then(response => {
-                    // console.log(response);
-                    this.$router.push("/login");
+            this.logoutAction()
+                .then(() => {
+                    this.$router.replace({
+                        name: "top"
+                    });
                 })
                 .catch(error => {
                     console.log(error);
@@ -150,5 +142,3 @@ export default {
     }
 };
 </script>
-
-<style></style>

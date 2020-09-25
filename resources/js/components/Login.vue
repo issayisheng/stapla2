@@ -6,7 +6,10 @@
             </div>
             <div class="form-main">
                 <h1 class="form-main__title">ログイン</h1>
-                <form class="layout-form" @submit.prevent="login">
+                <div v-if="message" class="alert alert-danger">
+                    {{ message }}
+                </div>
+                <form class="layout-form" @submit.prevent="submit">
                     <div class="form-group">
                         <input
                             id="email"
@@ -16,9 +19,9 @@
                                 'is-invalid': errors.email
                             }"
                             name="email"
-                            autofocus
                             placeholder="メールアドレスを入力"
-                            v-model="email"
+                            v-model="form.email"
+                            @change="onChangeEmail"
                         />
                         <span
                             class="invalid-feedback"
@@ -37,8 +40,9 @@
                                 'is-invalid': errors.password
                             }"
                             name="password"
-                            placeholder="パスワード"
-                            v-model="password"
+                            placeholder="パスワードを入力"
+                            v-model="form.password"
+                            @change="onChangePassword"
                         />
                         <span
                             class="invalid-feedback"
@@ -51,13 +55,10 @@
                     <button type="submit" class="btn-default btn-default--mail">
                         ログイン
                     </button>
-                    <!-- @if (Route::has('password.request')) -->
                     <router-link to="password.request" class="form__link"
                         >パスワードを忘れた方はこちら</router-link
                     >
-                    <!-- @endif -->
                 </form>
-
                 <div class="social-form">
                     <p class="social-form__deco">または</p>
                     <a
@@ -87,37 +88,64 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
-    data: function() {
+    data() {
         return {
-            email: "",
-            password: "",
-            errors: {}
+            form: {
+                email: "",
+                password: ""
+            },
+            errors: {},
+            message: ""
         };
     },
     methods: {
-        login() {
+        ...mapActions({
+            login: "auth/login"
+        }),
+        submit() {
             this.errors = {};
+            this.message = "";
             var self = this;
-            let url = "/login";
-            let params = {
-                email: this.email,
-                password: this.password
-            };
-            axios
-                .post(url, params)
-                .then(function(response) {
-                    location.href = "/dashboard";
-                    // console.log(response.data);
+            this.login(this.form)
+                .then(() => {
+                    this.$router.replace({
+                        name: "dashboard"
+                    });
                 })
-                .catch(function(error) {
+                .catch(error => {
                     var errors = {};
+                    var message = "";
                     for (var key in error.response.data.errors) {
                         errors[key] = error.response.data.errors[key][0];
                     }
-                    self.errors = errors;
-                    console.log(errors);
+                    this.errors = errors;
+                    if (error.response.status == 401) {
+                        this.message = "ログイン情報が登録されていません。";
+                    }
                 });
+        },
+        onChangeEmail: function(value) {
+            const emailres = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (value === "") {
+                this.errors.email = "メールアドレスは必須です。";
+            } else if (emailres.test(value)) {
+                this.errors.email = "";
+            } else {
+                this.errors.email = "";
+            }
+        },
+        onChangePassword: function(value) {
+            const passwordres = /^[a-zA-Z0-9]+$/;
+            if (value === "") {
+                this.errors.password = "パスワードは必ず指定してください。";
+            } else if (passwordres.test(value)) {
+                this.error.username = "パスワードは半角英数のみです。";
+            } else {
+                this.errors.password = "";
+            }
         }
     }
 };
