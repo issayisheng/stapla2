@@ -17,7 +17,6 @@ class TicketController extends Controller
     {
         $authid = Auth::id();
         return $data = Ticket::where('user_id', $authid)->first();
-        // return view('ticket.index', compact('data'));
     }
 
     /**

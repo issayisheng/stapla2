@@ -15,6 +15,7 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->uuid('id')->primary();    // Primary key.
+            $table->string('stripe_id');
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users'); // 外部キー参照
             $table->integer('quantity')->default(0);   // 残数

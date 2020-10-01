@@ -8,8 +8,9 @@
                         <div
                             class="alert alert-success py-3 text-center"
                             role="alert"
+                            v-if="message"
                         >
-                            ご購入ありがとうございます。お支払いが完了しました。
+                            {{ message }}
                         </div>
                         <router-link
                             to="/settings/ticket"
@@ -31,7 +32,28 @@
 </template>
 
 <script>
-export default {};
+export default {
+    data: function() {
+        return {
+            session_id: this.$route.query.session_id,
+            customer: [],
+            message: ""
+        };
+    },
+    created() {
+        let self = this;
+        axios
+            .get("/api/success/" + this.session_id)
+            .then(response => {
+                self.message = response.data.message;
+                self.customer = response.data;
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+};
 </script>
 
 <style></style>

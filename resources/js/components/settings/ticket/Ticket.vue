@@ -26,11 +26,11 @@
                         >
                             {{ chargeError }}
                         </div>
-                        <div class="card-group mb-5">
+                        <div class="card-group mb-3">
                             <div class="card">
                                 <img
                                     class="bd-placeholder-img card-img-top"
-                                    src="https://picsum.photos/id/2/280/280"
+                                    src="https://picsum.photos/id/505/280/280"
                                     alt="The cover of Stubborn Attachments"
                                 />
                                 <div class="card-body">
@@ -56,7 +56,7 @@
                             <div class="card">
                                 <img
                                     class="bd-placeholder-img card-img-top"
-                                    src="https://picsum.photos/id/1011/280/280"
+                                    src="https://picsum.photos/id/1013/280/280"
                                     alt="The cover of Stubborn Attachments"
                                 />
                                 <div class="card-body">
@@ -157,7 +157,6 @@ export default {
                     console.error("Error:", error);
                     this.chargeError =
                         "通信に失敗しました。しばらく経ってから再度お試しください。";
-                    console.log(response);
                 });
         }
     },
@@ -166,7 +165,6 @@ export default {
             .get("/api/settings/ticket")
             .then(response => {
                 this.user = response.data;
-                console.log(response.data);
             })
             .catch(error => {
                 console.log("error");

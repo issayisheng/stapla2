@@ -27,7 +27,7 @@
                                     <td>{{ item.order }}</td>
                                     <td>
                                         <router-link
-                                            class="btn btn-danger"
+                                            class="btn btn-outline-success"
                                             v-bind:to="{
                                                 name: 'history_show',
                                                 params: { id: item.id }
