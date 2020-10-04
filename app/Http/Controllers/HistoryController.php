@@ -21,16 +21,6 @@ class HistoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -49,18 +39,10 @@ class HistoryController extends Controller
      */
     public function show($id)
     {
-        return History::find($id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\History  $history
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(History $history)
-    {
-        //
+        // チケット枚数、購入日時を返す
+        return History::select('order', 'created_at')
+                        ->where('id', $id)
+                        ->firstOrFail();
     }
 
     /**
@@ -84,5 +66,15 @@ class HistoryController extends Controller
     public function destroy(History $history)
     {
         //
+    }
+
+    public function contact(Request $request)
+    {
+        // 10/4 まだ
+        $validator = $request->validate([
+            'textarea'   => 'required',
+        ]);
+        $users = History::find($id);
+        $users->save();
     }
 }

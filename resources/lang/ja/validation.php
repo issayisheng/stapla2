@@ -160,6 +160,8 @@ return [
         "introduction_pic"       => "紹介用写真",
         "introduction_text"      => "紹介用テキスト",
         "gym_facility"           => "設備",
+        "textarea"               => "お問い合わせ内容",
+
     ],
 
 ];

@@ -1,7 +1,7 @@
 <template>
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">チケット購入</div>
                     <div class="card-body">
@@ -47,7 +47,6 @@ export default {
             .then(response => {
                 self.message = response.data.message;
                 self.customer = response.data;
-                console.log(response.data);
             })
             .catch(error => {
                 console.log(error);

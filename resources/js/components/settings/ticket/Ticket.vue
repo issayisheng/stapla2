@@ -1,22 +1,33 @@
 <template>
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        チケット購入
-                        <span class="float-right" v-if="user.length == 0">
-                            現在、チケットは
-                            <span class="font-weight-bold text-danger">0</span
-                            >枚です
-                        </span>
-                        <span class="float-right" v-else>
-                            現在、チケットは
-                            <span class="font-weight-bold text-danger">{{
-                                user.quantity
-                            }}</span
-                            >枚です
-                        </span>
+                    <div
+                        class="card-header d-flex align-items-center justify-content-between"
+                    >
+                        <div>チケット購入</div>
+                        <div>
+                            <span v-if="user.length == 0">
+                                現在、チケットは
+                                <span class="font-weight-bold text-danger"
+                                    >0</span
+                                >枚です
+                            </span>
+                            <span v-else>
+                                現在、チケットは
+                                <span class="font-weight-bold text-danger">{{
+                                    user.quantity
+                                }}</span
+                                >枚です
+                            </span>
+                            <router-link
+                                to="/settings/history"
+                                class="btn btn-outline-danger ml-3"
+                            >
+                                購入履歴
+                            </router-link>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div
@@ -106,14 +117,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center">
-                            <router-link
-                                to="/settings/history"
-                                class="btn btn-danger"
-                            >
-                                購入履歴
-                            </router-link>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -165,9 +168,10 @@ export default {
             .get("/api/settings/ticket")
             .then(response => {
                 this.user = response.data;
+                console.log(response);
             })
             .catch(error => {
-                console.log("error");
+                console.log(error);
             });
     }
 };

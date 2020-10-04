@@ -1,11 +1,11 @@
 <template>
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">チケット購入履歴</div>
                     <div class="card-body">
-                        <div v-if="items.length == 0">
+                        <div v-if="items.length == 0" class="text-center mb-3">
                             購入履歴はありません
                         </div>
                         <table class="table table-striped" v-else>
@@ -42,9 +42,9 @@
                         <div class="row justify-content-center">
                             <router-link
                                 to="/settings/ticket"
-                                class="btn btn-primary"
+                                class="btn btn-outline-primary"
                             >
-                                チケット購入へ
+                                チケット購入
                             </router-link>
                         </div>
                     </div>
