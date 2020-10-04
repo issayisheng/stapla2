@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GymStoreRequest;
 use App\Models\Gym;
+use App\Models\Calendar;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,10 +19,9 @@ class GymController extends Controller
      */
     public function index()
     {
-        // $current_user = Auth::user();
-        // return $gyms = Gym::where('owner_id', $current_user->id)->get();
-        return Gym::all();
-        // return Gym::paginate(5);
+        // 登録済みのジムを表示
+        $user = Auth::user();
+        return Gym::where('owner_id', $user->id)->get();
     }
 
     /**
@@ -32,12 +32,11 @@ class GymController extends Controller
      */
     public function store(GymStoreRequest $request)
     {
-        // $current_user = Auth::user();
-        // dd($current_user);
+        $user = Auth::user(); //ログイン中のユーザー
 
         $gym = new Gym;
         $gym->id                  = $request->id;
-        // $gym->owner_id         = $current_user->id;
+        $gym->owner_id            = $user->id;
         $gym->name                = $request->gym_name;
         $gym->zipcode             = $request->gym_zipcode;
         $gym->address             = $request->gym_address;
@@ -53,16 +52,6 @@ class GymController extends Controller
         } else {
             $introduction_image = null;
         }
-
-
-        // if ($file = $request->gym_image) {
-        //     $fileName = time() . $file->getClientOriginalName(); // アップロードしたファイル名をつけて保存
-        //     $target_path = public_path('public/gym');
-        //     $file->move($target_path, $fileName);
-        // } else {
-        //     $fileName = null;
-        // }
-        // $gym->gym_image = $fileName;
 
 
         if (isset($request->introduction_text)) {
@@ -112,16 +101,10 @@ class GymController extends Controller
         }
         $gym->save();
 
-        Gym::create($request->all());
-
-        // MEMO: ジムを登録したらユーザーのステータスをオーナー(2, 後で定数化)に変更
-        // $user = User::findOrFail($current_user->id);
-        // $user-> status = config('consts.user.OWNER');
-        // $user->save();
-
-
-        // return \redirect()->route('gym.show', ['gym_id' => $gym->id])
-        //                         ->with('done', '「'.$gym->name.'」を新規登録しました。');
+        // MEMO: ジムを登録したらユーザーステータスをオーナー(No.10)に変更
+        $user = User::findOrFail($user->id);
+        $user->status = config('consts.user.OWNER');
+        $user->save();
     }
     
 
@@ -133,9 +116,7 @@ class GymController extends Controller
      */
     public function show($gym_id)
     {
-        // $current_user = Auth::user();
-        return $gym = Gym::FindOrFail($gym_id);
-        // return view('gym.show', \compact('current_user', 'gym'));
+        return Gym::FindOrFail($gym_id, ['name','introduction_pic']);
     }
 
     /**
@@ -147,7 +128,6 @@ class GymController extends Controller
      */
     public function update(GymStoreRequest $request, $gym_id)
     {
-        $current_user = Auth::user();
         $gym = Gym::FindOrFail($gym_id);
         $gym->name              = $request->gym_name;
         $gym->zipcode           = $request->gym_zipcode;
@@ -164,17 +144,6 @@ class GymController extends Controller
             $introduction_image_path = Storage::disk('s3')->putFile('/gym/'. $gym->owner_id .'/introduction_pic', $introduction_image, 'public');
             $gym->introduction_pic = $introduction_image_path;
         }
-
-        // if ($file = $request->gym_image) {
-        //     $fileName = time() . $file->getClientOriginalName(); // アップロードしたファイル名をつけて保存
-        //     $target_path = public_path('public/gym');
-        //     $file->move($target_path, $fileName);
-        // } else {
-        //     $fileName = "";
-        // }
-        // $gym->gym_image = $fileName;
-
-
 
         
         if (isset($request->introduction_text)) {
@@ -223,9 +192,6 @@ class GymController extends Controller
             $gym->sun_opening_ended   = $request->sun_close;
         }
         $gym->save();
-
-        // return \redirect()->route('gym.show', ['gym_id' => $gym->id])
-                                // ->with('done', '「'.$gym->name.'」を編集しました。');
     }
 
     /**
@@ -236,12 +202,19 @@ class GymController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $gym = Gym::FindOrFail($id);
+        
+        // delete_flagを1（閉店済）に変更
+        $gym->delete_flag     = 1;
+        $gym->save();
+
+        // 削除機能
+        Gym::where('id', $id)->delete();
     }
 
 
     /**
-     * 郵便番号情報取得
+     *  郵便番号情報取得
      */
     public function getZipInfo(Request $request)
     {

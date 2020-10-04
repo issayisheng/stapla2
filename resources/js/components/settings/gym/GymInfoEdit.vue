@@ -1,10 +1,9 @@
 <template>
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">ジム登録(編集中)</div>
-                    <!-- @if($gym->owner_id === $current_user->id) -->
                     <form
                         enctype="multipart/form-data"
                         @submit.prevent="updateGym"
@@ -15,7 +14,8 @@
                         </div>
                         <div class="form-group">
                             <label for="gym_name" class="font-weight-bold"
-                                >施設名<span class="badge badge-danger p-1 ml-1"
+                                >施設名<span
+                                    class="badge badge-danger p-1 ml-1 align-middle"
                                     >必須</span
                                 ></label
                             >
@@ -41,14 +41,14 @@
                         <div class="form-group">
                             <label for="gym_zipcode" class="font-weight-bold"
                                 >郵便番号<span
-                                    class="badge badge-danger p-1 ml-1"
+                                    class="badge badge-danger p-1 ml-1 align-middle"
                                     >必須</span
                                 ></label
                             >
                             <input
                                 id="gym_zipcode"
                                 type="text"
-                                maxlength="8"
+                                maxlength="7"
                                 class="form-control"
                                 :class="{
                                     'is-invalid': errors.gym_zipcode
@@ -70,7 +70,8 @@
                         </div>
                         <div class="form-group">
                             <label for="gym_address" class="font-weight-bold"
-                                >住所<span class="badge badge-danger p-1 ml-1"
+                                >住所<span
+                                    class="badge badge-danger p-1 ml-1 align-middle"
                                     >必須</span
                                 ></label
                             >
@@ -96,7 +97,7 @@
                         <div class="form-group">
                             <label for="gym_building" class="font-weight-bold"
                                 >建物名<span
-                                    class="badge badge-secondary p-1 ml-1"
+                                    class="badge badge-secondary p-1 ml-1 align-middle"
                                     >任意</span
                                 ></label
                             >
@@ -122,7 +123,7 @@
                         <div class="form-group">
                             <label for="gym_tel" class="font-weight-bold"
                                 >電話番号<span
-                                    class="badge badge-secondary p-1 ml-1"
+                                    class="badge badge-secondary p-1 ml-1 align-middle"
                                     >任意</span
                                 ></label
                             >
@@ -150,7 +151,7 @@
                                 for="introduction_pic"
                                 class="font-weight-bold"
                                 >紹介用写真<span
-                                    class="badge badge-secondary p-1 ml-1"
+                                    class="badge badge-secondary p-1 ml-1 align-middle"
                                     >任意</span
                                 ></label
                             >
@@ -187,7 +188,7 @@
                                 for="introduction_text"
                                 class="font-weight-bold"
                                 >紹介用テキスト<span
-                                    class="badge badge-secondary p-1 ml-1"
+                                    class="badge badge-secondary p-1 ml-1 align-middle"
                                     >任意</span
                                 ></label
                             >
@@ -215,7 +216,7 @@
                         <div class="form-group">
                             <label for="gym_facility" class="font-weight-bold"
                                 >設備<span
-                                    class="badge badge-secondary p-1 ml-1"
+                                    class="badge badge-secondary p-1 ml-1 align-middle"
                                     >任意</span
                                 ></label
                             >
@@ -242,9 +243,11 @@
                             更新
                         </button>
                     </form>
-                    <!-- @else 
-                    @include('common.cannot_be_displayed') 
-                    @endif -->
+                    <!-- </div> -->
+                    <!-- <div v-else>
+                        表示できません。
+                        btn btn-primary
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -252,6 +255,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
     data() {
         return {
@@ -270,15 +275,18 @@ export default {
             errorMessage: ""
         };
     },
-    created() {
+    computed: {
+        ...mapGetters({
+            user: "auth/user"
+        })
+    },
+    created: function() {
         axios
             .get("/api/settings/gym_info/" + this.id)
             .then(response => {
                 this.gym = response.data;
-                // console.log(response.data);
             })
             .catch(error => {
-                console.log(error);
                 this.errorMessage = "データの取得に失敗しました。";
             });
     },
@@ -324,11 +332,9 @@ export default {
             axios
                 .get(`/api/zipcode/?zipcode=${val}`)
                 .then(response => {
-                    // console.log(response.data);
                     self.gym.address = response.data.data.fullAddress;
                 })
                 .catch(error => {
-                    this.errorMessage = error.message;
                     console.log(error);
                 });
         }

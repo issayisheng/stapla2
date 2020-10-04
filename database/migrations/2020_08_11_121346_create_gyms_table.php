@@ -15,7 +15,6 @@ class CreateGymsTable extends Migration
     {
         Schema::create('gyms', function (Blueprint $table) {
             $table->uuid('id')->primary();            // Primary key.
-            $table->integer('close_id')->nullable();
             $table->uuid('owner_id')->nullable();
             $table->foreign('owner_id')->references('id')->on('users'); // 外部キー参照
             $table->string('name')->nullable();
@@ -26,6 +25,7 @@ class CreateGymsTable extends Migration
             $table->string('introduction_pic')->nullable();
             $table->string('introduction_text')->nullable();
             $table->string('facility')->nullable();
+            $table->boolean('delete_flag')->default(false);
             $table->time('mon_opening_started')->nullable();
             $table->time('mon_opening_ended')->nullable();
             $table->time('tue_opening_started')->nullable();
@@ -43,6 +43,7 @@ class CreateGymsTable extends Migration
             $table->time('holi_opening_started')->nullable();
             $table->time('holi_opening_ended')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // 論理削除
         });
     }
 

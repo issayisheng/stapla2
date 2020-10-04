@@ -3,30 +3,25 @@
 namespace App\Models;
 
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;  // uuid
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Calendar;
 
 class Gym extends Model
 {
     protected $table = 'gyms';
 
-    protected $guarded = [''];
+    protected $guarded = [];
 
-    public function reservations()
-    {
-        return $this->hasMany('App\Modles\Reservation', 'gym_id', 'id');
-    }
+    // 論理削除有効化
+    use SoftDeletes;
 
     public function userGyms()
     {
-        return $this->hasMany('App\Modles\Reservation', 'gym_id', 'id');
-    }
-
-    public function userCloses()
-    {
-        return $this->hasMany('App\Modles\GymClose', 'gym_id', 'id');
+        return $this->hasMany('App\Modles\User', 'gym_id', 'id');
     }
 
     public function calendars()
     {
-        return $this->hasOne('App\Modles\Calendar', 'gym_id', 'id');
+        return $this->hasMany(Calendar::class);
     }
 }

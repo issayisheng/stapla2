@@ -1,18 +1,7 @@
 <template>
-    <!-- @if (session('completed'))
-    <div class="">
-        <p>{{ session("done") }}</p>
-    </div>
-    @endif -->
-
-    <!-- "Mon Opening Hour": "月曜日", "Tue
-    Opening Hour": "火曜日", "Wed Opening Hour": "水曜日", "Thu Opening Hour":
-    "木曜日", "Fri Opening Hour": "金曜日", "Sat Opening Hour": "土曜日", "Sun
-    Opening Hour": "日曜日" -->
-
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">ジム詳細ページ</div>
                     <div class="layout-form py-5">
@@ -226,17 +215,14 @@
                         <div class="col-md-8 offset-md-2">
                             <!-- @if(gym.owner_id === $current_user->id) -->
                             <router-link
-                                :to="{
-                                    name: 'gyminfo_edit',
-                                    params: { id: gym.id }
-                                }"
+                                :to="`/settings/gym_info/${gym.id}/edit`"
                                 class="btn btn-primary btn-block mb-3"
-                                >編集</router-link
+                                >編集する</router-link
                             >
                             <!-- @endif -->
                             <router-link
                                 to="/settings/gym_info"
-                                class="btn btn-secondary btn-block"
+                                class="btn btn-outline-secondary btn-block"
                             >
                                 ジム一覧へ
                             </router-link>
