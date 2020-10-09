@@ -3,16 +3,15 @@
 namespace App\Models;
 
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;  // UUID
-use App\User;
 use App\Models\History;
 
 class Ticket extends Model
 {
     protected $guarded = [''];
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
     public function histories()

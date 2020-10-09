@@ -16,19 +16,19 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $authid = Auth::id();
-        $items = History::where('user_id', $authid)->orderBy('created_at', 'desc')->get();
-        return view('history.index', compact('items'));
-    }
+        $user = Auth::id();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        // 10件ごとにページネーション
+        $history = History::select('id', 'description', 'order', 'status', 'created_at')
+                            ->where('user_id', $user)
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(10);
+
+        $ticket = Ticket::select('quantity')
+                        ->where('user_id', $user)
+                        ->first();
+
+        return response()->json(['history' => $history, 'ticket' => $ticket]);
     }
 
     /**
@@ -48,20 +48,12 @@ class HistoryController extends Controller
      * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function show(History $history)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\History  $history
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(History $history)
-    {
-        //
+        // チケット枚数、購入日時を返す
+        return History::select('order', 'created_at')
+                        ->where('id', $id)
+                        ->firstOrFail();
     }
 
     /**
@@ -85,5 +77,15 @@ class HistoryController extends Controller
     public function destroy(History $history)
     {
         //
+    }
+
+    public function contact(Request $request)
+    {
+        // 10/4 まだ
+        // $validator = $request->validate([
+        //     'textarea'   => 'required',
+        // ]);
+        // $users = History::find($id);
+        // $users->save();
     }
 }

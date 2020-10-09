@@ -2,19 +2,17 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-// use Illuminate\Foundation\Auth\User as Authenticatable;
-use GoldSpecDigital\LaravelEloquentUUID\Foundation\Auth\User as Authenticatable; // UUID
 use Illuminate\Notifications\Notifiable;
-use Laravel\Cashier\Billable;      // Stripe
-use Laravel\Passport\HasApiTokens; // Passport
-
-use App\Models\Ticket;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use GoldSpecDigital\LaravelEloquentUUID\Foundation\Auth\User as Authenticatable; // UUID
+use Tymon\JWTAuth\Contracts\JWTSubject;  // JWT
+use App\Notifications\CustomPasswordReset; // Mail
+use App\Notifications\VerifyEmail; // メール認証追加
 use App\Models\History;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use Notifiable,Billable,HasApiTokens;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'gym_id', 'name', 'email', 'password', 'status', 'privilege_id', 'tel',
+        'gym_id', 'name', 'email', 'password', 'status', 'tel',
     ];
 
     /**
@@ -43,19 +41,53 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function reservations()
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
     {
-        return $this->hasMany('App\Modles\Reservation', 'user_id', 'id');
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    // Mail
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomPasswordReset($token));
+    }
+
+    // Mail認証
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
+
+
+    // 予約中間テーブル
+    public function calendars()
+    {
+        return $this->belongsToMany('App\Models\Calendar');
     }
 
     public function userGyms()
     {
-        return $this->hasMany('App\Modles\Reservation', 'user_id', 'id');
+        return $this->hasMany('App\Models\Gym', 'user_id', 'id');
     }
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany('App\Models\Ticket');
     }
 
     public function histories()

@@ -15,19 +15,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $authid = Auth::id();
-        $data = Ticket::where('user_id', $authid)->first();
-        return view('ticket.index', compact('data'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $user = Auth::id();
+        return Ticket::select('quantity')->where('user_id', $user)->first();
     }
 
     /**
@@ -48,17 +37,6 @@ class TicketController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Ticket $ticket)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ticket $ticket)
     {
         //
     }

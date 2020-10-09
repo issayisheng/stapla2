@@ -41,7 +41,9 @@
 }
 
 .layout-form {
-    margin: 0 0 32px;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .form__desc {
@@ -69,6 +71,10 @@
     margin: 20px 0 0;
     display: block;
     text-align: center;
+}
+
+.social-form {
+    margin: 32px 0 0;
 }
 
 .social-form__deco {
