@@ -53,16 +53,15 @@ class GymController extends Controller
             $introduction_image = null;
         }
 
+        
+        $gym->introduction_text = $request->introduction_text;
+        
 
-        if (isset($request->introduction_text)) {
-            $gym->introduction_text = $request->introduction_text;
-        }
-        if (isset($request->mon_open)) {
-            $gym->mon_opening_started = $request->mon_open;
-        }
-        if (isset($request->mon_close)) {
-            $gym->mon_opening_ended = $request->mon_close;
-        }
+
+        $gym->mon_opening_started = $request->mon_open;
+        $gym->mon_opening_ended = $request->mon_close;
+        
+
         if (isset($request->tue_open)) {
             $gym->tue_opening_started = $request->tue_open;
         }
@@ -99,9 +98,11 @@ class GymController extends Controller
         if (isset($request->sun_close)) {
             $gym->sun_opening_ended = $request->sun_close;
         }
+
+
         $gym->save();
 
-        // MEMO: ジムを登録したらユーザーステータスをオーナー(No.10)に変更
+        // MEMO: ジムを登録したらユーザーステータスをオーナー(Num.10)に変更
         $user = User::findOrFail($user->id);
         $user->status = config('consts.user.OWNER');
         $user->save();
@@ -116,7 +117,7 @@ class GymController extends Controller
      */
     public function show($gym_id)
     {
-        return Gym::FindOrFail($gym_id, ['name','introduction_pic']);
+        return Gym::FindOrFail($gym_id);
     }
 
     /**
@@ -146,15 +147,18 @@ class GymController extends Controller
         }
 
         
-        if (isset($request->introduction_text)) {
-            $gym->introduction_text = $request->introduction_text;
-        }
-        if (isset($request->mon_open)) {
-            $gym->mon_opening_started = $request->mon_open;
-        }
-        if (isset($request->mon_close)) {
-            $gym->mon_opening_ended   = $request->mon_close;
-        }
+        $gym->introduction_text = $request->introduction_text;
+        
+            
+        $gym->mon_open    = $request->mon_open;
+        $gym->mon_close   = $request->mon_close;
+        
+        // // 時間を1コマ潰す
+        // $calendar = Calendar::where('id', $request->plan['id'])->first();
+        // $calendar->monday = $mondy;
+        // $calendar->reserved = true;
+
+
         if (isset($request->tue_open)) {
             $gym->tue_opening_started = $request->tue_open;
         }

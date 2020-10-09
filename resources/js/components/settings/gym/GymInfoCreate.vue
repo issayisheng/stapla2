@@ -294,7 +294,7 @@
                             <label
                                 for="tue_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Tue Opening Hour" }}</label
+                                >火曜日</label
                             >
                             <input
                                 id="tue_opening_hour"
@@ -330,7 +330,7 @@
                             <label
                                 for="wed_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Wed Opening Hour" }}</label
+                                >水曜日</label
                             >
                             <input
                                 id="wed_opening_hour"
@@ -366,7 +366,7 @@
                             <label
                                 for="thu_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Thu Opening Hour" }}</label
+                                >木曜日</label
                             >
                             <input
                                 id="thu_opening_hour"
@@ -402,7 +402,7 @@
                             <label
                                 for="fri_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Fri Opening Hour" }}</label
+                                >金曜日</label
                             >
                             <input
                                 id="fri_opening_hour"
@@ -474,7 +474,7 @@
                             <label
                                 for="sun_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Sun Opening Hour" }}</label
+                                >土曜日</label
                             >
                             <input
                                 id="sun_opening_hour"

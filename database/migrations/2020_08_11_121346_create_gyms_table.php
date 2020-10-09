@@ -26,8 +26,8 @@ class CreateGymsTable extends Migration
             $table->string('introduction_text')->nullable();
             $table->string('facility')->nullable();
             $table->boolean('delete_flag')->default(false);
-            $table->time('mon_opening_started')->nullable();
-            $table->time('mon_opening_ended')->nullable();
+            $table->time('mon_open')->nullable();
+            $table->time('mon_close')->nullable();
             $table->time('tue_opening_started')->nullable();
             $table->time('tue_opening_ended')->nullable();
             $table->time('wed_opening_started')->nullable();

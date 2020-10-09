@@ -239,15 +239,61 @@
                                 <strong v-text="errors.gym_facility"></strong
                             ></span>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">
+                        <div class="form-group">
+                            <label for="" class="font-weight-bold"
+                                >ジム開放時間</label
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label
+                                for="mon_opening_hour"
+                                class="font-weight-bold"
+                                >月曜日</label
+                            >
+                            <input
+                                id="mon_opening_hour"
+                                type="time"
+                                class="form-control"
+                                :class="{
+                                    'is-invalid': errors.mon_open
+                                }"
+                                name="mon_open"
+                                v-model="gym.mon_open"
+                                placeholder=""
+                            />
+                            <input
+                                id="mon_opening_hour"
+                                type="time"
+                                class="form-control"
+                                :class="{
+                                    'is-invalid': errors.mon_close
+                                }"
+                                name="mon_close"
+                                v-model="gym.mon_close"
+                                placeholder=""
+                            />
+                            <span
+                                class="invalid-feedback"
+                                role="alert"
+                                v-if="errors.mon_open"
+                            >
+                                <strong v-text="errors.mon_open"></strong
+                            ></span>
+                            <span
+                                class="invalid-feedback"
+                                role="alert"
+                                v-if="errors.mon_open"
+                            >
+                                <strong v-text="errors.mon_open"></strong
+                            ></span>
+                        </div>
+                        <button
+                            type="submit"
+                            class="btn btn-outline-primary btn-block"
+                        >
                             更新
                         </button>
                     </form>
-                    <!-- </div> -->
-                    <!-- <div v-else>
-                        表示できません。
-                        btn btn-primary
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -269,7 +315,9 @@ export default {
                 tel: "",
                 // introduction_pic: "",
                 introduction_text: "",
-                facility: ""
+                facility: "",
+                mon_open: "",
+                mon_close: ""
             },
             errors: {},
             errorMessage: ""
@@ -285,6 +333,7 @@ export default {
             .get("/api/settings/gym_info/" + this.id)
             .then(response => {
                 this.gym = response.data;
+                console.log(response.data);
             })
             .catch(error => {
                 this.errorMessage = "データの取得に失敗しました。";
@@ -302,7 +351,9 @@ export default {
                     gym_tel: this.gym.tel,
                     // introduction_pic: this.gym.introduction_pic,
                     introduction_text: this.gym.introduction_text,
-                    gym_facility: this.gym.facility
+                    gym_facility: this.gym.facility,
+                    mon_open: this.gym.mon_open,
+                    mon_close: this.gym.mon_close
                 })
                 .then(response => {
                     this.gym = response.data.gym;

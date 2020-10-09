@@ -4,18 +4,18 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">ジム詳細ページ</div>
-                    <div class="layout-form py-5">
+                    <div class="layout-form py-5 col-12">
                         <div class="form-group">
-                            <label for="gym_name" class="font-weight-bold"
-                                >施設名</label
-                            >
-                            <p>{{ gym.name }}</p>
+                            <div class="font-weight-bold title-class">
+                                施設名
+                            </div>
+                            <div>{{ gym.name }}</div>
                         </div>
                         <div class="form-group">
                             <label for="gym_address" class="font-weight-bold"
                                 >郵便番号</label
                             >
-                            <p>{{ gym.zipcode }}</p>
+                            <div>{{ gym.zipcode }}</div>
                         </div>
                         <div class="form-group">
                             <label for="gym_address" class="font-weight-bold"
@@ -48,7 +48,9 @@
                                 詳細はオーナにお問い合わせください。
                             </div>
                             <div v-else>
-                                {{ gym.facility }}
+                                <span class="badge badge-secondary p-2">{{
+                                    gym.facility
+                                }}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -77,46 +79,28 @@
                                 {{ gym.introduction_text }}
                             </div>
                         </div>
-                        <!-- <div class="form-group">
-                        <label for="" class="font-weight-bold"
-                            >ジム開放時間</label
-                        >
-                    </div> -->
-                        <!-- @if ((isset(gym.mon_opening_started) &&
-                    isset(gym.mon_opening_ended)) ||
-                    (isset(gym.tue_opening_started) &&
-                    isset(gym.tue_opening_ended)) ||
-                    (isset(gym.wed_opening_started) &&
-                    isset(gym.wed_opening_ended)) ||
-                    (isset(gym.thu_opening_started) &&
-                    isset(gym.thu_opening_ended)) ||
-                    (isset(gym.fri_opening_started) &&
-                    isset(gym.fri_opening_ended)) ||
-                    (isset(gym.sat_opening_started) &&
-                    isset(gym.sat_opening_ended)) ||
-                    (isset(gym.sun_opening_started) &&
-                    isset(gym.sun_opening_ended))) -->
+                        <div class="form-group">
+                            <label for="" class="font-weight-bold"
+                                >ジム開放時間</label
+                            >
+                        </div>
                         <div class="form-group">
                             <label
                                 for="mon_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Mon Opening Hour" }}</label
+                                >月曜日</label
                             >
-                            <!-- @if(isset(gym.mon_opening_started) &&
-                        isset(gym.mon_opening_ended))
-                        <p>
-                            {{ gym.mon_opening_started }} ~
-                            {{ gym.mon_opening_ended }}
-                        </p>
-                        @else
-                        <p>Close</p>
-                        @endif -->
+                            <div v-if="gym.mon_open && gym.mon_close">
+                                {{ gym.mon_open }} ~
+                                {{ gym.mon_close }}
+                            </div>
+                            <div v-else>Close</div>
                         </div>
                         <div class="form-group">
                             <label
                                 for="tue_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Tue Opening Hour" }}</label
+                                >火曜日</label
                             >
                             <!-- @if(isset(gym.tue_opening_started) &&
                         isset(gym.tue_opening_ended))
@@ -132,7 +116,7 @@
                             <label
                                 for="wed_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Wed Opening Hour" }}</label
+                                >水曜日</label
                             >
                             <!-- @if(isset(gym.wed_opening_started) &&
                         isset(gym.wed_opening_ended))
@@ -148,7 +132,7 @@
                             <label
                                 for="thu_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Thu Opening Hour" }}</label
+                                >木曜日</label
                             >
                             <!-- @if(isset(gym.thu_opening_started) &&
                         isset(gym.thu_opening_ended))
@@ -164,7 +148,7 @@
                             <label
                                 for="fri_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Fri Opening Hour" }}</label
+                                >金曜日</label
                             >
                             <!-- @if(isset(gym.fri_opening_started) &&
                         isset(gym.fri_opening_ended))
@@ -180,7 +164,7 @@
                             <label
                                 for="sat_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Sat Opening Hour" }}</label
+                                >土曜日</label
                             >
                             <!-- @if(isset(gym.sat_opening_started) &&
                         isset(gym.sat_opening_ended))
@@ -196,7 +180,7 @@
                             <label
                                 for="sun_opening_hour"
                                 class="font-weight-bold"
-                                >{{ "Sun Opening Hour" }}</label
+                                >日曜日</label
                             >
                             <!-- @if(isset(gym.sun_opening_started) &&
                         isset(gym.sun_opening_ended))
@@ -208,18 +192,20 @@
                         <p>Close</p>
                         @endif -->
                         </div>
-                        <!-- @else -->
-                        <p>詳細はオーナにお問い合わせください。</p>
-                        <!-- @endif -->
-
-                        <div class="col-md-8 offset-md-2">
-                            <!-- @if(gym.owner_id === $current_user->id) -->
-                            <router-link
-                                :to="`/settings/gym_info/${gym.id}/edit`"
-                                class="btn btn-primary btn-block mb-3"
-                                >編集する</router-link
-                            >
-                            <!-- @endif -->
+                        <div class="col-md-10 offset-md-2">
+                            <div class="d-flex mb-3">
+                                <router-link
+                                    :to="`/settings/gym_info/${gym.id}/edit`"
+                                    class="btn btn-outline-primary btn-block mr-3"
+                                    >編集する</router-link
+                                >
+                                <button
+                                    class="btn btn-outline-danger d-block w-100"
+                                    @click="deleteGym(gym.id)"
+                                >
+                                    削除する
+                                </button>
+                            </div>
                             <router-link
                                 to="/settings/gym_info"
                                 class="btn btn-outline-secondary btn-block"
@@ -239,7 +225,7 @@ export default {
     data() {
         return {
             id: this.$route.params.id,
-            gym: []
+            gym: {}
         };
     },
     created() {
@@ -247,13 +233,35 @@ export default {
             .get("/api/settings/gym_info/" + this.id)
             .then(response => {
                 this.gym = response.data;
-                // console.log(response.data);
             })
             .catch(error => {
                 console.log(error);
             });
+    },
+    methods: {
+        deleteGym(id) {
+            axios
+                .delete("/api/settings/gym_info/" + this.id)
+                .then(response => {
+                    this.gyms.slice(this.id, 1);
+                    this.$router.go({
+                        path: this.$router.currentRoute.path,
+                        force: true
+                    });
+                })
+                .catch(error => {
+                    this.errorMessage = "削除に失敗しました。";
+                    console.log(error);
+                });
+        }
     }
 };
 </script>
 
-<style></style>
+<style>
+.title-class {
+    background-color: #f2f2f2;
+    font-size: 16px;
+    padding: 14px 15px;
+}
+</style>

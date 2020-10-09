@@ -4,7 +4,6 @@ namespace App\Models;
 
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;  // uuid
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Calendar;
 
 class Gym extends Model
 {
@@ -17,11 +16,11 @@ class Gym extends Model
 
     public function userGyms()
     {
-        return $this->hasMany('App\Modles\User', 'gym_id', 'id');
+        return $this->hasMany('App\User', 'gym_id', 'id');
     }
 
     public function calendars()
     {
-        return $this->hasMany(Calendar::class);
+        return $this->hasMany('App\Models\Calendar');
     }
 }

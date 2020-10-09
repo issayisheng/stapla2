@@ -6,13 +6,13 @@
                     <div
                         class="card-header d-flex justify-content-between align-items-center"
                     >
-                        ジム管理ページ
-                        <router-link
+                        ジム管理
+                        <!-- <router-link
                             to="/settings/gym_info/create"
                             class="btn btn-success"
                         >
                             ジム追加登録
-                        </router-link>
+                        </router-link> -->
                     </div>
                     <div class="card-body">
                         <div v-if="errorMessage" class="alert alert-danger">
@@ -45,16 +45,10 @@
                                                 name: 'gyminfo_show',
                                                 params: { id: gym.id }
                                             }"
-                                            class="btn btn-outline-primary mb-3 d-block"
+                                            class="btn btn-outline-primary d-block py-2"
                                         >
                                             詳細をみる
                                         </router-link>
-                                        <button
-                                            class="btn btn-outline-danger d-block w-100"
-                                            @click="deleteGym(gym.id)"
-                                        >
-                                            削除する
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -86,23 +80,6 @@ export default {
                 console.log(error);
                 this.errorMessage = "データの取得に失敗しました。";
             });
-    },
-    methods: {
-        deleteGym(id) {
-            axios
-                .delete("/api/settings/gym_info/" + id)
-                .then(response => {
-                    this.gyms.slice(id, 1);
-                    this.$router.go({
-                        path: this.$router.currentRoute.path,
-                        force: true
-                    });
-                })
-                .catch(error => {
-                    this.errorMessage = "削除に失敗しました。";
-                    console.log(error);
-                });
-        }
     }
 };
 </script>
