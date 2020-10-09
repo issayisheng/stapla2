@@ -1,9 +1,9 @@
 <template>
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">トレーナー管理ページ(編集中)</div>
+                    <div class="card-header">トレーナー管理(編集中)</div>
                     <div class="card-body">
                         <table class="table">
                             <thead>
@@ -18,36 +18,40 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <!-- <td>{{$auth->name}}</td>
-                                <td>{{$auth->tel}}</td>
-                                <td>{{$auth->email}}</td> -->
+                                    <td>{{ trainer.name }}</td>
+                                    <td>{{ trainer.tel }}</td>
+                                    <td>{{ trainer.email }}</td>
                                     <td class="text-center">
-                                        <!-- <form action="/settings/trainer/{{ $auth->id }}" method="POST"> -->
-                                        <!-- @method('PUT')
-                                        @csrf -->
-                                        <!-- <button type="submit" class="btn btn-primary">承認する</button>
-                                        <input id="role" type="hidden" name="role" value="5"> -->
-                                        <!-- </form> -->
-                                    </td>
-                                    <td class="text-center">
-                                        <!-- <form action="/settings/trainer/{{ $auth->id }}" method="POST"> -->
-                                        <!-- @method('PUT')
-                                        @csrf -->
-                                        <!-- <button type="submit" class="btn btn-danger">無効する</button>
-                                        <input id="role" type="hidden" name="role" value="0"> -->
-                                        <!-- </form> -->
-                                    </td>
-                                    <td class="text-center">
-                                        <router-link
-                                            to="/settings/trainer"
-                                            class="btn btn-danger"
+                                        <button
+                                            type="submit"
+                                            class="btn btn-outline-primary"
+                                            @click="submit('approval')"
                                         >
-                                            購入履歴
-                                        </router-link>
+                                            承認する
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        <form>
+                                            <button
+                                                type="submit"
+                                                class="btn btn-outline-danger"
+                                                @click="submit('disapproval')"
+                                            >
+                                                無効する
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="text-center">
+                            <button
+                                class="btn btn-outline-secondary"
+                                @click.prevent="back"
+                            >
+                                戻る
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,7 +60,49 @@
 </template>
 
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            id: this.$route.params.id,
+            trainer: {}
+        };
+    },
+    created() {
+        axios
+            .get("/api/settings/trainer/" + this.id)
+            .then(response => {
+                this.trainer = response.data;
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    methods: {
+        back() {
+            this.$router.back(); // 1つ前へ
+        },
+        submit() {
+            this.errors = {};
+            this.message = "";
+            var self = this;
+            axios
+                .post("/api/settings/history/contact")
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    var errors = {};
+                    var message = "";
+                    for (var key in error.response.data.errors) {
+                        errors[key] = error.response.data.errors[key][0];
+                    }
+                    this.errors = errors;
+                    console.log(error);
+                });
+        }
+    }
+};
 </script>
 
 <style></style>

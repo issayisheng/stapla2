@@ -16,18 +16,7 @@ class TrainerController extends Controller
      */
     public function index()
     {
-        return $users = User::all();
-        // return view('trainer.index')->with('users', $users);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return User::all();
     }
 
     /**
@@ -47,22 +36,9 @@ class TrainerController extends Controller
      * @param  \App\Trainer  $trainer
      * @return \Illuminate\Http\Response
      */
-    public function show(Trainer $trainer)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Trainer  $trainer
-     * @return \Illuminate\Http\Response
-     */
-    // public function edit(Trainer $trainer)
-    public function edit($id)
-    {
-        $auth = User::find($id);
-        return view('trainer.edit', [ 'auth' => $auth ]);
+        return User::find($id);
     }
 
     /**
@@ -74,10 +50,13 @@ class TrainerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $admin = User::find($id);
-        $admin->status = $request->role;
-        $admin->save();
-        return redirect()->route('trainer.index');
+
+        // value="5"
+        // value="0" 無効
+
+        $user = User::find($id);
+        $user->status = $request->role;
+        $user->save();
     }
 
     /**
