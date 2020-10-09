@@ -1,7 +1,7 @@
 <template>
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">プロフィール編集</div>
                     <div class="card-body">
@@ -108,12 +108,12 @@
                             <div class="col-md-8 offset-md-2">
                                 <button
                                     type="submit"
-                                    class="btn btn-primary btn-block mb-3"
+                                    class="btn btn-outline-primary btn-block mb-3"
                                 >
                                     変更
                                 </button>
                                 <button
-                                    class="btn btn-secondary btn-block"
+                                    class="btn btn-outline-secondary btn-block"
                                     @click.prevent="back"
                                 >
                                     戻る

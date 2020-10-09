@@ -10919,6 +10919,15 @@ a.text-dark:focus {
   padding: 12px 0;
   position: relative;
   outline: none;
+  transition: opacity 0.2s;
+}
+
+.btn-default:hover {
+  opacity: 0.8;
+}
+
+.btn-default:focus {
+  outline: none;
 }
 
 .btn-default--mail {
@@ -11021,6 +11030,10 @@ a.text-dark:focus {
   margin: 20px 0 0;
   display: block;
   text-align: center;
+}
+
+.social-form {
+  margin: 32px 0 0;
 }
 
 .social-form__deco {

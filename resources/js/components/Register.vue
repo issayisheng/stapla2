@@ -174,7 +174,7 @@ export default {
             this.register(this.form)
                 .then(() => {
                     this.$router.replace({
-                        name: "dashboard"
+                        name: "verifyemail"
                     });
                 })
                 .catch(error => {

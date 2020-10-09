@@ -39,7 +39,7 @@ Vue.component(
     require("./components/AppHeader.vue").default
 );
 
-Vue.component("message-component", require("./components/Message.vue").default);
+// Vue.component("message-component", require("./components/Message.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

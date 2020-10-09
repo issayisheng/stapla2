@@ -55,7 +55,7 @@
                     <button type="submit" class="btn-default btn-default--mail">
                         ログイン
                     </button>
-                    <router-link to="password.request" class="form__link"
+                    <router-link to="password/email" class="form__link"
                         >パスワードを忘れた方はこちら</router-link
                     >
                 </form>
@@ -150,5 +150,3 @@ export default {
     }
 };
 </script>
-
-<style></style>

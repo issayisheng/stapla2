@@ -2,15 +2,15 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use GoldSpecDigital\LaravelEloquentUUID\Foundation\Auth\User as Authenticatable; // UUID
-use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;  // JWT
-
-use App\Models\Ticket;
+use App\Notifications\CustomPasswordReset; // Mail
+use App\Notifications\VerifyEmail; // メール認証追加
 use App\Models\History;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use Notifiable;
 
@@ -20,7 +20,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'gym_id', 'name', 'email', 'password', 'status', 'privilege_id', 'tel',
+        'gym_id', 'name', 'email', 'password', 'status', 'tel',
     ];
 
     /**
@@ -61,21 +61,33 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    
-
-    public function reservations()
+    // Mail
+    public function sendPasswordResetNotification($token)
     {
-        return $this->hasMany('App\Modles\Reservation', 'user_id', 'id');
+        $this->notify(new CustomPasswordReset($token));
+    }
+
+    // Mail認証
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
+
+
+    // 予約中間テーブル
+    public function calendars()
+    {
+        return $this->belongsToMany('App\Models\Calendar');
     }
 
     public function userGyms()
     {
-        return $this->hasMany('App\Modles\Reservation', 'user_id', 'id');
+        return $this->hasMany('App\Models\Gym', 'user_id', 'id');
     }
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany('App\Models\Ticket');
     }
 
     public function histories()

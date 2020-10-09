@@ -6,7 +6,9 @@ export default {
 
     state: {
         token: null,
-        user: null
+        user: {
+            id: ""
+        }
     },
 
     getters: {
@@ -16,7 +18,6 @@ export default {
 
         user(state) {
             return state.user;
-            // return state.token && state.user;
         }
     },
 

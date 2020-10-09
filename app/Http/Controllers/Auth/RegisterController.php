@@ -7,7 +7,6 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
@@ -19,7 +18,6 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        // return response()->json(compact('token'));
         return response()->json(['token' => auth()->tokenById($user->id)]);
     }
 
@@ -53,28 +51,4 @@ class RegisterController extends Controller
             'password' =>  bcrypt($data['password']),
         ]);
     }
-
-    /**
-      * Register a new user
-      */
-    // public function register(Request $request)
-    // {
-    //     $v = Validator::make($request->all(), [
-    //         'name' => 'required|min:3',
-    //         'email' => 'required|email|unique:users',
-    //         'password'  => 'required|min:3|confirmed',
-    //     ]);
-    //     if ($v->fails()) {
-    //         return response()->json([
-    //             'status' => 'error',
-    //             'errors' => $v->errors()
-    //         ], 422);
-    //     }
-    //     $user = new User();
-    //     $user->name = $request->name;
-    //     $user->email = $request->email;
-    //     $user->password = bcrypt($request->password);
-    //     $user->save();
-    //     return response()->json(['status' => 'success'], 200);
-    // }
 }
