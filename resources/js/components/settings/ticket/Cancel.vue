@@ -21,7 +21,7 @@
                             to="/settings/history"
                             class="btn btn-danger"
                         >
-                            購入履歴
+                            チケット履歴
                         </router-link>
                     </div>
                 </div>
@@ -29,9 +29,3 @@
         </div>
     </div>
 </template>
-
-<script>
-export default {};
-</script>
-
-<style></style>

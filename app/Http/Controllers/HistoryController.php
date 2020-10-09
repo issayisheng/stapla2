@@ -16,8 +16,19 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $authid = Auth::id();
-        return History::where('user_id', $authid)->orderBy('created_at', 'desc')->get();
+        $user = Auth::id();
+
+        // 10件ごとにページネーション
+        $history = History::select('id', 'description', 'order', 'status', 'created_at')
+                            ->where('user_id', $user)
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(10);
+
+        $ticket = Ticket::select('quantity')
+                        ->where('user_id', $user)
+                        ->first();
+
+        return response()->json(['history' => $history, 'ticket' => $ticket]);
     }
 
     /**
@@ -71,10 +82,10 @@ class HistoryController extends Controller
     public function contact(Request $request)
     {
         // 10/4 まだ
-        $validator = $request->validate([
-            'textarea'   => 'required',
-        ]);
-        $users = History::find($id);
-        $users->save();
+        // $validator = $request->validate([
+        //     'textarea'   => 'required',
+        // ]);
+        // $users = History::find($id);
+        // $users->save();
     }
 }

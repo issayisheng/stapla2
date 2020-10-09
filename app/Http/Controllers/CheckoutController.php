@@ -94,7 +94,6 @@ class CheckoutController extends Controller
             // 購入履歴から情報を取得
             $session = \Stripe\Checkout\Session::retrieve($session_id);
             $quantity =  $session->metadata->quantity;
-            $total =  $session->amount_total;
 
 
             // 登録済みユーザーがあれば、Ticket枚数を更新する
@@ -111,18 +110,24 @@ class CheckoutController extends Controller
                 $ticket->quantity += $quantity;
                 $ticket->save();
             }
-            //  Stripe(session)_idがない場合、購入履歴を作成する
+
+            
+            //  Stripe(session)_idがない場合、チケット履歴を作成する
             $history_exists = History::where('stripe_id', $session->id)->exists();
             if (!$history_exists) {
                 History::create([
-                'stripe_id'     => $session->id,
-                'user_id'       => Auth::id(),
-                'order'         => $quantity,
+                'stripe_id'        =>  $session->id,
+                'user_id'          =>  Auth::id(),
+                'order'            =>  $quantity,
+                'description'      =>  "$quantity 枚購入分",
+                'status'           =>  '5'   // 購入済みに変更
             ]);
             }
 
             DB::commit();
-            return response()->json(['message' => 'ご購入ありがとうございます。お支払いが完了しました。','amount_total' => $total]);
+            return response()->json(
+                ['message' => "ご購入ありがとうございます。お支払いが完了しました。",]
+            );
         } catch (\Stripe\Exception\CardException $e) {
             DB::rollback();
             // 決済に失敗したらエラーメッセージを返す

@@ -60,7 +60,7 @@
                                         戻る
                                     </button>
                                     <button
-                                        class="btn btn-outline-success"
+                                        class="btn btn-outline-danger"
                                         type="submit"
                                     >
                                         送信する
@@ -93,7 +93,6 @@ export default {
             .get("/api/settings/history/" + this.id)
             .then(response => {
                 this.items = response.data;
-                console.log(response);
             })
             .catch(error => {
                 console.log(error);
@@ -110,6 +109,9 @@ export default {
             axios
                 .post("/api/settings/history/contact")
                 .then(response => {
+                    // this.$router.push({
+                    //     name: "history"
+                    // });
                     console.log(response);
                 })
                 .catch(error => {

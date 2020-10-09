@@ -15,11 +15,12 @@ class CreateHistoriesTable extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('stripe_id');
+            $table->string('stripe_id')->nullable();
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users'); // 外部キー参照
-            $table->integer('order');   // 購入数
-            $table->text('textarea');
+            $table->integer('order');  // 購入数
+            $table->integer('status')->default(0)->nullable();    // 5→購入済み
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
