@@ -52,7 +52,7 @@
                                         >
                                             <th scope="row">{{ index + 1 }}</th>
                                             <td class="text-nowrap">
-                                                {{ item.date | reservemoment }}
+                                                {{ item.date | reserveDate }}
                                                 ({{ item.day_name_ja }})
                                             </td>
                                             <td class="text-nowrap">
@@ -105,55 +105,83 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <ul class="pagination">
-                                    <li
-                                        :class="{ disabled: current_page <= 1 }"
+                                <nav aria-label="Page navigation" class="pt-3">
+                                    <ul
+                                        class="pagination justify-content-center pagination-md"
                                     >
-                                        <a href="#" @click="change(1)"
-                                            >&laquo;</a
+                                        <li
+                                            :class="{
+                                                disabled: current_page <= 1
+                                            }"
                                         >
-                                    </li>
-                                    <li
-                                        :class="{ disabled: current_page <= 1 }"
-                                    >
-                                        <a
-                                            href="#"
-                                            @click="change(current_page - 1)"
-                                            >&lt;</a
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                @click="change(1)"
+                                                >&laquo;</a
+                                            >
+                                        </li>
+                                        <li
+                                            :class="{
+                                                disabled: current_page <= 1
+                                            }"
                                         >
-                                    </li>
-                                    <li
-                                        v-for="page in pages"
-                                        :key="page"
-                                        :class="{
-                                            active: page === current_page
-                                        }"
-                                    >
-                                        <a href="#" @click="change(page)">{{
-                                            page
-                                        }}</a>
-                                    </li>
-                                    <li
-                                        :class="{
-                                            disabled: current_page >= last_page
-                                        }"
-                                    >
-                                        <a
-                                            href="#"
-                                            @click="change(current_page + 1)"
-                                            >&gt;</a
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                @click="
+                                                    change(current_page - 1)
+                                                "
+                                                >&lt;</a
+                                            >
+                                        </li>
+                                        <li
+                                            v-for="page in pages"
+                                            :key="page"
+                                            class="page-item"
+                                            :class="{
+                                                active: page === current_page
+                                            }"
                                         >
-                                    </li>
-                                    <li
-                                        :class="{
-                                            disabled: current_page >= last_page
-                                        }"
-                                    >
-                                        <a href="#" @click="change(last_page)"
-                                            >&raquo;</a
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                @click="change(page)"
+                                                >{{ page }}</a
+                                            >
+                                        </li>
+                                        <li
+                                            class="page-item"
+                                            :class="{
+                                                disabled:
+                                                    current_page >= last_page
+                                            }"
                                         >
-                                    </li>
-                                </ul>
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                @click="
+                                                    change(current_page + 1)
+                                                "
+                                                >&gt;</a
+                                            >
+                                        </li>
+                                        <li
+                                            class="page-item"
+                                            :class="{
+                                                disabled:
+                                                    current_page >= last_page
+                                            }"
+                                        >
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                @click="change(last_page)"
+                                                >&raquo;</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </template>
                         <div class="col-10 mx-auto text-center">
@@ -198,7 +226,9 @@ export default {
     created() {
         axios
             .get("/api/settings/reservation")
-            .then(response => {})
+            .then(response => {
+                // console.log(response.data);
+            })
             .catch(error => {
                 this.message = "データの取得に失敗しました。";
             });
@@ -233,7 +263,7 @@ export default {
             moment.locale("ja");
             return moment(date).format("lll");
         },
-        reservemoment: function(date) {
+        reserveDate: function(date) {
             moment.locale("ja");
             return moment(date).format("ll");
         }

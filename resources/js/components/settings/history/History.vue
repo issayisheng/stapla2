@@ -33,7 +33,9 @@
                                 {{ to }} 件表示
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table
+                                    class="table table-striped history-table"
+                                >
                                     <thead>
                                         <tr>
                                             <th scope="col" class="text-nowrap">
@@ -249,3 +251,10 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.history-table th,
+.history-table td {
+    vertical-align: middle;
+}
+</style>

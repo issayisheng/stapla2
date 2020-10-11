@@ -54,12 +54,6 @@ class CalendarsTableSeeder extends Seeder
                     'day_name_en' => $date->format('l'),
                     'is_saturday' => (int) $date->isSaturday(),
                     'is_sunday' => (int) $date->isSunday(),
-                    'first_day_of_month' => $date->clone()->firstOfMonth()->format('Y-m-d'),
-                    'last_day_of_month' => $date->clone()->lastOfMonth()->format('Y-m-d'),
-                    'first_day_of_next_month' => $date->clone()->addMonthNoOverflow()->firstOfMonth()->format('Y-m-d'),
-                    'first_day_of_year' => $date->clone()->firstOfYear()->format('Y-m-d'),
-                    'last_day_of_year' => $date->clone()->lastOfYear()->format('Y-m-d'),
-                    'first_day_of_next_year' => $date->clone()->addYear()->firstOfYear()->format('Y-m-d'),
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];

@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ReservationRequest;
 use App\Models\Calendar;
 use App\Models\Ticket;
 use App\Models\Cancel;
 use App\Models\History;
 use App\User;
 use Carbon\Carbon;
+use Exception;
 
 class ReservationController extends Controller
 {
@@ -34,7 +37,7 @@ class ReservationController extends Controller
                             ->orderBy('date', 'desc')
                             ->orderBy('time', 'asc')
                             ->paginate(10);
-
+                            
         // 現時刻以前は予約完了に
         $dates = Calendar::select('status', 'date', 'time')
                         ->where('user_id', $user)
@@ -104,51 +107,54 @@ class ReservationController extends Controller
 
 
     // キャンセル
-    public function contact(Request $request, $id)
+    public function contact(ReservationRequest $request, $id)
     {
-        // キャンセル理由を記入
-        $comment = json_encode($request->comment);
-        Cancel::create([
-            'calendar_id'    => $id,
-            'reason'         => $request->comment['_value'],
-        ]);
+        DB::beginTransaction();
+        try {
+            $comment = $request->comment;   // キャンセル理由を記入
+
+            $cancel = new Cancel;
+            $cancel->calendar_id   = $id;
+            $cancel->reason        = $comment;
+            $cancel->save();
 
 
-        // キャンセル済みに変更
-        $calendar = Calendar::select('id', 'date', 'time', 'status')->where('id', $id)->first();
-        $calendar->status = '10';  // キャンセル済み
-        $date = $calendar->date;   // 日付取得
-        $time = $calendar->time;   // 時間取得
-        $date_format = date_format($date, 'Y年m月d日');
+            // キャンセル済みに変更
+            $calendar = Calendar::select('id', 'date', 'time', 'status')->where('id', $id)->first();
+            $calendar->status = '10';  // キャンセル済み
+            $date = $calendar->date;   // 日付取得
+            $time = $calendar->time;   // 時間取得
+            $date_format = date_format($date, 'Y年m月d日');
 
         
-        // 当日以外のキャンセルはチケット1枚払い戻し
-        $user = Auth::id();   // ログインID取得
-        $ticket = Ticket::where('user_id', $user)->first();
-        $now = Carbon::now('Asia/Tokyo');  //  今日の日付取得
+            // 当日以外のキャンセルはチケット1枚払い戻し
+            $user = Auth::id();   // ログインID取得
+            $ticket = Ticket::where('user_id', $user)->first();
+            $now = Carbon::now('Asia/Tokyo');  //  今日の日付取得
 
 
-        // 当日以前だったら
-        if ($now < $date) {
-            $ticket->quantity += '1';
-            $ticket->save();
+            // 当日以前だったら
+            if ($now < $date) {
+                $ticket->quantity += '1';
+                $ticket->save();
 
-            // 履歴作成
-            History::create([
+                // 履歴作成
+                History::create([
                 'user_id'      =>  Auth::id(),
                 'order'        =>  '+1',
                 'description'  =>  "$date_format $time チケット払い戻し",
             ]);
-        } else {
-            // 履歴作成
-            History::create([
+            } else {
+                History::create([
                 'user_id'      =>  Auth::id(),
                 'order'        =>  '0',
                 'description'  =>  "当日キャンセル(払い戻しなし)",
             ]);
+            }
+            $calendar->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
         }
-
-        $calendar->save();
-        return response()->json(['date' => $date, 'calendar' => $calendar]);
     }
 }

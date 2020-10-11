@@ -10904,10 +10904,6 @@ a.text-dark:focus {
   }
 }
 
-* {
-  letter-spacing: 0.05em;
-}
-
 .btn-default {
   display: block;
   width: 100%;

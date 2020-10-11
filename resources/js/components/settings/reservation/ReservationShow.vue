@@ -35,27 +35,30 @@
                                     />
                                 </div>
                                 <div class="form-group">
-                                    <label for="textarea">キャンセル理由</label>
+                                    <label for="textarea"
+                                        >キャンセル理由<span
+                                            class="badge badge-danger p-1 ml-1"
+                                            >必須</span
+                                        ></label
+                                    >
                                     <textarea
-                                        name="textarea"
+                                        name="reason"
                                         class="form-control"
                                         :class="{
-                                            'is-invalid': errors.textarea
+                                            'is-invalid': errors.reason
                                         }"
                                         id="textarea"
                                         cols="30"
                                         rows="5"
-                                        v-model="textarea"
+                                        v-model="form.reason"
                                         placeholder="こちらにキャンセル理由を入力してください。"
                                     ></textarea>
                                     <span
                                         class="invalid-feedback"
                                         role="alert"
-                                        v-if="errors.textarea"
+                                        v-if="errors.reason"
                                     >
-                                        <strong
-                                            v-text="errors.textarea"
-                                        ></strong
+                                        <strong v-text="errors.reason"></strong
                                     ></span>
                                 </div>
                                 <div class="text-center">
@@ -104,7 +107,7 @@
                                                         キャンセル理由
                                                     </dt>
                                                     <dd class="col-8 col-md-9">
-                                                        {{ textarea }}
+                                                        {{ form.reason }}
                                                     </dd>
                                                 </dl>
                                             </div>
@@ -129,10 +132,8 @@
                                             </div>
                                             <div class="col-md-6 mx-auto">
                                                 <button
-                                                    class="btn btn-outline-primary d-block w-100 mb-3"
-                                                    @click.prevent="
-                                                        submit(textarea)
-                                                    "
+                                                    class="btn btn-outline-danger d-block w-100 mb-3"
+                                                    @click.prevent="submit"
                                                 >
                                                     キャンセルする
                                                 </button>
@@ -168,8 +169,9 @@ export default {
             info: {},
             gyms: {},
             errors: {},
-            textarea: "",
-            message: ""
+            form: {
+                reason: ""
+            }
         };
     },
     created() {
@@ -180,6 +182,12 @@ export default {
                 this.gyms = response.data.gyms;
             })
             .catch(error => {
+                let errors = {};
+                console.log(error);
+                for (var key in error.response.data.errors) {
+                    errors[key] = error.response.data.errors[key][0];
+                }
+                this.errors = errors;
                 console.log(error);
             });
     },
@@ -194,12 +202,11 @@ export default {
             this.modal = false;
         },
         submit() {
-            this.errors = {};
-            this.message = "";
-            const data = {
-                comment: textarea
-            };
             var self = this;
+            this.errors = {};
+            const data = {
+                comment: this.form.reason
+            };
             axios
                 .post("/api/settings/reservation/contact/" + this.id, data)
                 .then(response => {
@@ -210,11 +217,10 @@ export default {
                 .catch(error => {
                     this.modal = false;
                     var errors = {};
-                    var message = "";
                     for (var key in error.response.data.errors) {
                         errors[key] = error.response.data.errors[key][0];
                     }
-                    this.errors = errors;
+                    self.errors = errors;
                     console.log(error);
                 });
         }

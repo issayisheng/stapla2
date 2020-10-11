@@ -14,15 +14,6 @@ class Calendar extends Model
 
     protected $casts = [
         'date' => 'date:Y-m-d',
-        'time' => 'date("H:i")',
-        'first_day_of_month' => 'date:Y-m-d',
-        'last_day_of_month' => 'date:Y-m-d',
-        'first_day_of_next_month' => 'date:Y-m-d',
-        'first_day_of_quarter' => 'date:Y-m-d',
-        'last_day_of_quarter' => 'date:Y-m-d',
-        'first_day_of_year' => 'date:Y-m-d',
-        'last_day_of_year' => 'date:Y-m-d',
-        'first_day_of_next_year' => 'date:Y-m-d',
     ];
 
     public function gyms()

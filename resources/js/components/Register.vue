@@ -128,7 +128,7 @@
                         href="/login/facebook"
                     >
                         <img
-                            src="img/facebook-logo.svg"
+                            :src="'/img/facebook-logo.svg'"
                             alt="Facebook"
                             class="btn-default__logo"
                         />Facebookで登録
@@ -138,7 +138,7 @@
                         href="/login/google"
                     >
                         <img
-                            src="img/google-logo.svg"
+                            :src="'/img/google-logo.svg'"
                             alt="Google"
                             class="btn-default__logo"
                         />Googleで登録
