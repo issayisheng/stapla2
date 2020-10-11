@@ -66,7 +66,7 @@
                         href="/login/facebook"
                     >
                         <img
-                            src="img/facebook-logo.svg"
+                            :src="'/img/facebook-logo.svg'"
                             alt="Facebook"
                             class="btn-default__logo"
                         />Facebookでログイン
@@ -76,7 +76,7 @@
                         href="/login/google"
                     >
                         <img
-                            src="img/google-logo.svg"
+                            :src="'/img/google-logo.svg'"
                             alt="Google"
                             class="btn-default__logo"
                         />Googleでログイン

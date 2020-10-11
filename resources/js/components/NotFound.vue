@@ -1,6 +1,6 @@
 <template>
     <div class="flex-center full-height">
-        <div class="content">
+        <div class="content container">
             <h1 class="title">404 Not Found</h1>
             <p class="error-message">お探しのページは存在しません。</p>
             <div class="error-detail mb-5">
