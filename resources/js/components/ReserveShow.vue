@@ -22,8 +22,15 @@
                                 class="calendar-nav d-flex justify-content-between align-items-center"
                             >
                                 <a
+                                    class="btn btn-outline-primary"
+                                    :class="{
+                                        disabled: isActiveBtn
+                                    }"
+                                    :aria-disabled="isActiveBtn ? true : false"
+                                    :tabindex="isActiveBtn ? -1 : 0"
+                                    role="button"
                                     href="javascript:void(0)"
-                                    @click.prevent="prevWeek(1)"
+                                    @click.prevent="prevWeek()"
                                     >前の一週間</a
                                 >
                                 <div class="month">
@@ -33,8 +40,9 @@
                                     >月
                                 </div>
                                 <a
+                                    class="btn btn-outline-primary"
                                     href="javascript:void(0)"
-                                    @click.prevent="nextWeek(1)"
+                                    @click.prevent="nextWeek()"
                                     >次の一週間</a
                                 >
                             </div>
@@ -77,17 +85,15 @@
                                             :key="key.id"
                                             class="position-relative"
                                             :class="[
-                                                item.reserved === 0
+                                                item.reserved == 0
                                                     ? 'is-open'
                                                     : '',
-                                                item.reserved === 1
+                                                item.reserved == 1
                                                     ? 'is-close'
                                                     : ''
                                             ]"
                                         >
-                                            <template
-                                                v-if="item.reserved === 0"
-                                            >
+                                            <template v-if="item.reserved == 0">
                                                 <a
                                                     href="javascript:void(0)"
                                                     @click.stop="
@@ -240,7 +246,8 @@ export default {
     components: { MyModal },
     data() {
         return {
-            modal: false,
+            modal: false, // モーダル
+            isActiveBtn: false,
             id: this.$route.params.id,
             gym: {},
             calendars: [],
@@ -248,7 +255,8 @@ export default {
             calendar_dayofweeks: {},
             noimage: "",
             errorMessage: "",
-            detail: {}
+            detail: {},
+            displayWeek: moment()
         };
     },
     created() {
@@ -356,9 +364,9 @@ export default {
                 .post("/api/reserve/confirm", data)
                 .then(response => {
                     this.detail = response.data.data.plan;
-                    // console.log(response.data.data.plan);
                 })
                 .catch(error => {
+                    this.modal = true;
                     console.log(error);
                 });
         },
@@ -370,7 +378,6 @@ export default {
             axios
                 .post("/api/reserve/post", this.detail)
                 .then(response => {
-                    // console.log(response.data.ticket);
                     if (response.data.ticket == "success") {
                         this.$router.push({
                             name: "reserve_success"
@@ -385,8 +392,9 @@ export default {
                     console.log(error);
                 });
         },
-        nextWeek(value) {
-            const params = { time: value };
+        nextWeek() {
+            this.displayWeek = moment(this.displayWeek).add(1, "w");
+            const params = { time: this.displayWeek.format("YYYY-MM-DD") };
             axios
                 .get("/api/reserve/next/" + this.id, { params })
                 .then(response => {
@@ -470,18 +478,19 @@ export default {
                             obj["21:00"].push(el);
                         }
                     });
+                    this.calendar_month = response.data.month;
                     this.calendars = obj;
                     this.calendar_dayofweeks = obj["09:00"];
-                    // this.calendars = response.data;
-                    console.log(response);
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
         prevWeek() {
+            this.displayWeek = moment(this.displayWeek).subtract(1, "w");
+            const params = { time: this.displayWeek.format("YYYY-MM-DD") };
             axios
-                .get("/api/reserve/prev/" + this.id)
+                .get("/api/reserve/prev/" + this.id, { params })
                 .then(response => {
                     let obj = {
                         "09:00": [],
@@ -565,6 +574,11 @@ export default {
                     });
                     this.calendars = obj;
                     this.calendar_dayofweeks = obj["09:00"];
+                    this.calendar_month = response.data.month;
+                    // DBに値がないとき
+                    if (response.data.exists == false) {
+                        this.isActiveBtn = true;
+                    }
                     // this.calendars = response.data;
                     console.log(response);
                 })
@@ -634,6 +648,7 @@ export default {
 .gym-calender table tbody td {
     vertical-align: middle;
     text-align: center;
+    height: 51px;
 }
 
 .gym-calender table .is-close {

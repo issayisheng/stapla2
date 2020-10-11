@@ -14,7 +14,7 @@ class CreateCalendarsTable extends Migration
     public function up()
     {
         Schema::create('calendars', function (Blueprint $table) {
-            $table->uuid('id')->primary();  //primary
+            $table->uuid('id')->primary();
             $table->uuid('user_id')->nullable();
             $table->uuid('gym_id')->nullable();
             $table->foreign('gym_id')->references('id')->on('gyms');
@@ -29,12 +29,6 @@ class CreateCalendarsTable extends Migration
             $table->string('day_name_en');
             $table->unsignedInteger('is_saturday');
             $table->unsignedInteger('is_sunday');
-            $table->date('first_day_of_month');
-            $table->date('last_day_of_month');
-            $table->date('first_day_of_next_month');
-            $table->date('first_day_of_year');
-            $table->date('last_day_of_year');
-            $table->date('first_day_of_next_year');
             $table->timestamps();
         });
     }
