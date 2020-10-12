@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     <div class="flow-item-image">
-                        <img alt="ジムを予約" src="/img/top/dummy2.jpg" />
+                        <img alt="ジムを予約" src="/img/top/flow1.jpg" />
                     </div>
                 </div>
                 <div class="flow-item">

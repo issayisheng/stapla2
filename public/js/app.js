@@ -69199,7 +69199,7 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("div", { staticClass: "flow-item-image" }, [
             _c("img", {
-              attrs: { alt: "ジムを予約", src: "/img/top/dummy2.jpg" }
+              attrs: { alt: "ジムを予約", src: "/img/top/flow1.jpg" }
             })
           ])
         ]),
