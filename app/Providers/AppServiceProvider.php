@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;  // Heroku用
+use Illuminate\Routing\UrlGenerator;    // HTTPS用
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,10 +23,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(UrlGenerator $url)
     {
-        if (App::environment('production')) {  // HTTPS
-            URL::forceScheme('https');
+        if (env('APP_ENV') === 'production') { // HTTPS
+            $url->forceScheme('https');
         }
         Schema::defaultStringLength(191); // Heroku用
     }
