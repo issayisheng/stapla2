@@ -6,6 +6,7 @@ use App\Http\Requests\GymStoreRequest;
 use App\Models\Gym;
 use App\Models\Calendar;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,8 +21,8 @@ class GymController extends Controller
     public function index()
     {
         // 登録済みのジムを表示
-        $user = Auth::user();
-        return Gym::where('owner_id', $user->id)->get();
+        $user = Auth::id();
+        return Gym::where('owner_id', $user)->get();
     }
 
     /**
@@ -136,6 +137,7 @@ class GymController extends Controller
         $gym->building          = $request->gym_building;
         $gym->tel               = $request->gym_tel;
         $gym->facility          = $request->gym_facility;
+
         if ($request->introduction_pic) {
             if (isset($gym->introduction_pic)) {
                 \Storage::disk('s3')->delete($gym->introduction_pic);
@@ -153,10 +155,6 @@ class GymController extends Controller
         $gym->mon_open    = $request->mon_open;
         $gym->mon_close   = $request->mon_close;
         
-        // // 時間を1コマ潰す
-        // $calendar = Calendar::where('id', $request->plan['id'])->first();
-        // $calendar->monday = $mondy;
-        // $calendar->reserved = true;
 
 
         if (isset($request->tue_open)) {
@@ -224,5 +222,45 @@ class GymController extends Controller
     {
         $url = "https://api.zipaddress.net/?zipcode={$request->zipcode}";
         return file_get_contents($url);
+    }
+
+
+    /**
+     *  所有ジムの予約状況表示
+     */
+    public function getReserve()
+    {
+        // 今日の日付取得
+        $now = Carbon::now('Asia/Tokyo');
+
+
+        // リレーション先(のリレーション先)のテーブルでwhere条件設定
+        // 外部キー(gym_id)を入れることでリレーション先も取得できる
+        $calendar = Calendar::with(['gyms:id,name,owner_id','users:name'])
+        ->whereHas('gyms', function ($query) {
+            $query->where('owner_id', Auth::id());
+        })
+        ->select('id', 'user_id', 'gym_id', 'time', 'date', 'status', 'day_name_ja', 'updated_at', )
+        ->where('reserved', '1')
+        ->where('date', '>', $now)
+        ->orderBy('date', 'desc')
+        ->orderBy('time', 'asc')
+        ->paginate(10);
+
+        // 現時刻以前は予約完了に
+        $dates = Calendar::select('status', 'date', 'time')
+                    ->where('date', '<', $now)
+                    ->where('time', '<', $now)
+                    ->get();
+                    
+        // 当日以前だったら
+        foreach ($calendar as $date) {
+            if ($now < $dates) {
+                $date->status = '2';
+                $date->save();
+            }
+        }
+
+        return response()->json(['calendar' => $calendar]);
     }
 }

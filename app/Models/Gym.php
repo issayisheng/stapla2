@@ -14,11 +14,19 @@ class Gym extends Model
     // 論理削除有効化
     use SoftDeletes;
 
+    // ユーザーテーブル
+    public function users()
+    {
+        return $this->belongsTo('App\User', 'owner_id', 'id');
+    }
+
+    // ユーザー中間
     public function userGyms()
     {
         return $this->hasMany('App\User', 'gym_id', 'id');
     }
 
+    // カレンダーテーブル
     public function calendars()
     {
         return $this->hasMany('App\Models\Calendar');
