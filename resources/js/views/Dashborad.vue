@@ -1,5 +1,6 @@
 <template>
     <div class="container py-5">
+        <h3 class="dashboard__title">ジムを予約する</h3>
         <div class="row justify-content-center align-items-start">
             <div class="card-group col-12">
                 <router-link to="/reserve" class="card">
@@ -45,3 +46,10 @@
         </div>
     </div>
 </template>
+
+<style scoped>
+.dashboard__title {
+    margin: 0 0 20px;
+    font-size: 20px;
+}
+</style>

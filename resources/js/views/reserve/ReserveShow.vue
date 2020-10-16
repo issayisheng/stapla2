@@ -4,7 +4,7 @@
             class="jumbotron d-flex justify-content-center align-items-center"
             :style="{
                 backgroundImage: gym.introduction_pic
-                    ? 'url(' + gym.introduction_pic + ')'
+                    ? 'url(' + '../' + gym.introduction_pic + ')'
                     : 'url(' + noimage + ')'
             }"
         >
@@ -239,7 +239,7 @@
 </template>
 
 <script>
-import MyModal from "../components/Modal.vue";
+import MyModal from "../../components/Modal.vue";
 import moment from "moment";
 
 export default {
@@ -263,6 +263,7 @@ export default {
         axios
             .get("/api/reserve/" + this.id)
             .then(response => {
+                console.log(response.data);
                 let obj = {
                     "09:00": [],
                     // "09:30": [],
@@ -398,6 +399,13 @@ export default {
             axios
                 .get("/api/reserve/next/" + this.id, { params })
                 .then(response => {
+                    // nullの場合
+                    // if (response.data == null) {
+                    //     console.log(hogehoge);
+                    // これ以上の日程は予約できません
+                    // }else{}
+                    // 値がある場合
+                    console.log(response.data);
                     let obj = {
                         "09:00": [],
                         // "09:30": [],
@@ -579,8 +587,6 @@ export default {
                     if (response.data.exists == false) {
                         this.isActiveBtn = true;
                     }
-                    // this.calendars = response.data;
-                    console.log(response);
                 })
                 .catch(error => {
                     console.log(error);

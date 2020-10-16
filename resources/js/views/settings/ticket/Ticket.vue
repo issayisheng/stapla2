@@ -144,7 +144,6 @@ export default {
             .get("/api/settings/ticket")
             .then(response => {
                 this.user = response.data;
-                console.log(response);
             })
             .catch(error => {
                 console.log(error);

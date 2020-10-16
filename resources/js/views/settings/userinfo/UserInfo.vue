@@ -3,7 +3,27 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">マイページ</div>
+                    <div
+                        class="card-header d-flex justify-content-between align-items-center"
+                    >
+                        <div>マイページ</div>
+                        <div>
+                            <router-link
+                                v-if="
+                                    user.password == null || user.password == ''
+                                "
+                                to="/settings/user_info/password"
+                                class="btn btn-outline-danger"
+                                >パスワード設定</router-link
+                            >
+                            <router-link
+                                v-else
+                                to="/user_info.password.edits"
+                                class="btn btn-outline-primary"
+                                >パスワード変更</router-link
+                            >
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="list-group layout-form">
                             <div v-if="message" class="alert alert-danger">
@@ -40,26 +60,11 @@
                                     <div v-else>{{ user.tel }}</div>
                                 </div>
                             </div>
-                            <div class="row justify-content-center mb-3">
+                            <div class="text-center">
                                 <router-link
-                                    class="btn btn-outline-primary mr-5"
+                                    class="btn btn-outline-primary"
                                     :to="`/settings/user_info/${user.id}/edit`"
                                     >編集する</router-link
-                                >
-                                <router-link
-                                    v-if="
-                                        user.password == null ||
-                                            user.password == ''
-                                    "
-                                    to="/settings/user_info/password"
-                                    class="btn btn-outline-danger"
-                                    >パスワード設定</router-link
-                                >
-                                <router-link
-                                    v-else
-                                    to="/user_info.password.edits"
-                                    class="btn btn-outline-primary"
-                                    >パスワード変更</router-link
                                 >
                             </div>
                         </div>

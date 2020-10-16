@@ -1,11 +1,25 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+        <div class="row justify-content-center py-5">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">パスワードのリセット</div>
                     <div class="card-body">
                         <form @submit.prevent="update">
+                            <div class="col-md-8 mx-auto">
+                                <div
+                                    v-if="successMessage"
+                                    class="alert alert-success"
+                                >
+                                    {{ successMessage }}
+                                </div>
+                                <div
+                                    v-if="errorMessage"
+                                    class="alert alert-danger"
+                                >
+                                    {{ errorMessage }}
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label
                                     for="email"
@@ -21,8 +35,8 @@
                                             'is-invalid': errors.email
                                         }"
                                         name="email"
-                                        placeholder="mail@stapla.net"
-                                        v-model="form.email"
+                                        placeholder="ご登録のメールアドレス"
+                                        v-model="email"
                                     />
                                     <span
                                         class="invalid-feedback"
@@ -49,7 +63,7 @@
                                         }"
                                         name="password"
                                         placeholder="8文字以上の半角英数記号"
-                                        v-model="form.password"
+                                        v-model="password"
                                     />
                                     <span
                                         class="invalid-feedback"
@@ -73,8 +87,9 @@
                                         id="password-confirm"
                                         type="password"
                                         class="form-control"
-                                        name="password_confirmation"
                                         placeholder="パスワード確認"
+                                        name="password_confirmation"
+                                        v-model="password_confirmation"
                                     />
                                 </div>
                             </div>
@@ -84,7 +99,7 @@
                                         type="submit"
                                         class="btn btn-primary"
                                     >
-                                        Reset Password
+                                        パスワードリセットする
                                     </button>
                                 </div>
                             </div>
@@ -98,31 +113,48 @@
 
 <script>
 export default {
-    data: function() {
+    data() {
         return {
             id: this.$route.params["id"],
-            form: {
-                email: "",
-                password: "",
-                password_confirmation: ""
-            },
-            errors: {}
+            email: "",
+            password: "",
+            password_confirmation: "",
+            errors: {},
+            errorMessage: "",
+            successMessage: ""
         };
     },
     methods: {
         update() {
+            this.errorMessage = "";
+            this.successMessage = "";
+            var self = this;
+            const data = {
+                email: this.email,
+                password: this.password,
+                password_confirmation: this.password_confirmation,
+                token: this.id
+            };
             axios
-                .post("/api/auth/password/reset/" + this.id)
+                .post("/api/auth/password/reset/" + this.id, data)
                 .then(response => {
-                    console.log(response);
+                    console.log(response.data);
+                    if (response.data.failed === "passwords.token") {
+                        self.errorMessage = "無効なトークンです。";
+                    } else if (response.data.failed === "passwords.user") {
+                        self.errorMessage = "該当ユーザーがいません。";
+                    }
+                    self.successMessage = response.data.success;
                 })
                 .catch(error => {
                     console.log(error);
+                    let errors = {};
+                    for (var key in error.response.data.errors) {
+                        errors[key] = error.response.data.errors[key][0];
+                    }
+                    self.errors = errors;
                 });
         }
-    },
-    mounted() {
-        this.update();
     }
 };
 </script>

@@ -1,33 +1,6 @@
 <template>
     <div class="home">
-        <header class="header">
-            <div class="header__container  container">
-                <div class="header__logo">
-                    <img :src="'img/common/logo.svg'" alt="stapla" />
-                </div>
-                <div class="header-main">
-                    <ul class="header-nav list-unstyled">
-                        <li class="header-nav__item">
-                            <a href="">コンセプト</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <a href="">特徴</a>
-                        </li>
-                        <li class="header-nav__item">ご利用の流れ</li>
-                    </ul>
-                    <div class="header-form">
-                        <router-link to="/login" class="header-form__login"
-                            >ログイン</router-link
-                        >
-                        <router-link
-                            to="/register"
-                            class="header-form__register"
-                            >新規登録</router-link
-                        >
-                    </div>
-                </div>
-            </div>
-        </header>
+        <app-header></app-header>
         <div class="kv" :style="{ 'background-image': 'url(' + kvImage + ')' }">
             <div class="kv-main">
                 <div class="container">
@@ -35,7 +8,7 @@
                         いつでも、<br />使える<span class="">個室ジム</span>
                     </div>
                     <div class="kv__desc">
-                        staplaはレンタルジム専用予約サービスです。
+                        STAPLAはレンタルジム専用予約サービスです。
                     </div>
                     <router-link to="/register" class="kv__btn"
                         >今すぐ登録する</router-link
@@ -48,13 +21,13 @@
                 <div class="section__title">
                     <p class="section__title--en">Concept</p>
                     <h2 class="section__title--ja">
-                        コンセプト説明タイトルが入ります。<br />最大2行最大2行最大2行
+                        用途は自由<br />予約した時間はあなただけの空間です。
                     </h2>
                 </div>
                 <div class="concept__content">
                     <div class="concept-body">
                         <div class="concept-body__desc">
-                            この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大き
+                            個人のトレーニングを周りに邪魔されず、集中してトレーニングが可能です。<br />もちろんご自身のクライアントへパーソナルトレーニングを提供することも可能です。<br />予約枠は90分／コマです。
                         </div>
                     </div>
                     <div class="concept-image">
@@ -125,9 +98,7 @@
                             </h3>
                         </div>
                         <div class="flow-item-body__desc">
-                            24
-                            時間のネット予約受付により、営業時間外の「予約の取りこぼし防止」はもちろん、あなたのビジネスの成長を支える機能やオプションを多数ご用意！リピーターを強化するメルマガ・DM
-                            配信機能や、サービスの魅力を伝えるレビュー機能、広告の出稿をサポートする集客オプションなどをご用意しています。
+                            まずはお好きな施設と使用開始時間を選択ください。予約は利用開始の1分前からでも取得可能です。（チケット残数がある場合は、Step3利用開始へお進みください。）
                         </div>
                     </div>
                     <div class="flow-item-image">
@@ -143,13 +114,11 @@
                             </h3>
                         </div>
                         <div class="flow-item-body__desc">
-                            24
-                            時間のネット予約受付により、営業時間外の「予約の取りこぼし防止」はもちろん、あなたのビジネスの成長を支える機能やオプションを多数ご用意！リピーターを強化するメルマガ・DM
-                            配信機能や、サービスの魅力を伝えるレビュー機能、広告の出稿をサポートする集客オプションなどをご用意しています。
+                            初めての方やチケット残数が０の場合は、予約時にチケット購入画面へと遷移します。決済方法はクレジットカードのみで、大手決済サービスのStripeを通してご購入いただきます。
                         </div>
                     </div>
                     <div class="flow-item-image">
-                        <img alt="チケットを購入" src="/img/top/flow1.jpg" />
+                        <img alt="チケットを購入" src="/img/top/flow2.jpg" />
                     </div>
                 </div>
                 <div class="flow-item">
@@ -161,9 +130,7 @@
                             </h3>
                         </div>
                         <div class="flow-item-body__desc">
-                            24
-                            時間のネット予約受付により、営業時間外の「予約の取りこぼし防止」はもちろん、あなたのビジネスの成長を支える機能やオプションを多数ご用意！リピーターを強化するメルマガ・DM
-                            配信機能や、サービスの魅力を伝えるレビュー機能、広告の出稿をサポートする集客オプションなどをご用意しています。
+                            お時間になりましたら現地にて鍵の解錠を行っていただき利用開始です。ルーム内の設備はご自由にご利用いただけます。トレーニング後は、ルームの片付けを行っていただき、終了時間までに退出・施錠を行い利用終了です。
                         </div>
                     </div>
                     <div class="flow-item-image">
@@ -174,75 +141,13 @@
         </section>
         <aside class="cta">
             <div class="cta__content container">
-                <div class="cta__title">さっそくstaplaを<br />使ってみる</div>
+                <div class="cta__title">さっそくSTAPLAを<br />使ってみる</div>
                 <router-link to="/register" class="cta__btn"
                     >無料で試してみる</router-link
                 >
             </div>
         </aside>
-        <footer class="footer">
-            <div class="container d-md-flex justify-content-between">
-                <div class="footer-logo">
-                    <img
-                        :src="'img/common/footer_logo.svg'"
-                        alt="stapla"
-                        class="footer-logo__img"
-                    />
-                    <p>レンタルジム専用予約サービス</p>
-                </div>
-                <div class="footer-nav">
-                    <h5 class="footer-nav__title">About</h5>
-                    <ul class="list-unstyled footer-list">
-                        <li class="footer-list__item">
-                            <router-link to="/about" class="footer-list__link"
-                                >Staplaについて</router-link
-                            >
-                        </li>
-                        <li class="footer-list__item">
-                            <router-link to="/faq" class="footer-list__link"
-                                >よくある質問</router-link
-                            >
-                        </li>
-                        <li class="footer-list__item">
-                            <router-link to="/company" class="footer-list__link"
-                                >運営会社</router-link
-                            >
-                        </li>
-                    </ul>
-                </div>
-                <div class="footer-nav">
-                    <h5 class="footer-nav__title">Help</h5>
-                    <ul class="list-unstyled footer-list">
-                        <li class="footer-list__item">
-                            <router-link to="/terms" class="footer-list__link"
-                                >利用規約</router-link
-                            >
-                        </li>
-                        <li class="footer-list__item">
-                            <router-link to="/primacy" class="footer-list__link"
-                                >プライバシーポリシー</router-link
-                            >
-                        </li>
-                        <li class="footer-list__item">
-                            <router-link to="/law" class="footer-list__link"
-                                >特定商取引法に基づく表記</router-link
-                            >
-                        </li>
-                    </ul>
-                </div>
-                <div class="footer-nav">
-                    <h5 class="footer-nav__title">Link</h5>
-                    <ul class="list-unstyled footer-list">
-                        <li class="footer-list__item">
-                            <router-link to="/contact" class="footer-list__link"
-                                >お問い合わせ</router-link
-                            >
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <p class="copyright text-center">&copy; 2020 stapla</p>
-        </footer>
+        <app-footer></app-footer>
     </div>
 </template>
 
@@ -265,63 +170,6 @@ export default {
 
 img {
     max-width: 100%;
-}
-
-.header {
-    height: 75px;
-}
-
-.header__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    height: 100%;
-}
-
-.header__logo img {
-    display: block;
-    width: 110px;
-    height: 22px;
-}
-
-.header-main {
-    display: flex;
-    align-items: center;
-}
-
-.header-nav {
-    display: flex;
-    margin: 0;
-}
-
-.header-nav__item {
-    margin: 0 40px 0 0;
-}
-
-.header-form {
-    display: flex;
-    align-items: center;
-    padding: 0 0 0 40px;
-    border-left: 1px solid #e2e2e2;
-}
-
-.header-form__login {
-    font-weight: 700;
-    margin: 0 24px 0 0;
-}
-
-.header-form__register {
-    width: 120px;
-    padding: 10px 0;
-    text-align: center;
-    color: #fff;
-    background-color: #ff5722;
-    border-radius: 3px;
-}
-
-.header-form__register:hover {
-    color: #fff;
 }
 
 .kv {
@@ -439,7 +287,8 @@ img {
     border-radius: 4px;
     padding: 2px 10px;
     margin: 0 10px 0 0;
-    background: #e5e5e5;
+    background: #fa8231;
+    color: #fff;
 }
 
 .flow-item-body__desc {
@@ -477,59 +326,6 @@ img {
     background: #fff;
     border-radius: 4px;
     text-align: center;
-}
-
-.footer {
-    padding: 72px 0 0;
-    background: #333;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.footer-logo {
-    margin: 0 0 30px;
-}
-
-.footer-logo__img {
-    width: 100px;
-    margin: 0 0 10px;
-}
-
-.footer-list {
-    margin: 0;
-}
-
-.footer-list__link {
-    color: #fff;
-    font-size: 13px;
-    margin: 0 0 16px;
-    display: block;
-}
-
-.footer-list__link:hover {
-    color: inherit;
-    text-decoration: underline;
-}
-
-.footer-nav {
-    margin: 0 0 40px;
-}
-
-.footer-nav:last-child {
-    margin: 0;
-}
-
-.footer-nav__title {
-    font-size: 16px;
-    margin: 0 0 16px;
-    padding: 0 0 16px;
-    border-bottom: solid 1px rgba(255, 255, 255, 0.2);
-}
-
-.copyright {
-    margin: 0;
-    padding: 20px 0px;
-    color: #fff;
-    font-size: 12px;
 }
 
 @media screen and (min-width: 768px) {
@@ -608,23 +404,6 @@ img {
     .cta__btn {
         width: 280px;
         margin: 0 auto;
-    }
-
-    .footer-logo {
-        margin: 0;
-    }
-
-    .footer-nav {
-        margin: 0;
-    }
-
-    .footer-nav__title {
-        padding: 0;
-        border-bottom: none;
-    }
-
-    .copyright {
-        margin: 40px 0 0;
     }
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
     <div class="container py-5">
         <div v-if="gyms.length !== 0">
+            <div class="mb-3">
+                全 {{ total }} 件中 {{ from }} 〜 {{ to }} 件表示
+            </div>
             <div class="row justify-content-center align-items-start">
                 <div class="card-group">
                     <div
@@ -13,7 +16,7 @@
                                 name: 'reserve_show',
                                 params: { id: gym.id }
                             }"
-                            class="card"
+                            class="card mb-3"
                         >
                             <img
                                 class="bd-placeholder-img bd-placeholder-img-lg card-img"
@@ -33,11 +36,25 @@
                                 </h2>
                             </div>
                         </router-link>
+                        <div>
+                            <div>
+                                <span
+                                    class="badge badge-secondary p-1 mr-2 align-middle"
+                                    >住所</span
+                                >{{ gym.address }}
+                            </div>
+                            <div>
+                                <span
+                                    class="badge badge-secondary p-1 mr-2 align-middle"
+                                    >設備</span
+                                >{{ gym.facility }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <nav aria-label="Page navigation" class="">
-                <ul class="pagination justify-content-center pagination-lg">
+            <nav aria-label="Page navigation" class="navigation">
+                <ul class="pagination justify-content-center pagination-mg">
                     <li :class="{ disabled: current_page <= 1 }">
                         <a class="page-link" href="#" @click="change(1)"
                             >&laquo;</a
@@ -82,9 +99,6 @@
                     </li>
                 </ul>
             </nav>
-            <div class="text-center mt-4">
-                全 {{ total }} 件中 {{ from }} 〜 {{ to }} 件表示
-            </div>
         </div>
     </div>
 </template>
@@ -117,7 +131,6 @@ export default {
                 this.errorMessage = "データの取得に失敗しました。";
             });
     },
-
     methods: {
         load(page) {
             axios.get("/api/reserve?page=" + page).then(({ data }) => {
@@ -145,12 +158,12 @@ export default {
 </script>
 
 <style scoped>
-.pagination {
+.navigation {
     margin: 45px 0 0;
 }
 
 @media screen and (min-width: 768px) {
-    .pagination {
+    .navigation {
         margin: 72px 0 0;
     }
 }

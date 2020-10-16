@@ -7,7 +7,7 @@
                     <form
                         enctype="multipart/form-data"
                         @submit.prevent="updateGym"
-                        class="layout-form py-5"
+                        class="col-md-6 mx-auto py-5"
                     >
                         <div v-if="errorMessage" class="alert alert-danger">
                             {{ errorMessage }}
@@ -239,7 +239,7 @@
                                 <strong v-text="errors.gym_facility"></strong
                             ></span>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="" class="font-weight-bold"
                                 >ジム開放時間</label
                             >
@@ -286,13 +286,15 @@
                             >
                                 <strong v-text="errors.mon_open"></strong
                             ></span>
+                        </div> -->
+                        <div class="text-center">
+                            <button
+                                type="submit"
+                                class="btn btn-outline-primary"
+                            >
+                                更新
+                            </button>
                         </div>
-                        <button
-                            type="submit"
-                            class="btn btn-outline-primary btn-block"
-                        >
-                            更新
-                        </button>
                     </form>
                 </div>
             </div>

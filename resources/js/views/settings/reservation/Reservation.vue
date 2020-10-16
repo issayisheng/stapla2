@@ -10,7 +10,7 @@
                         </div>
                         <template v-if="items.length == 0">
                             <div class="text-center mb-3">
-                                現在、予約はありません
+                                現在、予約はありません。
                             </div>
                         </template>
                         <template v-else>

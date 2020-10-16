@@ -158,7 +158,7 @@
 
 <script>
 import moment from "moment";
-import MyModal from "../../Modal.vue";
+import MyModal from "../../../components/Modal.vue";
 
 export default {
     components: { MyModal },
@@ -183,7 +183,6 @@ export default {
             })
             .catch(error => {
                 let errors = {};
-                console.log(error);
                 for (var key in error.response.data.errors) {
                     errors[key] = error.response.data.errors[key][0];
                 }
@@ -205,7 +204,7 @@ export default {
             var self = this;
             this.errors = {};
             const data = {
-                comment: this.form.reason
+                reason: this.form.reason
             };
             axios
                 .post("/api/settings/reservation/contact/" + this.id, data)

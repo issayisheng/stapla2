@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-component></header-component>
+        <login-header-component></login-header-component>
         <main class="l-main">
             <router-view></router-view>
         </main>

@@ -5,14 +5,14 @@
                 <router-link to="/" class="form-logo__link">Stapla</router-link>
             </div>
             <div class="form-main">
+                <h1 class="form-main__title">パスワードをお忘れの方</h1>
                 <div v-if="successMessage" class="alert alert-success">
                     {{ successMessage }}
                 </div>
-                <h1 class="form-main__title">パスワードをお忘れの方</h1>
                 <div v-if="errorMessage" class="alert alert-danger">
                     {{ errorMessage }}
                 </div>
-                <form class="layout-form" @submit.prevent="submit">
+                <form class="layout-form" @submit.prevent="submit(email)">
                     <div class="form-group mb-4">
                         <div>
                             <label
@@ -30,7 +30,7 @@
                             }"
                             name="email"
                             placeholder="メールアドレスを入力"
-                            v-model="forgotForm.email"
+                            v-model="email"
                             @change="onChangeEmail"
                         />
                         <span
@@ -57,36 +57,38 @@
 export default {
     data() {
         return {
-            forgotForm: {
-                email: ""
-            },
+            email: "",
             errors: {},
             successMessage: "",
             errorMessage: ""
         };
     },
     methods: {
-        submit: function() {
+        submit(value) {
             this.errorMessage = "";
             this.successMessage = "";
             var self = this;
-            // const data = {
-            //     email: "sasaki.shota@example.com" //今回投げるuserid
-            // };
+            const data = {
+                email: value
+            };
             axios
-                .post("/api/auth/password/email")
+                .post("/api/auth/password/email", data)
                 .then(response => {
-                    console.log(response);
-                    self.successMessage = response.message;
+                    self.errorMessage = response.data.failed;
+                    self.successMessage = response.data.send;
                 })
                 .catch(error => {
                     let errors = {};
-                    console.log(error);
                     for (var key in error.response.data.errors) {
                         errors[key] = error.response.data.errors[key][0];
                     }
-                    this.errors = errors;
-                    self.errorMessage = error.message;
+                    if (error.response.status == 422) {
+                        self.errorMessage =
+                            "メールアドレスを入力してください。";
+                    } else {
+                        self.errorMessage = error;
+                    }
+                    self.errors = errors;
                 });
         },
         onChangeEmail: function(value) {

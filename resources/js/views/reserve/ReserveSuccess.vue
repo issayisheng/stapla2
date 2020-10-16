@@ -4,7 +4,7 @@
             class="jumbotron d-flex justify-content-center align-items-center"
             :style="{
                 backgroundImage: gym.introduction_pic
-                    ? 'url(' + gym.introduction_pic + ')'
+                    ? 'url(' + '/' + gym.introduction_pic + ')'
                     : 'url(' + noimage + ')'
             }"
         >
@@ -16,18 +16,16 @@
             <div class="card">
                 <div class="card-body">
                     <div class="py-4 text-center">
-                        <h5 class="mb-3">
-                            チケットが不足しているため、<br />予約をお取りできません。
-                        </h5>
-                        <router-link
-                            to="/settings/ticket"
-                            class="btn btn-outline-danger"
-                            >チケット購入</router-link
-                        >
+                        <h5 class="mb-3">予約が完了しました。</h5>
                         <router-link
                             to="/settings/reservation"
-                            class="btn btn-outline-secondary"
+                            class="btn btn-outline-primary"
                             >予約確認</router-link
+                        >
+                        <router-link
+                            to="/dashboard"
+                            class="btn btn-outline-secondary"
+                            >ダッシュボード</router-link
                         >
                     </div>
                 </div>
@@ -50,6 +48,7 @@ export default {
         axios
             .get("/api/reserve/success/" + this.id)
             .then(response => {
+                console.log(response);
                 this.gym = response.data.gym;
                 this.noimage = "/img/gym/noimage.png";
             })
