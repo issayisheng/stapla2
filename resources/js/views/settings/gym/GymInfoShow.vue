@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-5">
+                        <!-- <div class="card mb-5">
                             <div class="card-header">
                                 ジム開放時間
                             </div>
@@ -124,7 +124,7 @@
                                 </div>
                                 <div v-else>Close</div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-8 mx-auto">
                             <div class="d-flex mb-3">
                                 <router-link
