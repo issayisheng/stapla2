@@ -29,13 +29,13 @@
                                                 予約日
                                             </th>
                                             <th scope="col" class="text-nowrap">
-                                                時間
+                                                施設予約時間
                                             </th>
                                             <th scope="col" class="text-nowrap">
                                                 施設名
                                             </th>
                                             <th scope="col" class="text-nowrap">
-                                                登録時間
+                                                登録日
                                             </th>
                                             <th scope="col" class="text-nowrap">
                                                 状態
@@ -52,11 +52,12 @@
                                         >
                                             <th scope="row">{{ index + 1 }}</th>
                                             <td class="text-nowrap">
-                                                {{ item.date | reserveDate }}
+                                                {{ item.date | moment }}
                                                 ({{ item.day_name_ja }})
                                             </td>
                                             <td class="text-nowrap">
-                                                {{ item.time }}
+                                                {{ item.time | reserveTime }} 〜
+                                                {{ item.time | getEndTime }}
                                             </td>
                                             <td class="text-nowrap">
                                                 {{ item.gyms.name }}
@@ -261,11 +262,20 @@ export default {
     filters: {
         moment: function(date) {
             moment.locale("ja");
-            return moment(date).format("lll");
-        },
-        reserveDate: function(date) {
-            moment.locale("ja");
             return moment(date).format("ll");
+        },
+        reserveTime: function(time) {
+            return time.slice(0, 5);
+        },
+        getEndTime: function(time) {
+            const targetHour = Number(time[1]);
+            const targetMinute = Number(time[3]);
+            const moveUp = targetMinute == 0 ? 1 : 2;
+            const endMinute = targetMinute == 0 ? 3 : 0;
+            const endHour = targetHour + moveUp;
+            return (
+                time[0] + String(endHour) + ":" + String(endMinute) + time[4]
+            );
         }
     }
 };

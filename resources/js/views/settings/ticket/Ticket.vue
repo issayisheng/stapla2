@@ -40,8 +40,8 @@
                         <div class="card-group mb-3">
                             <div class="card">
                                 <img
-                                    class="bd-placeholder-img card-img-top"
-                                    :src="'/img/gym/gym.png'"
+                                    class="bd-placeholder-img card-img-top ticket-img"
+                                    :src="'/img/ticket/ticket1.png'"
                                     alt="The cover of Stubborn Attachments"
                                 />
                                 <div class="card-body">
@@ -58,8 +58,8 @@
                             </div>
                             <div class="card">
                                 <img
-                                    class="bd-placeholder-img card-img-top"
-                                    :src="'/img/gym/gym2.png'"
+                                    class="bd-placeholder-img card-img-top ticket-img"
+                                    :src="'/img/ticket/ticket2.png'"
                                     alt="The cover of Stubborn Attachments"
                                 />
                                 <div class="card-body">
@@ -76,8 +76,8 @@
                             </div>
                             <div class="card">
                                 <img
-                                    class="bd-placeholder-img card-img-top"
-                                    :src="'/img/gym/gym3.png'"
+                                    class="bd-placeholder-img card-img-top ticket-img"
+                                    :src="'/img/ticket/ticket3.png'"
                                     alt="The cover of Stubborn Attachments"
                                 />
                                 <div class="card-body">
@@ -154,7 +154,7 @@ export default {
 
 <style scoped>
 .checkout-button {
-    background: #92e3a9;
+    background: #556cd6;
     color: #fff;
     font-size: 14px;
     border: 0;
@@ -168,5 +168,10 @@ export default {
 }
 .checkout-button:hover {
     opacity: 0.8;
+}
+
+.ticket-img {
+    width: 70%;
+    margin: 0 auto;
 }
 </style>

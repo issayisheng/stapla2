@@ -22,7 +22,8 @@ class ReserveController extends Controller
       */
     public function index()
     {
-        return Gym::paginate(6);
+        return Gym::select(['id','name','address','facility','introduction_pic'])
+                    ->paginate(6);
     }
 
     /**
@@ -44,8 +45,11 @@ class ReserveController extends Controller
      */
     public function show($id)
     {
-        $gym = Gym::FindOrFail($id); // ジム詳細データ
+        // ジム詳細データ
+        $gym = Gym::select(['name','introduction_pic'])
+                    ->FindOrFail($id);
 
+        // 本日の情報取得
         $now = Carbon::now('Asia/Tokyo');
 
         // 現時刻以前は予約不可に
@@ -67,12 +71,17 @@ class ReserveController extends Controller
 
 
         // カレンダー設定
-        $calendar = Calendar::whereBetween('date', [$from, $to])
+        $calendar = Calendar::select(['id','time','day','day_name_ja','month','reserved','is_sunday','is_saturday','date'])
+                    ->whereBetween("date", [$from, $to])
                     ->where('gym_id', $id)
                     ->orderBy('day', 'asc')
-                    ->get(['id','time','day','day_name_ja','month','reserved','is_sunday','is_saturday','date']);
+                    ->get();
+    
+        
+        $first = $calendar[0]['month'];
+        $last = $calendar[62]['month'];
 
-        return response()->json(['gym' => $gym, 'calendar' => $calendar, 'pasts' => $pasts]);
+        return response()->json(['gym' => $gym, 'calendar' => $calendar, 'first' => $first, 'last' => $last]);
     }
 
     /**
@@ -104,21 +113,45 @@ class ReserveController extends Controller
     {
         $gym = Gym::FindOrFail($id);
 
-        // 日付をmoment.jsで取得、送信
-        $now = new Carbon($request->time);
-        $month = $now->format('m');
 
-        $from = $now->copy();
-        $to   = $now->copy()->addweek(1)->subday();
+        // 日付をmoment.jsで取得、送信
+        $request_next = new Carbon($request->time);
+        $format_now = $request_next->format('Y-m-d H:i:s');
+
         
+        // 本日2ヶ月以内のデータを表示
+        $now = Carbon::now('Asia/Tokyo');
+        $setYear  = $now->year;
+        $setMonth = $now->month;
+        $addMonth = $now->copy()->addMonth(2)->format('m');
+        $setDay   = $now->day;
+        $setHour   = $now->hour;
+        $setMinute  = $now->minute;
+        $setSecond   = $now->second;
+        $end = Carbon::create($setYear, $addMonth, $setDay, $setHour, $setMinute, $setSecond)->format('Y-m-d H:i:s');
+
+
+        // 期間
+        $from = $request_next->copy();
+        $to   = $request_next->copy()->addweek(1)->subday();
+
         // カレンダー設定
-        $calendar = Calendar::whereBetween('date', [$from, $to])
+        $calendar = Calendar::select(['id','time','day','day_name_ja','month','reserved','is_sunday','is_saturday','date'])
+                    ->whereBetween('date', [$from, $to])
                     ->where('gym_id', $id)
                     ->orderBy('month', 'asc')
                     ->orderBy('day', 'asc')
-                    ->get(['id','time','day','day_name_ja','month','reserved','is_sunday','is_saturday','date']);
-        
-        return response()->json(['calendar' => $calendar, 'month' => $month]);
+                    ->get();
+
+        $first = $calendar[0]['month'];
+        $last = $calendar[62]['month'];
+
+        // もし2ヶ月以上のデータは表示させない
+        if ($format_now > $end) {
+            return response()->json(['null' => false]);
+        } else {
+            return response()->json(['calendar' => $calendar, 'first' => $first, 'last' => $last]);
+        }
     }
 
 
@@ -129,29 +162,31 @@ class ReserveController extends Controller
 
 
         // 日付をmoment.jsで取得、送信
-        $now = new Carbon($request->time);
-        $month = $now->format('m');
+        $request_prev = new Carbon($request->time);
 
         
         // 期間
-        $from = $now->copy()->subday()->addday();
-        $to   = $now->copy()->addweek()->subday();
+        $from = $request_prev->copy()->subday()->addday();
+        $to   = $request_prev->copy()->addweek()->subday();
 
 
         // カレンダー設定
-        $calendar = Calendar::whereBetween('date', [$from, $to])
-        ->where('gym_id', $id)
-        ->orderBy('month', 'asc')
-        ->orderBy('day', 'asc')
-        ->get(['id','time','day','day_name_ja','month','reserved','is_sunday','is_saturday','date']);
+        $calendar = Calendar::select(['id','time','day','day_name_ja','month','reserved','is_sunday','is_saturday','date'])
+                            ->whereBetween('date', [$from, $to])
+                            ->where('gym_id', $id)
+                            ->orderBy('month', 'asc')
+                            ->orderBy('day', 'asc')
+                            ->get();
 
+        $first = $calendar[0]['month'];
+        $last = $calendar[62]['month'];
 
         // DBに値があるか
         $exists = Calendar::where('date', [$from, $to])->exists();
         if ($exists) {
-            return response()->json(['calendar' => $calendar, 'month' => $month]);
+            return response()->json(['calendar' => $calendar, 'first' => $first, 'last' => $last]);
         } else {
-            return response()->json(['calendar' => $calendar, 'month' => $month, 'exists' => $exists]);
+            return response()->json(['calendar' => $calendar, 'exists' => $exists]);
         }
     }
 
@@ -196,6 +231,15 @@ class ReserveController extends Controller
                     $ticket->quantity -= $ticket_num;
                     $ticket->save();
 
+                    // 中間テーブル
+                    $users = Auth::user();
+                    $users->calendars()->attach(
+                        ['user_id' => $user],
+                        ['calendar_id' => $request->id],
+                    );
+                    $users->save();
+
+            
 
                     // 日付取得
                     $date = $calendar->date;

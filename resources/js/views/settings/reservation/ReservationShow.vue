@@ -31,7 +31,7 @@
                                         class="form-control"
                                         readonly
                                         type="text"
-                                        :placeholder="info.time"
+                                        :placeholder="info.time | reserveTime"
                                     />
                                 </div>
                                 <div class="form-group">
@@ -99,7 +99,10 @@
                                                     </dt>
                                                     <dd class="col-8 col-md-9">
                                                         {{ info.date | moment }}
-                                                        {{ info.time }}
+                                                        {{
+                                                            info.time
+                                                                | reserveTime
+                                                        }}
                                                     </dd>
                                                 </dl>
                                                 <dl class="row text-left">
@@ -228,6 +231,9 @@ export default {
         moment: function(date) {
             moment.locale("ja");
             return moment(date).format("ll");
+        },
+        reserveTime: function(date) {
+            return date.slice(0, 5);
         }
     }
 };
