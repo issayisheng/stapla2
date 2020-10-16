@@ -11,16 +11,24 @@ import VueRouter from "vue-router";
 import store from "./store";
 import router from "./router";
 
-require("./subscriber");
 
-// vuetifyの設定
-// import Vuetify from "vuetify";
-// import "vuetify/dist/vuetify.min.css";
+// 未認証はログインページにリダイレクト
+axios.interceptors.response.use(
+    response => { 
+        return response;
+    }, error => {
+    if (error.response.status === 401) {
+        router.push({ path: '/login' }).catch((error)=>{
+            error;
+        })
+    }
+    return Promise.reject(error)
+})
+
+
 
 window.Vue = require("vue");
-
 Vue.use(VueRouter);
-// Vue.use(Vuetify);
 
 /**
  * The following block of code may be used to automatically register your
@@ -35,11 +43,13 @@ Vue.use(VueRouter);
 
 Vue.component("app-component", require("./components/App.vue").default);
 Vue.component(
-    "header-component",
-    require("./components/AppHeader.vue").default
+    "login-header-component",
+    require("./components/LoginHeader.vue").default
 );
 
-// Vue.component("message-component", require("./components/Message.vue").default);
+Vue.component("app-header", require("./components/AppHeader.vue").default);
+Vue.component("app-footer", require("./components/AppFooter.vue").default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -47,10 +57,10 @@ Vue.component(
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+require("./subscriber");
 store.dispatch("auth/attempt", localStorage.getItem("token")).then();
 
 const app = new Vue({
     router,
     store
-    // vuetify: new Vuetify()
 }).$mount("#app");

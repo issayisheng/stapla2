@@ -12,14 +12,14 @@ class VerifyEmail extends VerifyEmailBase
 {
     protected function verificationUrl($user)
     {
-        $prefix = 'http://localhost.stapla.com';
+        $prefix = ('http://localhost.stapla.com/');
         $routeName = 'verification.verify';
         $temporarySignedURL = URL::temporarySignedRoute(
             $routeName,
             Carbon::now()->addMinutes(30),
             ['id' => $user->getKey()]
         );
-
-        return $prefix.urlencode($temporarySignedURL);
+        
+        return $prefix . urlencode($temporarySignedURL);
     }
 }

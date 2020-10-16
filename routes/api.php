@@ -15,27 +15,29 @@ use Illuminate\Http\Request;
 
 
 
-//Socialite
-// Route::get('/login/{social}', 'LoginController@socialLogin')->where('social', 'facebook|google')->name('login.social');
-// Route::get('/login/{social}/callback', 'LoginController@handleProviderCallback')->where('social', 'facebook|google')->name('login.social.callback');
 
+
+// 認証が必要ないメソッド
 Route::group(["middleware" => "api"], function () {
-    // 認証が必要ないメソッド
     Route::group(['prefix' => 'auth'], function () {
-        Route::post('/register', 'Auth\RegisterController')->name('register');
+        Route::post('/register', 'Auth\RegisterController@register')->name('register');
         Route::post('/login', 'AuthController@login')->name('login');
         Route::post('/logout', 'AuthController@logout')->name('logout');
         Route::get('/me', 'AuthController@me')->name('me');
         Route::post('/refresh', 'AuthController@refresh')->name('refresh');
+
+        //Socialite
+        // Route::get('/login/{social}', 'AuthController@socialLogin')->where('social', 'facebook|google')->name('login.social');
+        // Route::get('/login/{social}/callback', 'AuthController@handleProviderCallback')->where('social', 'facebook|google')->name('login.social.callback');
 
         Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
         Route::post('password/reset/{token}', 'Auth\ResetPasswordController@reset')->name('password.reset');
         Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
         Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
     });
-    
-    Route::group(['middleware' => ['jwt.auth']], function () {
-        // 認証が必要なメソッド
+
+    // 認証が必要なメソッド
+    Route::group(['middleware' => ['auth:api']], function () {
         Route::group(['prefix' => 'settings'], function () {
             Route::apiResources([
                 'gym_info'     => 'GymController',          // ジム設定
@@ -52,17 +54,15 @@ Route::group(["middleware" => "api"], function () {
             // 予約キャンセル
             Route::post('/reservation/contact/{id}', 'ReservationController@contact')->name('reservation.contact');
 
-
             // パスワード設定
             Route::post('user_info/password', 'UserInfoPasswordController@store')->name('user_info.password.store');
             Route::get('user_info/password/edit/{id}', 'UserInfoPasswordController@edit')->name('user_info.password.edit');
             Route::post('user_info/password/update/{id}', 'UserInfoPasswordController@update')->name('user_info.password.update');
         });
 
-
-
+        // 予約
         Route::apiResources([
-            'reserve'           => 'ReserveController',         // 予約
+            'reserve'           => 'ReserveController',
         ]);
 
         // 翌週・先週ページネーション
@@ -84,5 +84,6 @@ Route::group(["middleware" => "api"], function () {
         
         // 住所検索
         Route::get('/zipcode', 'GymController@getZipInfo')->name('zipcode');
+        Route::get('/get_reserve', 'GymController@getReserve')->name('gym.reservation');
     });
 });

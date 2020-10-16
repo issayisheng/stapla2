@@ -31,15 +31,14 @@ export default {
     },
 
     actions: {
+        // 新規登録
         async register({ dispatch }, credentials) {
             let response = await axios.post("/api/auth/register", credentials);
-
             return dispatch("attempt", response.data.token);
         },
-
+        // ログイン
         async login({ dispatch }, credentials) {
             let response = await axios.post("/api/auth/login", credentials);
-
             return dispatch("attempt", response.data.token);
         },
 
@@ -54,7 +53,6 @@ export default {
 
             try {
                 let response = await axios.get("/api/auth/me");
-
                 commit("SET_USER", response.data);
             } catch (e) {
                 commit("SET_TOKEN", null);
@@ -62,6 +60,7 @@ export default {
             }
         },
 
+        // ログアウト
         logout({ commit }) {
             return axios.post("/api/auth/logout").then(() => {
                 commit("SET_TOKEN", null);

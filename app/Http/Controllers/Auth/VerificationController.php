@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Verified;
 use App\User;
-use Illuminate\Http\JsonResponse;
 
 class VerificationController extends Controller
 {
@@ -41,23 +40,23 @@ class VerificationController extends Controller
         if (!$user->email_verified_at) {
             $user->markEmailAsVerified();
             event(new Verified($user));
-            return new JsonResponse('Email Verified');
+            return response()->json(['verified' => '確認済みのメールです。']);
         }
-        return new JsonResponse('Email Verify Failed');
+        return response()->json(['failed' => 'メール認証に失敗しました。']);
     }
 
     public function resend(Request $request)
     {
         $user = User::where('email', $request->get('email'))->get()->first();
         if (!$user) {
-            return new JsonResponse('No Such User');
+            return response()->json(['such' => 'ユーザー登録がありません。']);
         }
         if ($user->hasVerifiedEmail()) {
-            return new JsonResponse('Already Verified User');
+            return response()->json(['already' => '既に確認済みのユーザーです。']);
         }
 
         $user->sendEmailVerificationNotification();
 
-        return new JsonResponse('Send Verify Email');
+        return response()->json(['resend' => '確認のためのメールを送信しました。']);
     }
 }
