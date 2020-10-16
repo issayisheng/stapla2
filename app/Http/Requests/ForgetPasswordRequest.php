@@ -3,10 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LoginRequest extends FormRequest
+class ForgetPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +24,14 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'    => 'required|string|max:64',
-            'password' => 'required|string|max:64',
+            'email' => ['required'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.required' => 'メールアドレスを入力してください。',
         ];
     }
 }

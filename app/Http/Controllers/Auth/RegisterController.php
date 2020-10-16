@@ -2,25 +2,77 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Tymon\JWTAuth\JWTAuth;
 
 class RegisterController extends Controller
 {
-    public function __invoke(Request $request)
+    /*
+    |--------------------------------------------------------------------------
+    | Register Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles the registration of new users as well as their
+    | validation and creation. By default this controller uses a trait to
+    | provide this functionality without requiring any additional code.
+
+    */
+
+    use RegistersUsers;
+
+    /**
+     * Where to redirect users after registration.
+     *
+     * @var string
+     */
+    protected $redirectTo = '';
+
+    protected $auth;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(JWTAuth $auth)
     {
-        $this->validator($request->all())->validate();
-
-        event(new Registered($user = $this->create($request->all())));
-
-        return response()->json(['token' => auth()->tokenById($user->id)]);
+        $this->auth = $auth;
     }
 
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * 登録関数をオーバライドする
+     */
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+        
+        if (!$validator->fails()) {
+            event(new Registered($user = $this->create($request->all())));
+
+            $token = $this->auth->attempt($request->only('email', 'password'));
+
+            return response()->json([
+                'success' => true,
+                'data' => $user,
+                'token' => $token
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'errors' => $validator->errors()
+        ], 422);
+    }
 
     /**
      * Get a validator for an incoming registration request.

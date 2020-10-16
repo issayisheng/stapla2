@@ -4,50 +4,68 @@ import VueRouter from "vue-router";
 // VueRouterプラグインを使用する
 Vue.use(VueRouter);
 
-// コンポーネントをインポート
+// Layout
 import MainLayout from "./components/layouts/MainLayout.vue";
 import LoginLayout from "./components/layouts/LoginLayout.vue";
-import Top from "./components/Top.vue";
-import Login from "./components/Login.vue";
-import Register from "./components/Register.vue";
-import VerifyEmail from "./components/VerifyEmail.vue";
-import ForgotPassword from "./components/ForgotPassword.vue";
-import PasswordReset from "./components/PasswordReset.vue";
-import Privacy from "./components/common/Privacy.vue";
-import Terms from "./components/common/Terms.vue";
-import Dashboard from "./components/Dashborad.vue";
 
-import Reserve from "./components/Reserve.vue";
-import ReserveShow from "./components/ReserveShow.vue";
-import ReserveSuccess from "./components/ReserveSuccess.vue";
-import ReserveFailed from "./components/ReserveFailed.vue";
+import Top from "./views/Top.vue";
+import Dashboard from "./views/Dashborad.vue";
 
-import UserInfo from "./components/settings/userinfo/UserInfo.vue";
-import UserInfoEdit from "./components/settings/userinfo/UserInfoEdit.vue";
-import Password from "./components/settings/userinfo/Password.vue";
-import PasswordEdit from "./components/settings/userinfo/PasswordEdit.vue";
+// common
+import About from "./views/common/About.vue";
+import Faq from "./views/common/Faq.vue";
+import Company from "./views/common/Company.vue";
+import Contact from "./views/common/Contact.vue";
+import Law from "./views/common/Law.vue";
+import Privacy from "./views/common/Privacy.vue";
+import Terms from "./views/common/Terms.vue";
 
-import GymInfo from "./components/settings/gym/GymInfo.vue";
-import GymInfoCreate from "./components/settings/gym/GymInfoCreate.vue";
-import GymInfoEdit from "./components/settings/gym/GymInfoEdit.vue";
-import GymInfoShow from "./components/settings/gym/GymInfoShow.vue";
+// Auth
+import Login from "./views/Auth/Login.vue";
+import Register from "./views/Auth/Register.vue";
+import VerifyEmail from "./views/Auth/VerifyEmail.vue";
+import ForgotPassword from "./views/Auth/ForgotPassword.vue";
+import PasswordReset from "./views/Auth/PasswordReset.vue";
 
-import Trainer from "./components/settings/trainer/Trainer.vue";
-import TrainerEdit from "./components/settings/trainer/TrainerEdit.vue";
+// Reserve
+import Reserve from "./views/reserve/Reserve.vue";
+import ReserveShow from "./views/reserve/ReserveShow.vue";
+import ReserveSuccess from "./views/reserve/ReserveSuccess.vue";
+import ReserveFailed from "./views/reserve/ReserveFailed.vue";
 
-import History from "./components/settings/history/History.vue";
-import HistoryShow from "./components/settings/history/HistoryShow.vue";
+// user
+import UserInfo from "./views/settings/userinfo/UserInfo.vue";
+import UserInfoEdit from "./views/settings/userinfo/UserInfoEdit.vue";
+import Password from "./views/settings/userinfo/Password.vue";
+import PasswordEdit from "./views/settings/userinfo/PasswordEdit.vue";
 
-import Ticket from "./components/settings/ticket/Ticket.vue";
-import TicketCancel from "./components/settings/ticket/Cancel.vue";
-import TicketSuccess from "./components/settings/ticket/Success.vue";
+// Gym
+import GymInfo from "./views/settings/gym/GymInfo.vue";
+import GymInfoCreate from "./views/settings/gym/GymInfoCreate.vue";
+import GymInfoEdit from "./views/settings/gym/GymInfoEdit.vue";
+import GymInfoShow from "./views/settings/gym/GymInfoShow.vue";
 
-import Reservation from "./components/settings/reservation/Reservation.vue";
-import ReservationShow from "./components/settings/reservation/ReservationShow.vue";
+// Trainer
+import Trainer from "./views/settings/trainer/Trainer.vue";
+import TrainerEdit from "./views/settings/trainer/TrainerEdit.vue";
 
-import NotFound from "./components/NotFound.vue";
+// History
+import History from "./views/settings/history/History.vue";
+import HistoryShow from "./views/settings/history/HistoryShow.vue";
 
-// vue-routerによるルーティング設定
+// Ticket
+import Ticket from "./views/settings/ticket/Ticket.vue";
+import TicketCancel from "./views/settings/ticket/Cancel.vue";
+import TicketSuccess from "./views/settings/ticket/Success.vue";
+
+
+import Reservation from "./views/settings/reservation/Reservation.vue";
+import ReservationShow from "./views/settings/reservation/ReservationShow.vue";
+
+// 404
+import NotFound from "./views/errors/NotFound.vue";
+
+
 export default new VueRouter({
     mode: "history",
     routes: [
@@ -61,6 +79,31 @@ export default new VueRouter({
                     name: "top",
                     component: Top
                 },
+                {
+                    path: "/about",
+                    name: "about",
+                    component: About
+                },     
+                {
+                    path: "/faq",
+                    name: "faq",
+                    component: Faq
+                },    
+                {
+                    path: "/company",
+                    name: "company",
+                    component: Company
+                },
+                {
+                    path: "/law",
+                    name: "law",
+                    component: Law
+                },  
+                {
+                    path: "/contact",
+                    name: "contact",
+                    component: Contact
+                },  
                 {
                     path: "/login",
                     name: "login",

@@ -124,8 +124,8 @@ export default {
                     this.errors = errors;
                     if (error.response.status == 401) {
                         this.message = "ログイン情報が登録されていません。";
-                    } else {
-                        this.message = error;
+                    } else if (error.response.status == 422) {
+                        this.message = "以下の項目を入力してください。";
                     }
                 });
         },

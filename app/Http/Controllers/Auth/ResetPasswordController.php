@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\Auth\PasswordBroker;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\PasswordResetRequest;
 
 class ResetPasswordController extends Controller
 {
@@ -44,14 +44,8 @@ class ResetPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    public function reset(Request $request)
+    public function reset(PasswordResetRequest $request)
     {
-        $validate = $this->validator($request->all());
-
-        if ($validate->fails()) {
-            return new JsonResponse($validate->errors());
-        }
-
         $response = $this->broker()->reset(
             $this->credentials($request),
             function ($user, $password) {
@@ -74,20 +68,11 @@ class ResetPasswordController extends Controller
 
     protected function sendResetResponse(Request $request, $response)
     {
-        return new JsonResponse('Password Reset');
+        return response()->json(['success' => 'パスワードを変更しました。']);
     }
 
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        return new JsonResponse($response);
-    }
-
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:6',
-        ]);
+        return response()->json(['failed' => $response]);
     }
 }

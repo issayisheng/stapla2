@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-// 追加
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
+use App\Http\Requests\ForgetPasswordRequest;
 
 class ForgotPasswordController extends Controller
 {
@@ -20,14 +18,8 @@ class ForgotPasswordController extends Controller
     }
 
     // ここ以下、追加
-    public function sendResetLinkEmail(Request $request)
+    public function sendResetLinkEmail(ForgetPasswordRequest $request)
     {
-        $validate = $this->validateEmail($request->all());
-
-        if ($validate->fails()) {
-            return new JsonResponse('Email is Invalid');
-        }
-
         $response = $this->broker()->sendResetLink(
             $request->only('email')
         );
@@ -37,20 +29,13 @@ class ForgotPasswordController extends Controller
             : $this->sendResetLinkFailedResponse($request, $response);
     }
 
-    protected function validateEmail(array $data)
+    protected function sendResetLinkResponse()
     {
-        return Validator::make($data, [
-            'email' => 'required|email',
-        ]);
+        return response()->json(['send' => 'パスワードリセットメールを送信しました。']);
     }
 
-    protected function sendResetLinkResponse(): JsonResponse
+    protected function sendResetLinkFailedResponse(Request $request, $response)
     {
-        return new JsonResponse('Send Reset Mail');
-    }
-
-    protected function sendResetLinkFailedResponse(Request $request, $response): JsonResponse
-    {
-        return new JsonResponse(trans($response));
+        return response()->json(['failed' => trans($response)]);
     }
 }
