@@ -8,7 +8,6 @@ use GoldSpecDigital\LaravelEloquentUUID\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;  // JWT
 use App\Notifications\CustomPasswordReset; // Mail
 use App\Notifications\VerifyEmail; // メール認証追加
-use App\Models\History;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
@@ -80,18 +79,28 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->belongsToMany('App\Models\Calendar');
     }
 
+
+    // ジムテーブル
+    public function gyms()
+    {
+        return $this->hasMany('App\Models\Gym');
+    }
+
+    // 中間テーブル
     public function userGyms()
     {
         return $this->hasMany('App\Models\Gym', 'user_id', 'id');
     }
 
+    // チケットテーブル
     public function tickets()
     {
         return $this->hasMany('App\Models\Ticket');
     }
 
+    // 購入テーブル
     public function histories()
     {
-        return $this->hasMany(History::class);
+        return $this->hasMany('App\Models\History');
     }
 }

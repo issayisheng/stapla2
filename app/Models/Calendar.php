@@ -16,11 +16,13 @@ class Calendar extends Model
         'date' => 'date:Y-m-d',
     ];
 
+    // ジムテーブル
     public function gyms()
     {
         return $this->belongsTo('App\Models\Gym', 'gym_id', 'id');
     }
 
+    // キャンセルテーブル
     public function cancels()
     {
         return $this->hasMany('App\Models\Calendar');

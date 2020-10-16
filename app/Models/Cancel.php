@@ -12,6 +12,7 @@ class Cancel extends Model
 
     protected $guarded = [];
 
+    // カレンダーテーブル
     public function calendars()
     {
         return $this->belongsTo('App\Models\Calendar', 'calendar_id', 'id');

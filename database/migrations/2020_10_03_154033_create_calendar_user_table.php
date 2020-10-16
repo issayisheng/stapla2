@@ -14,9 +14,8 @@ class CreateCalendarUserTable extends Migration
     public function up()
     {
         Schema::create('calendar_user', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->uuid('user_id');
-            $table->uuid('calendar_id');
+            $table->string('user_id');
+            $table->string('calendar_id');
             $table->primary(['calendar_id', 'user_id']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');        // 外部キー制約
             $table->foreign('calendar_id')->references('id')->on('calendars')->onDelete('cascade');// 外部キー制約
