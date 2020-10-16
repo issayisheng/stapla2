@@ -24,7 +24,7 @@ class ReservationRequest extends FormRequest
     public function rules()
     {
         return [
-            'reason'      => ['required|max:200'],
+            'reason'      => 'required|max:200',
         ];
     }
 

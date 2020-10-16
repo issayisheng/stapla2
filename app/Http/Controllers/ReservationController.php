@@ -111,11 +111,11 @@ class ReservationController extends Controller
     {
         DB::beginTransaction();
         try {
-            $comment = $request->comment;   // キャンセル理由を記入
+            $reason = $request->reason;   // キャンセル理由を記入
 
             $cancel = new Cancel;
             $cancel->calendar_id   = $id;
-            $cancel->reason        = $comment;
+            $cancel->reason        = $reason;
             $cancel->save();
 
 
@@ -123,7 +123,7 @@ class ReservationController extends Controller
             $calendar = Calendar::select('id', 'date', 'time', 'status')->where('id', $id)->first();
             $calendar->status = '10';  // キャンセル済み
             $date = $calendar->date;   // 日付取得
-            $time = $calendar->time;   // 時間取得
+            $time = date('H:i', strtotime($calendar->time)); // 時間取得
             $date_format = date_format($date, 'Y年m月d日');
 
         
