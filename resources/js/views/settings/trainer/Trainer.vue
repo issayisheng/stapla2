@@ -84,7 +84,6 @@ export default {
             .get("/api/settings/trainer")
             .then(response => {
                 this.trainers = response.data;
-                console.log(response);
             })
             .catch(error => {
                 console.log(error);

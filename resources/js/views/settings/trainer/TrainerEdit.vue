@@ -72,7 +72,6 @@ export default {
             .get("/api/settings/trainer/" + this.id)
             .then(response => {
                 this.trainer = response.data;
-                console.log(response);
             })
             .catch(error => {
                 console.log(error);
@@ -88,9 +87,7 @@ export default {
             var self = this;
             axios
                 .post("/api/settings/history/contact")
-                .then(response => {
-                    console.log(response);
-                })
+                .then(response => {})
                 .catch(error => {
                     var errors = {};
                     var message = "";
