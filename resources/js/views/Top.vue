@@ -141,9 +141,9 @@
         </section>
         <aside class="cta">
             <div class="cta__content container">
-                <div class="cta__title">さっそくSTAPLAを<br />使ってみる</div>
+                <div class="cta__title">STAPLAを使ってみる</div>
                 <router-link to="/register" class="cta__btn"
-                    >無料で試してみる</router-link
+                    >今すぐ登録する</router-link
                 >
             </div>
         </aside>
@@ -173,7 +173,7 @@ img {
 }
 
 .kv {
-    height: 540px;
+    height: 400px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -207,7 +207,7 @@ img {
     color: #fff;
     padding: 11px 0;
     font-size: 16px;
-    background: #ff5722;
+    background: #f17436;
     border-radius: 4px;
     text-align: center;
 }
@@ -221,7 +221,7 @@ img {
 }
 
 .section__title--en {
-    color: #ff5722;
+    color: #f17436;
     font-size: 16px;
     font-weight: 700;
 }
@@ -329,6 +329,10 @@ img {
 }
 
 @media screen and (min-width: 768px) {
+    .kv {
+        height: 540px;
+    }
+
     .kv__title {
         font-size: 75px;
         margin: 0 0 20px;
@@ -367,7 +371,7 @@ img {
     }
 
     .feature-item {
-        width: 30%;
+        width: 31%;
         margin: 0;
     }
 
