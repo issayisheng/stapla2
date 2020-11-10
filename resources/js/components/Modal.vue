@@ -62,4 +62,10 @@ export default {};
     opacity: 0;
     transform: translateY(-20px);
 }
+
+@media screen and (min-width: 768px) {
+    .modal.modal-overlay {
+        padding: 40px;
+    }
+}
 </style>
