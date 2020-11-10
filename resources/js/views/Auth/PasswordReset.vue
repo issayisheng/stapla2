@@ -101,6 +101,11 @@
                                     >
                                         パスワードリセットする
                                     </button>
+                                    <router-link
+                                        to="/login"
+                                        class="btn btn-secondary"
+                                        >ログイン画面に戻る</router-link
+                                    >
                                 </div>
                             </div>
                         </form>
@@ -138,7 +143,6 @@ export default {
             axios
                 .post("/api/auth/password/reset/" + this.id, data)
                 .then(response => {
-                    console.log(response.data);
                     if (response.data.failed === "passwords.token") {
                         self.errorMessage = "無効なトークンです。";
                     } else if (response.data.failed === "passwords.user") {

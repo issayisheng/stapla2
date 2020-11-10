@@ -1,55 +1,59 @@
 <template>
     <div class="login form">
+        <login-header></login-header>
         <div class="container">
-            <div class="form-logo">
-                <router-link to="/" class="form-logo__link">Stapla</router-link>
-            </div>
             <div class="form-main">
                 <h1 class="form-main__title">パスワードをお忘れの方</h1>
-                <div v-if="successMessage" class="alert alert-success">
-                    {{ successMessage }}
-                </div>
-                <div v-if="errorMessage" class="alert alert-danger">
-                    {{ errorMessage }}
-                </div>
-                <form class="layout-form" @submit.prevent="submit(email)">
-                    <div class="form-group mb-4">
-                        <div>
-                            <label
-                                for="email"
-                                class="col-form-label font-weight-bold"
-                                >メールアドレス</label
-                            >
-                        </div>
-                        <input
-                            id="email"
-                            type="email"
-                            class="form-control"
-                            :class="{
-                                'is-invalid': errors.email
-                            }"
-                            name="email"
-                            placeholder="メールアドレスを入力"
-                            v-model="email"
-                            @change="onChangeEmail"
-                        />
-                        <span
-                            class="invalid-feedback"
-                            role="alert"
-                            v-if="errors.email"
-                        >
-                            <strong v-text="errors.email"></strong
-                        ></span>
-                        <p class="form-group-text mt-2">
-                            ご登録されたメールアドレス宛てにパスワード再設定のご案内が送信されます。
-                        </p>
+                <div class="form-main__content">
+                    <div v-if="successMessage" class="alert alert-success">
+                        {{ successMessage }}
                     </div>
-                    <button type="submit" class="btn-default btn-default--mail">
-                        送信する
-                    </button>
-                </form>
+                    <div v-if="errorMessage" class="alert alert-danger">
+                        {{ errorMessage }}
+                    </div>
+                    <form class="layout-form" @submit.prevent="submit(email)">
+                        <div class="form-group mb-4">
+                            <div>
+                                <label
+                                    for="email"
+                                    class="col-form-label font-weight-bold"
+                                    >メールアドレス</label
+                                >
+                            </div>
+                            <input
+                                id="email"
+                                type="email"
+                                class="form-control"
+                                :class="{
+                                    'is-invalid': errors.email
+                                }"
+                                name="email"
+                                placeholder="メールアドレスを入力"
+                                v-model="email"
+                                @change="onChangeEmail"
+                            />
+                            <span
+                                class="invalid-feedback"
+                                role="alert"
+                                v-if="errors.email"
+                            >
+                                <strong v-text="errors.email"></strong
+                            ></span>
+                            <p class="form-group-text mt-2">
+                                ご登録されたメールアドレス宛てにパスワード再設定のご案内が送信されます。
+                            </p>
+                        </div>
+                        <button
+                            type="submit"
+                            class="btn-default btn-default--mail"
+                        >
+                            送信する
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
+        <login-footer></login-footer>
     </div>
 </template>
 
