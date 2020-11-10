@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
                 'gym_id' => $faker->uuid,
                 'tel' => $faker->phoneNumber,
                 'name' => '山田 太郎',
-                'email' => 'yamada@test.net',
+                'email' => 'yamada@yamada.net',
                 'status' => 0,
                 'password' => Hash::make('password'), // password
                 'remember_token' => Str::random(10),

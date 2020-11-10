@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="list-group layout-form">
+                        <div class="col-md-6 mx-auto">
                             <div v-if="message" class="alert alert-danger">
                                 {{ message }}
                             </div>

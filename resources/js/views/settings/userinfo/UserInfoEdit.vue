@@ -7,7 +7,7 @@
                     <div class="card-body">
                         <form
                             @submit.prevent="updateUserInfo"
-                            class="layout-form py-3"
+                            class="py-3 col-md-6 mx-auto"
                         >
                             <div class="form-group">
                                 <div>
@@ -163,6 +163,9 @@ export default {
                     this.$router.push({
                         name: "userinfo",
                         params: { id: this.$route.params.id }
+                    });
+                    this.flash("編集に成功しました", "success", {
+                        timeout: 3000
                     });
                 })
                 .catch(error => {
