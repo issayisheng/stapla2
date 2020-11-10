@@ -8,7 +8,7 @@
                         いつでも、<br />使える<span class="">個室ジム</span>
                     </div>
                     <div class="kv__desc">
-                        STAPLAはレンタルジム専用予約サービスです。
+                        STAPLAはトレーナー専用ジム時間貸しアプリです。
                     </div>
                     <router-link to="/register" class="kv__btn"
                         >今すぐ登録する</router-link

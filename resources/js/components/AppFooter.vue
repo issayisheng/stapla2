@@ -8,7 +8,7 @@
                         alt="STAPLA"
                         class="footer-logo__img"
                     />
-                    <p>レンタルジム専用予約サービス</p>
+                    <p>トレーナー専用ジム時間貸しアプリ</p>
                 </div>
                 <div class="footer-nav">
                     <h5 class="footer-nav__title">About</h5>
