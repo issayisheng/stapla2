@@ -19,7 +19,6 @@ class CreateCalendarUserTable extends Migration
             $table->primary(['calendar_id', 'user_id']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');        // 外部キー制約
             $table->foreign('calendar_id')->references('id')->on('calendars')->onDelete('cascade');// 外部キー制約
-            $table->timestamps();
         });
     }
 
