@@ -335,7 +335,6 @@ export default {
             .get("/api/settings/gym_info/" + this.id)
             .then(response => {
                 this.gym = response.data;
-                console.log(response.data);
             })
             .catch(error => {
                 this.errorMessage = "データの取得に失敗しました。";

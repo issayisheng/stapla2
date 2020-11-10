@@ -28,7 +28,7 @@ class CalendarsTableSeeder extends Seeder
         // @NOTE - update the start and end date as per your choice
 
         // 期間
-        $dates = CarbonPeriod::create('2020-09-01', '2020-12-31');
+        $dates = CarbonPeriod::create('2020-11-01', '2021-02-31');
 
         // 予約可能時間繰り返し
         // $times = CarbonPeriod::since('09:00')->minutes(30)->until('22:00')->toArray();

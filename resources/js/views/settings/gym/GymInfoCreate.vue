@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header">ジム新規登録</div>
                     <form
-                        class="layout-form py-5"
+                        class="py-5"
                         enctype="multipart/form-data"
                         @submit.prevent="createGym"
                     >
@@ -593,7 +593,6 @@ export default {
             axios
                 .get(`/api/zipcode/?zipcode=${val}`)
                 .then(response => {
-                    console.log(response.data);
                     if (response.data.code == 400) {
                         self.errorMessage = "郵便番号の形式が無効です。";
                     } else if (response.data.code == 404) {

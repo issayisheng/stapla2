@@ -18,14 +18,14 @@
                     <div class="py-4 text-center">
                         <h5 class="mb-3">予約が完了しました。</h5>
                         <router-link
-                            to="/settings/reservation"
-                            class="btn btn-outline-primary"
-                            >予約確認</router-link
-                        >
-                        <router-link
                             to="/dashboard"
                             class="btn btn-outline-secondary"
                             >ダッシュボード</router-link
+                        >
+                        <router-link
+                            to="/settings/reservation"
+                            class="btn btn-outline-primary"
+                            >予約確認</router-link
                         >
                     </div>
                 </div>
@@ -48,7 +48,6 @@ export default {
         axios
             .get("/api/reserve/success/" + this.id)
             .then(response => {
-                console.log(response);
                 this.gym = response.data.gym;
                 this.noimage = "/img/gym/noimage.png";
             })

@@ -32,13 +32,13 @@
                                         施設名
                                     </th>
                                     <th scope="col" class="text-nowrap">
-                                        登録日
-                                    </th>
-                                    <th scope="col" class="text-nowrap">
                                         ユーザー名
                                     </th>
                                     <th scope="col" class="text-nowrap">
                                         状態
+                                    </th>
+                                    <th scope="col" class="text-nowrap">
+                                        登録日
                                     </th>
                                 </tr>
                             </thead>
@@ -53,16 +53,14 @@
                                         ({{ item.day_name_ja }})
                                     </td>
                                     <td class="text-nowrap">
-                                        {{ item.time | reserveTime }}
+                                        {{ item.time | reserveTime }} 〜
+                                        {{ item.time | getEndTime }}
                                     </td>
                                     <td
                                         class="text-nowrap"
                                         v-if="item.gyms !== null"
                                     >
                                         {{ item.gyms.name }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        {{ item.updated_at | reserveDate }}
                                     </td>
                                     <td class="text-nowrap">
                                         {{ item.users[0].name }}
@@ -90,6 +88,9 @@
                                         >
                                             キャンセル済
                                         </h5>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        {{ item.updated_at | reserveDate }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -287,7 +288,21 @@ export default {
             return moment(date).format("ll");
         },
         reserveTime: function(date) {
-            return date.slice(0, 5);
+            return (date || "").slice(0, 5);
+        },
+        getEndTime: function(time) {
+            const targetHour = Number(time[1]);
+            const targetMinute = Number(time[3]);
+            const moveUp = targetMinute == 0 ? 1 : 2;
+            const endMinute = targetMinute == 0 ? 3 : 0;
+            const calcHour = Number(targetHour + moveUp);
+            const endHour =
+                calcHour == 10
+                    ? calcHour
+                    : calcHour == 11
+                    ? calcHour + 10
+                    : time[0] + String(calcHour);
+            return String(endHour) + ":" + String(endMinute) + time[4];
         }
     }
 };

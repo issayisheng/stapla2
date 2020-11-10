@@ -1,54 +1,52 @@
 <template>
     <div class="container py-5">
-        <div v-if="gyms.length !== 0">
+        <template v-if="gyms.length !== 0">
             <div class="mb-3">
                 全 {{ total }} 件中 {{ from }} 〜 {{ to }} 件表示
             </div>
-            <div class="row justify-content-center align-items-start">
-                <div class="card-group">
-                    <div
-                        v-for="gym in gyms"
-                        :key="gym.id"
-                        class="col-sm-12 col-md-6 col-lg-4 px-md-2 mb-3"
+            <div class="card-group">
+                <div
+                    v-for="gym in gyms"
+                    :key="gym.id"
+                    class="col-sm-12 col-md-6 col-lg-4 px-md-2 mb-3"
+                >
+                    <router-link
+                        :to="{
+                            name: 'reserve_show',
+                            params: { id: gym.id }
+                        }"
+                        class="card mb-3"
                     >
-                        <router-link
-                            :to="{
-                                name: 'reserve_show',
-                                params: { id: gym.id }
-                            }"
-                            class="card mb-3"
+                        <img
+                            class="bd-placeholder-img bd-placeholder-img-lg card-img"
+                            width="100%"
+                            height="270"
+                            :src="
+                                gym.introduction_pic
+                                    ? gym.introduction_pic
+                                    : noimage
+                            "
+                        />
+                        <div
+                            class="card-img-overlay d-flex justify-content-center align-items-center text-center"
                         >
-                            <img
-                                class="bd-placeholder-img bd-placeholder-img-lg card-img"
-                                width="100%"
-                                height="270"
-                                :src="
-                                    gym.introduction_pic
-                                        ? gym.introduction_pic
-                                        : noimage
-                                "
-                            />
-                            <div
-                                class="card-img-overlay d-flex justify-content-center align-items-center"
-                            >
-                                <h2 class="card-title text-white">
-                                    {{ gym.name }}
-                                </h2>
-                            </div>
-                        </router-link>
+                            <h2 class="card-title text-white">
+                                {{ gym.name }}
+                            </h2>
+                        </div>
+                    </router-link>
+                    <div>
                         <div>
-                            <div>
-                                <span
-                                    class="badge badge-secondary p-1 mr-2 align-middle"
-                                    >住所</span
-                                >{{ gym.address }}
-                            </div>
-                            <div>
-                                <span
-                                    class="badge badge-secondary p-1 mr-2 align-middle"
-                                    >設備</span
-                                >{{ gym.facility }}
-                            </div>
+                            <span
+                                class="badge badge-secondary p-1 mr-2 align-middle"
+                                >住所</span
+                            >{{ gym.address }}
+                        </div>
+                        <div>
+                            <span
+                                class="badge badge-secondary p-1 mr-2 align-middle"
+                                >設備</span
+                            >{{ gym.facility }}
                         </div>
                     </div>
                 </div>
@@ -99,7 +97,7 @@
                     </li>
                 </ul>
             </nav>
-        </div>
+        </template>
     </div>
 </template>
 

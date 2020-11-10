@@ -35,13 +35,13 @@
                                                 施設名
                                             </th>
                                             <th scope="col" class="text-nowrap">
-                                                登録日
-                                            </th>
-                                            <th scope="col" class="text-nowrap">
                                                 状態
                                             </th>
                                             <th scope="col" class="text-nowrap">
                                                 予約取り消し
+                                            </th>
+                                            <th scope="col" class="text-nowrap">
+                                                登録日
                                             </th>
                                         </tr>
                                     </thead>
@@ -62,12 +62,7 @@
                                             <td class="text-nowrap">
                                                 {{ item.gyms.name }}
                                             </td>
-                                            <td class="text-nowrap">
-                                                {{ item.updated_at | moment }}
-                                            </td>
-                                            <td v-if="item.status == '0'">
-                                                -
-                                            </td>
+                                            <td v-if="item.status == '0'"></td>
                                             <td v-else-if="item.status == '1'">
                                                 <h5
                                                     class="badge badge-primary badge-pill py-2 reservation-badge"
@@ -102,6 +97,9 @@
                                                 >
                                                     キャンセル
                                                 </router-link>
+                                            </td>
+                                            <td class="text-nowrap">
+                                                {{ item.updated_at | moment }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -188,13 +186,13 @@
                         <div class="col-10 mx-auto text-center">
                             <router-link
                                 to="/reserve"
-                                class="btn btn-outline-primary"
+                                class="btn btn-outline-secondary"
                             >
                                 予約画面
                             </router-link>
                             <router-link
                                 to="/settings/history"
-                                class="btn btn-outline-success"
+                                class="btn btn-outline-primary"
                             >
                                 チケット履歴
                             </router-link>
@@ -227,9 +225,7 @@ export default {
     created() {
         axios
             .get("/api/settings/reservation")
-            .then(response => {
-                // console.log(response.data);
-            })
+            .then(response => {})
             .catch(error => {
                 this.message = "データの取得に失敗しました。";
             });
@@ -265,17 +261,21 @@ export default {
             return moment(date).format("ll");
         },
         reserveTime: function(time) {
-            return time.slice(0, 5);
+            return (time || "").slice(0, 5);
         },
         getEndTime: function(time) {
             const targetHour = Number(time[1]);
             const targetMinute = Number(time[3]);
             const moveUp = targetMinute == 0 ? 1 : 2;
             const endMinute = targetMinute == 0 ? 3 : 0;
-            const endHour = targetHour + moveUp;
-            return (
-                time[0] + String(endHour) + ":" + String(endMinute) + time[4]
-            );
+            const calcHour = Number(targetHour + moveUp);
+            const endHour =
+                calcHour == 10
+                    ? calcHour
+                    : calcHour == 11
+                    ? calcHour + 10
+                    : time[0] + String(calcHour);
+            return String(endHour) + ":" + String(endMinute) + time[4];
         }
     }
 };

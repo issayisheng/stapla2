@@ -42,16 +42,17 @@
                                         ></label
                                     >
                                     <textarea
+                                        id="textarea"
                                         name="reason"
                                         class="form-control"
                                         :class="{
                                             'is-invalid': errors.reason
                                         }"
-                                        id="textarea"
                                         cols="30"
                                         rows="5"
                                         v-model="form.reason"
                                         placeholder="こちらにキャンセル理由を入力してください。"
+                                        @change="onChangeTextarea"
                                     ></textarea>
                                     <span
                                         class="invalid-feedback"
@@ -73,14 +74,14 @@
                                         class="btn btn-outline-danger"
                                         @click.prevent="openModal"
                                     >
-                                        キャンセルする
+                                        確認する
                                     </button>
                                 </div>
                                 <div class="cancel-modal">
                                     <MyModal @close="closeModal" v-if="modal">
                                         <div class="col-11 mx-auto">
                                             <p class="text-center">
-                                                以下の内容でキャンセル理由します。
+                                                以下の内容でキャンセルします。
                                             </p>
                                             <div
                                                 class="border p-3 border-3 mb-3"
@@ -109,9 +110,12 @@
                                                     <dt class="col-4 col-md-3">
                                                         キャンセル理由
                                                     </dt>
-                                                    <dd class="col-8 col-md-9">
-                                                        {{ form.reason }}
-                                                    </dd>
+                                                    <dd
+                                                        class="col-8 col-md-9"
+                                                        v-html="
+                                                            nl2br(form.reason)
+                                                        "
+                                                    ></dd>
                                                 </dl>
                                             </div>
                                             <div
@@ -133,7 +137,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 mx-auto">
+                                            <div class="col-md-3 mx-auto">
                                                 <button
                                                     class="btn btn-outline-danger d-block w-100 mb-3"
                                                     @click.prevent="submit"
@@ -203,6 +207,9 @@ export default {
         closeModal() {
             this.modal = false;
         },
+        nl2br: function(s) {
+            return s.replace(/\n/g, "<br/>");
+        },
         submit() {
             var self = this;
             this.errors = {};
@@ -215,6 +222,9 @@ export default {
                     this.$router.push({
                         name: "reservation"
                     });
+                    this.flash("キャンセルしました", "error", {
+                        timeout: 3000
+                    });
                 })
                 .catch(error => {
                     this.modal = false;
@@ -225,15 +235,37 @@ export default {
                     self.errors = errors;
                     console.log(error);
                 });
+        },
+        onChangeTextarea: function(value) {
+            if (value === "") {
+                this.errors.reason = "キャンセル理由を入力して下さい。";
+            } else {
+                this.errors.reason = "";
+            }
         }
     },
     filters: {
         moment: function(date) {
             moment.locale("ja");
-            return moment(date).format("ll");
+            const momentDate = String(moment(date).format("llll")).slice(0, -6);
+            return momentDate;
         },
-        reserveTime: function(date) {
-            return date.slice(0, 5);
+        reserveTime: function(time) {
+            return (time || "").slice(0, 5);
+        },
+        getEndTime: function(time) {
+            const targetHour = Number(time[1]);
+            const targetMinute = Number(time[3]);
+            const moveUp = targetMinute == 0 ? 1 : 2;
+            const endMinute = targetMinute == 0 ? 3 : 0;
+            const calcHour = Number(targetHour + moveUp);
+            const endHour =
+                calcHour == 10
+                    ? calcHour
+                    : calcHour == 11
+                    ? calcHour + 10
+                    : time[0] + String(calcHour);
+            return String(endHour) + ":" + String(endMinute) + time[4];
         }
     }
 };

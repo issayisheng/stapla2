@@ -25,7 +25,7 @@ class Calendar extends Model
     // キャンセルテーブル
     public function cancels()
     {
-        return $this->hasMany('App\Models\Calendar');
+        return $this->hasMany('App\Models\CalendarCancel');
     }
 
     // ユーザー中間テーブル

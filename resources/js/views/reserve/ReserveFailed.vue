@@ -24,11 +24,6 @@
                             class="btn btn-outline-danger"
                             >チケット購入</router-link
                         >
-                        <router-link
-                            to="/settings/reservation"
-                            class="btn btn-outline-secondary"
-                            >予約確認</router-link
-                        >
                     </div>
                 </div>
             </div>

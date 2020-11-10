@@ -13,20 +13,18 @@
             </div>
         </div>
         <div class="container">
-            <div class="card">
-                <div class="py-3">
-                    <h5 class="calendar-header mb-3">日時を選択</h5>
+            <div class="card mb-5">
+                <div class="py-4">
+                    <h5 class="calendar-header mb-3 pl-3">日時を選択</h5>
                     <div class="gym-calender">
                         <div
                             class="calendar-nav d-flex justify-content-between align-items-center"
                         >
                             <a
                                 class="btn btn-outline-primary"
-                                :class="{
-                                    disabled: isActiveBtn
-                                }"
-                                :aria-disabled="isActiveBtn ? true : false"
-                                :tabindex="isActiveBtn ? -1 : 0"
+                                :class="[isPrevActive ? 'disabled' : '']"
+                                :aria-disabled="isPrevActive ? true : false"
+                                :tabindex="isPrevActive ? -1 : 0"
                                 role="button"
                                 href="javascript:void(0)"
                                 @click.prevent="prevWeek()"
@@ -56,6 +54,10 @@
                             </div>
                             <a
                                 class="btn btn-outline-primary"
+                                :class="[isNextActive ? 'disabled' : '']"
+                                :aria-disabled="isNextActive ? true : false"
+                                :tabindex="isNextActive ? -1 : 0"
+                                role="button"
                                 href="javascript:void(0)"
                                 @click.prevent="nextWeek()"
                                 >次の一週間</a
@@ -179,7 +181,7 @@
                                             注意事項
                                         </p>
                                         <div class="card-body">
-                                            <ul class="list-unstyled">
+                                            <ul>
                                                 <li>
                                                     予約管理はお客様の自己管理でお願いします。
                                                 </li>
@@ -251,7 +253,8 @@ export default {
     data() {
         return {
             modal: false, // モーダル
-            isActiveBtn: false,
+            isPrevActive: false,
+            isNextActive: false,
             id: this.$route.params.id,
             gym: {},
             calendars: [],
@@ -269,7 +272,6 @@ export default {
         axios
             .get("/api/reserve/" + this.id)
             .then(response => {
-                console.log(response.data);
                 let obj = {
                     "09:00": [],
                     // "09:30": [],
@@ -406,12 +408,15 @@ export default {
             axios
                 .get("/api/reserve/next/" + this.id, { params })
                 .then(response => {
-                    // nullの場合
+                    // 2ヶ月以降の予定
+                    this.noReserve = "";
                     if (response.data.null == false) {
+                        this.isNextActive = true;
                         this.noReserve = "これ以上の日程は予約できません";
                     }
                     // それ以外の場合
                     else {
+                        this.isPrevActive = false; // ボタンを正常に戻す
                         let obj = {
                             "09:00": [],
                             // "09:30": [],
@@ -509,93 +514,96 @@ export default {
                 .get("/api/reserve/prev/" + this.id, { params })
                 .then(response => {
                     this.noReserve = "";
-                    let obj = {
-                        "09:00": [],
-                        // "09:30": [],
-                        // "10:00": [],
-                        "10:30": [],
-                        // "11:00": [],
-                        // "11:30": [],
-                        "12:00": [],
-                        // "12:30": [],
-                        // "13:00": [],
-                        "13:30": [],
-                        // "14:00": [],
-                        // "14:30": [],
-                        "15:00": [],
-                        // "15:30": [],
-                        // "16:00": [],
-                        "16:30": [],
-                        // "17:00": [],
-                        // "17:30": [],
-                        "18:00": [],
-                        // "18:30": [],
-                        // "19:00": [],
-                        "19:30": [],
-                        // "20:00": [],
-                        // "20:30": [],
-                        "21:00": []
-                    };
-                    response.data.calendar.forEach(el => {
-                        if (el.time == "09:00:00") {
-                            obj["09:00"].push(el);
-                        } else if (el.time == "09:30:00") {
-                            obj["09:30"].push(el);
-                        } else if (el.time == "10:00:00") {
-                            obj["10:00"].push(el);
-                        } else if (el.time == "10:30:00") {
-                            obj["10:30"].push(el);
-                        } else if (el.time == "11:00:00") {
-                            obj["11:00"].push(el);
-                        } else if (el.time == "11:30:00") {
-                            obj["11:30"].push(el);
-                        } else if (el.time == "12:00:00") {
-                            obj["12:00"].push(el);
-                        } else if (el.time == "12:30:00") {
-                            obj["12:30"].push(el);
-                        } else if (el.time == "13:00:00") {
-                            obj["13:00"].push(el);
-                        } else if (el.time == "13:30:00") {
-                            obj["13:30"].push(el);
-                        } else if (el.time == "14:00:00") {
-                            obj["14:00"].push(el);
-                        } else if (el.time == "14:30:00") {
-                            obj["14:30"].push(el);
-                        } else if (el.time == "15:00:00") {
-                            obj["15:00"].push(el);
-                        } else if (el.time == "15:30:00") {
-                            obj["15:30"].push(el);
-                        } else if (el.time == "16:00:00") {
-                            obj["16:00"].push(el);
-                        } else if (el.time == "16:30:00") {
-                            obj["16:30"].push(el);
-                        } else if (el.time == "17:00:00") {
-                            obj["17:00"].push(el);
-                        } else if (el.time == "17:30:00") {
-                            obj["17:30"].push(el);
-                        } else if (el.time == "18:00:00") {
-                            obj["18:00"].push(el);
-                        } else if (el.time == "18:30:00") {
-                            obj["18:30"].push(el);
-                        } else if (el.time == "19:00:00") {
-                            obj["19:00"].push(el);
-                        } else if (el.time == "19:30:00") {
-                            obj["19:30"].push(el);
-                        } else if (el.time == "20:00:00") {
-                            obj["20:00"].push(el);
-                        } else if (el.time == "20:30:00") {
-                            obj["20:30"].push(el);
-                        } else if (el.time == "21:00:00") {
-                            obj["21:00"].push(el);
-                        }
-                    });
-                    this.calendars = obj;
-                    this.calendar_dayofweeks = obj["09:00"];
-                    this.calendar_month_first = response.data.first;
-                    this.calendar_month_last = response.data.last;
                     // DBに値がないとき
-                    if (response.data.exists == false) {
-                        this.isActiveBtn = true;
+                    if (response.data.null == false) {
+                        this.isPrevActive = true;
+                        this.noReserve = "これより以前の日程は表示できません";
+                    } else {
+                        this.isNextActive = false;
+                        let obj = {
+                            "09:00": [],
+                            // "09:30": [],
+                            // "10:00": [],
+                            "10:30": [],
+                            // "11:00": [],
+                            // "11:30": [],
+                            "12:00": [],
+                            // "12:30": [],
+                            // "13:00": [],
+                            "13:30": [],
+                            // "14:00": [],
+                            // "14:30": [],
+                            "15:00": [],
+                            // "15:30": [],
+                            // "16:00": [],
+                            "16:30": [],
+                            // "17:00": [],
+                            // "17:30": [],
+                            "18:00": [],
+                            // "18:30": [],
+                            // "19:00": [],
+                            "19:30": [],
+                            // "20:00": [],
+                            // "20:30": [],
+                            "21:00": []
+                        };
+                        response.data.calendar.forEach(el => {
+                            if (el.time == "09:00:00") {
+                                obj["09:00"].push(el);
+                            } else if (el.time == "09:30:00") {
+                                obj["09:30"].push(el);
+                            } else if (el.time == "10:00:00") {
+                                obj["10:00"].push(el);
+                            } else if (el.time == "10:30:00") {
+                                obj["10:30"].push(el);
+                            } else if (el.time == "11:00:00") {
+                                obj["11:00"].push(el);
+                            } else if (el.time == "11:30:00") {
+                                obj["11:30"].push(el);
+                            } else if (el.time == "12:00:00") {
+                                obj["12:00"].push(el);
+                            } else if (el.time == "12:30:00") {
+                                obj["12:30"].push(el);
+                            } else if (el.time == "13:00:00") {
+                                obj["13:00"].push(el);
+                            } else if (el.time == "13:30:00") {
+                                obj["13:30"].push(el);
+                            } else if (el.time == "14:00:00") {
+                                obj["14:00"].push(el);
+                            } else if (el.time == "14:30:00") {
+                                obj["14:30"].push(el);
+                            } else if (el.time == "15:00:00") {
+                                obj["15:00"].push(el);
+                            } else if (el.time == "15:30:00") {
+                                obj["15:30"].push(el);
+                            } else if (el.time == "16:00:00") {
+                                obj["16:00"].push(el);
+                            } else if (el.time == "16:30:00") {
+                                obj["16:30"].push(el);
+                            } else if (el.time == "17:00:00") {
+                                obj["17:00"].push(el);
+                            } else if (el.time == "17:30:00") {
+                                obj["17:30"].push(el);
+                            } else if (el.time == "18:00:00") {
+                                obj["18:00"].push(el);
+                            } else if (el.time == "18:30:00") {
+                                obj["18:30"].push(el);
+                            } else if (el.time == "19:00:00") {
+                                obj["19:00"].push(el);
+                            } else if (el.time == "19:30:00") {
+                                obj["19:30"].push(el);
+                            } else if (el.time == "20:00:00") {
+                                obj["20:00"].push(el);
+                            } else if (el.time == "20:30:00") {
+                                obj["20:30"].push(el);
+                            } else if (el.time == "21:00:00") {
+                                obj["21:00"].push(el);
+                            }
+                        });
+                        this.calendars = obj;
+                        this.calendar_dayofweeks = obj["09:00"];
+                        this.calendar_month_first = response.data.first;
+                        this.calendar_month_last = response.data.last;
                     }
                 })
                 .catch(error => {
@@ -608,8 +616,8 @@ export default {
             moment.locale("ja");
             return moment(date).format("ll");
         },
-        reserveTime: function(date) {
-            return date.slice(0, 5);
+        reserveTime: function(time) {
+            return (time || "").slice(0, 5);
         }
     }
 };
