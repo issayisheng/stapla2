@@ -42,9 +42,6 @@
                                                 No
                                             </th>
                                             <th scope="col" class="text-nowrap">
-                                                購入日
-                                            </th>
-                                            <th scope="col" class="text-nowrap">
                                                 概要
                                             </th>
                                             <th scope="col" class="text-nowrap">
@@ -52,6 +49,9 @@
                                             </th>
                                             <th scope="col" class="text-nowrap">
                                                 購入に関するお問い合わせ
+                                            </th>
+                                            <th scope="col" class="text-nowrap">
+                                                購入日
                                             </th>
                                         </tr>
                                     </thead>
@@ -64,11 +64,6 @@
                                             <th scope="row" class="text-nowrap">
                                                 {{ index + 1 }}
                                             </th>
-                                            <td scope="row" class="text-nowrap">
-                                                {{
-                                                    history.created_at | moment
-                                                }}
-                                            </td>
                                             <td scope="row" class="text-nowrap">
                                                 {{ history.description }}
                                             </td>
@@ -94,7 +89,22 @@
                                                     お問い合わせ
                                                 </router-link>
                                             </td>
+                                            <td
+                                                v-else-if="history.status == 10"
+                                                scope="row"
+                                            >
+                                                <h5
+                                                    class="badge badge-secondary badge-pill py-2"
+                                                >
+                                                    お問い合わせ済
+                                                </h5>
+                                            </td>
                                             <td v-else scope="row"></td>
+                                            <td scope="row" class="text-nowrap">
+                                                {{
+                                                    history.created_at | moment
+                                                }}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -174,13 +184,13 @@
                         <div class="row justify-content-center">
                             <router-link
                                 to="/settings/ticket"
-                                class="btn btn-outline-primary mr-3"
+                                class="btn btn-outline-secondary mr-3"
                             >
                                 チケット購入
                             </router-link>
                             <router-link
                                 to="/reserve"
-                                class="btn btn-outline-danger"
+                                class="btn btn-outline-primary"
                             >
                                 予約画面
                             </router-link>
@@ -198,8 +208,8 @@ import moment from "moment";
 export default {
     data() {
         return {
-            histories: [],
-            ticket: [],
+            histories: {},
+            ticket: {},
             current_page: 1,
             last_page: 1,
             total: 1,
@@ -246,7 +256,7 @@ export default {
     filters: {
         moment: function(date) {
             moment.locale("ja");
-            return moment(date).format("lll");
+            return moment(date).format("ll");
         }
     }
 };

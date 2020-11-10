@@ -23,13 +23,13 @@
                             <div class="text-center">
                                 <router-link
                                     to="/settings/ticket"
-                                    class="btn btn-outline-primary"
+                                    class="btn btn-outline-secondary"
                                 >
-                                    チケット購入
+                                    再度購入
                                 </router-link>
                                 <router-link
                                     to="/settings/history"
-                                    class="btn btn-outline-danger"
+                                    class="btn btn-outline-primary"
                                 >
                                     チケット履歴
                                 </router-link>

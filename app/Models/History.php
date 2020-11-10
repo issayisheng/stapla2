@@ -20,4 +20,10 @@ class History extends Model
     {
         return $this->belongsTo('App\Models\Ticket');
     }
+
+    // キャンセルテーブル
+    public function cancels()
+    {
+        return $this->hasMany('App\Models\HistoryCancel');
+    }
 }

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\History;
-use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\History;
+use App\Models\Ticket;
+use App\Models\Calendar;
+use App\Models\HistoryCancel;
+use App\Http\Requests\TicketContactRequest;
 
 class HistoryController extends Controller
 {
@@ -27,6 +30,7 @@ class HistoryController extends Controller
         $ticket = Ticket::select('quantity')
                         ->where('user_id', $user)
                         ->first();
+
 
         return response()->json(['history' => $history, 'ticket' => $ticket]);
     }
@@ -79,13 +83,24 @@ class HistoryController extends Controller
         //
     }
 
-    public function contact(Request $request)
+    public function contact(TicketContactRequest $request, $id)
     {
-        // 10/4 まだ
-        // $validator = $request->validate([
-        //     'textarea'   => 'required',
-        // ]);
-        // $users = History::find($id);
-        // $users->save();
+        // キャンセル理由を記入
+        $reason = $request->reason;
+        $cancel = new HistoryCancel;
+        $cancel->history_id   = $id;
+        $cancel->reason       = $reason;
+        $cancel->save();
+
+        // ステータス変更
+        $history = History::FindOrFail($id);
+        $history->status   = '10';
+        $history->save();
+
+        // 予約メール送信
+        $user = Auth::user();
+        Mail::to($user)
+        // ->bcc('admin@stapla.com')
+        ->queue(new TicketContact($data));
     }
 }

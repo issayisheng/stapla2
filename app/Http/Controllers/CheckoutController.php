@@ -43,7 +43,7 @@ class CheckoutController extends Controller
                 $quantity = 30;
                 $unit_amount = 2750;   // 単価(税込)
                 $product_description = 'チケット30枚分';
-                $product_images = 'https://i.imgur.com/EHyR2nP.png';
+                $product_images = 'https://picsum.photos/id/1014/280/280';
             }
 
 
@@ -116,12 +116,12 @@ class CheckoutController extends Controller
             $history_exists = History::where('stripe_id', $session->id)->exists();
             if (!$history_exists) {
                 History::create([
-                'stripe_id'        =>  $session->id,
-                'user_id'          =>  Auth::id(),
-                'order'            =>  $quantity,
-                'description'      =>  "$quantity 枚購入分",
-                'status'           =>  '5'   // 購入済みに変更
-            ]);
+                    'stripe_id'        =>  $session->id,
+                    'user_id'          =>  Auth::id(),
+                    'order'            =>  $quantity,
+                    'description'      =>  "$quantity 枚購入分",
+                    'status'           =>  '5'   // 購入済みに変更
+                ]);
             }
 
             DB::commit();

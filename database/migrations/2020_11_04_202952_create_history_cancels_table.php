@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCancelsTable extends Migration
+class CreateHistoryCancelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCancelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('cancels', function (Blueprint $table) {
+        Schema::create('history_cancels', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('calendar_id');
-            $table->foreign('calendar_id')->references('id')->on('calendars'); // Foreign key.
+            $table->uuid('history_id');
+            $table->foreign('history_id')->references('id')->on('histories'); // Foreign key.
             $table->text('reason')->nullable();
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateCancelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cancels');
+        Schema::dropIfExists('history_cancels');
     }
 }

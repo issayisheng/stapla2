@@ -4,7 +4,7 @@ namespace App\Models;
 
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model; // uuid
 
-class Cancel extends Model
+class HistoryCancel extends Model
 {
     public $incrementing = false;
 
@@ -12,9 +12,9 @@ class Cancel extends Model
 
     protected $guarded = [];
 
-    // カレンダーテーブル
+    // Historyテーブル
     public function calendars()
     {
-        return $this->belongsTo('App\Models\Calendar', 'calendar_id', 'id');
+        return $this->belongsTo('App\Models\History', 'history_id', 'id');
     }
 }
