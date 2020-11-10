@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Stapla') }}</title>
+    <title>{{ config('app.name', 'STAPLA') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,11 +21,11 @@
             <div class="container">
                 @guest
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Stapla') }}
+                    {{ config('app.name', 'STAPLA') }}
                 </a>
                 @else
                 <a class="navbar-brand" href="{{ route('dashboard.index') }}">
-                    {{ config('app.name', 'Stapla') }}
+                    {{ config('app.name', 'STAPLA') }}
                 </a>
                 @endguest
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

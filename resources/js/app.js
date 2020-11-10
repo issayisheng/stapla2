@@ -26,6 +26,9 @@ axios.interceptors.response.use(
 })
 
 
+import VueFlashMessage from 'vue-flash-message';
+Vue.use(VueFlashMessage);
+require('vue-flash-message/dist/vue-flash-message.min.css');
 
 window.Vue = require("vue");
 Vue.use(VueRouter);
@@ -43,9 +46,12 @@ Vue.use(VueRouter);
 
 Vue.component("app-component", require("./components/App.vue").default);
 Vue.component(
-    "login-header-component",
-    require("./components/LoginHeader.vue").default
+    "main-header",
+    require("./components/MainHeader.vue").default
 );
+
+Vue.component("login-header", require("./components/LoginHeader.vue").default);
+Vue.component("login-footer", require("./components/LoginFooter.vue").default);
 
 Vue.component("app-header", require("./components/AppHeader.vue").default);
 Vue.component("app-footer", require("./components/AppFooter.vue").default);

@@ -23,6 +23,7 @@ import Terms from "./views/common/Terms.vue";
 // Auth
 import Login from "./views/Auth/Login.vue";
 import Register from "./views/Auth/Register.vue";
+import RegisterEmail from "./views/Auth/RegisterEmail.vue";
 import VerifyEmail from "./views/Auth/VerifyEmail.vue";
 import ForgotPassword from "./views/Auth/ForgotPassword.vue";
 import PasswordReset from "./views/Auth/PasswordReset.vue";
@@ -113,6 +114,11 @@ export default new VueRouter({
                     path: "/register",
                     name: "register",
                     component: Register
+                },
+                {
+                    path: "/register/email",
+                    name: "register/email",
+                    component: RegisterEmail
                 },
                 {
                     path: "/verifyemail",

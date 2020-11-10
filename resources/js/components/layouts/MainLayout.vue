@@ -1,14 +1,9 @@
 <template>
     <div>
-        <login-header-component></login-header-component>
+        <main-header></main-header>
         <main class="l-main">
+            <flash-message class="myCustomClass"></flash-message>
             <router-view></router-view>
         </main>
     </div>
 </template>
-
-<script>
-export default {};
-</script>
-
-<style></style>
