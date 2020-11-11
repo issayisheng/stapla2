@@ -185,6 +185,7 @@ class ReservationController extends Controller
             // ->bcc($gymOwners)
             ->queue(new GymCanceled($user));
 
+            
             $calendar->save();
             DB::commit();
         } catch (\Exception $e) {
