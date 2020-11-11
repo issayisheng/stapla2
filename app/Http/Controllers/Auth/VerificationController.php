@@ -31,7 +31,10 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('throttle:6,1');
+        // $this->middleware('throttle:6,1');
+        $this->middleware('auth')->except(['verify','resend']);
+        $this->middleware('signed')->only('verify');
+        $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
     public function verify(Request $request)
@@ -40,7 +43,7 @@ class VerificationController extends Controller
         if (!$user->email_verified_at) {
             $user->markEmailAsVerified();
             event(new Verified($user));
-            return response()->json(['verified' => '確認済みのメールです。']);
+            return response()->json(['verified' => '認証が完了しました！']);
         }
         return response()->json(['failed' => 'メール認証に失敗しました。']);
     }

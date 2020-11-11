@@ -20,7 +20,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','socialLogin','handleProviderCallback']]);
     }
 
     /**
@@ -62,12 +62,12 @@ class AuthController extends Controller
             return redirect('/dashboard');
         } else {
             // メールアドレスがなければユーザ登録（初回）
-            $newuser = new User;
-            $newuser->provider_id = $userSocial->getId();
-            $newuser->name = $userSocial->getName();
-            $newuser->email = $userSocial->getEmail();
+            $user = new User;
+            $user->provider_id = $userSocial->getId();
+            $user->name = $userSocial->getName();
+            $user->email = $userSocial->getEmail();
             // ユーザ作成
-            $newuser->save();
+            $user->save();
             // ログインしてdashboardにリダイレクト
             Auth::login($newuser);
             return redirect('/dashboard');
