@@ -11,6 +11,10 @@
 |
 */
 
+// Socialite
+Route::get('/login/{social}', 'AuthController@socialLogin')->where('social', 'facebook|google')->name('login.social');
+Route::get('/login/{social}/callback', 'AuthController@handleProviderCallback')->where('social', 'facebook|google')->name('login.social.callback');
+
 
 Route::get('/{any}', function () {
     return view('top');

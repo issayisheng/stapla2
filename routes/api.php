@@ -26,10 +26,6 @@ Route::group(["middleware" => "api"], function () {
         Route::get('/me', 'AuthController@me')->name('me');
         Route::post('/refresh', 'AuthController@refresh')->name('refresh');
 
-        //Socialite
-        // Route::get('/login/{social}', 'AuthController@socialLogin')->where('social', 'facebook|google')->name('login.social');
-        // Route::get('/login/{social}/callback', 'AuthController@handleProviderCallback')->where('social', 'facebook|google')->name('login.social.callback');
-
         Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
         Route::post('password/reset/{token}', 'Auth\ResetPasswordController@reset')->name('password.reset');
         Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
@@ -48,8 +44,8 @@ Route::group(["middleware" => "api"], function () {
                 'trainer'      => 'TrainerController',      // トレーナー管理
             ]);
 
-            // お問い合わせ
-            Route::post('/history/contact', 'HistoryController@contact')->name('history.contact');
+            // 購入キャンセル
+            Route::post('/history/contact/{id}', 'HistoryController@contact')->name('history.contact');
 
             // 予約キャンセル
             Route::post('/reservation/contact/{id}', 'ReservationController@contact')->name('reservation.contact');
