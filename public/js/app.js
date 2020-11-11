@@ -7236,8 +7236,7 @@ __webpack_require__.r(__webpack_exports__);
       this.errors = {};
       this.message = "";
       var self = this;
-      axios.post("/api/settings/history/contact").then(function (response) {// console.log(response);
-      })["catch"](function (error) {
+      axios.post("/api/settings/history/contact").then(function (response) {})["catch"](function (error) {
         var errors = {};
         var message = "";
 
@@ -7373,7 +7372,8 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.newpassword = "";
         _this.confirm = "";
-        _this.saved = true; // console.log("created");
+        _this.saved = true;
+        console.log("created");
       })["catch"](function (error) {
         var errors = {};
 
@@ -67462,7 +67462,7 @@ var render = function() {
             attrs: { src: "img/common/footer_logo.svg", alt: "STAPLA" }
           }),
           _vm._v(" "),
-          _c("p", [_vm._v("レンタルジム専用予約サービス")])
+          _c("p", [_vm._v("トレーナー専用ジム時間貸しアプリ")])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "footer-nav" }, [
@@ -69427,7 +69427,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "kv__desc" }, [
                   _vm._v(
-                    "\n                    STAPLAはレンタルジム専用予約サービスです。\n                "
+                    "\n                    STAPLAはトレーナー専用ジム時間貸しアプリです。\n                "
                   )
                 ]),
                 _vm._v(" "),
@@ -93857,14 +93857,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************************!*\
   !*** ./resources/js/components/layouts/LoginLayout.vue ***!
   \*********************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LoginLayout_vue_vue_type_template_id_3d11e4d2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoginLayout.vue?vue&type=template&id=3d11e4d2& */ "./resources/js/components/layouts/LoginLayout.vue?vue&type=template&id=3d11e4d2&");
 /* harmony import */ var _LoginLayout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoginLayout.vue?vue&type=script&lang=js& */ "./resources/js/components/layouts/LoginLayout.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _LoginLayout_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LoginLayout.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/layouts/LoginLayout.vue?vue&type=style&index=0&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _LoginLayout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _LoginLayout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _LoginLayout_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LoginLayout.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/layouts/LoginLayout.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -93896,7 +93897,7 @@ component.options.__file = "resources/js/components/layouts/LoginLayout.vue"
 /*!**********************************************************************************!*\
   !*** ./resources/js/components/layouts/LoginLayout.vue?vue&type=script&lang=js& ***!
   \**********************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
